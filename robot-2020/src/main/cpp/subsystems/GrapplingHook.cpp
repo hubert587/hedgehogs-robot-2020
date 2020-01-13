@@ -7,12 +7,11 @@
 
 #include "subsystems/GrapplingHook.h"
 
-GrapplingHook::GrapplingHook() : Subsystem("ExampleSubsystem") {}
+GrapplingHook::GrapplingHook() {
 
-void GrapplingHook::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+void GrapplingHook::Periodic() {
+  // Implementation of subsystem periodic method goes here.
+}
+

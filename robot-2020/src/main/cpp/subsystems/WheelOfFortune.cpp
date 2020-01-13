@@ -7,12 +7,11 @@
 
 #include "subsystems/WheelOfFortune.h"
 
-WheelOfFortune::WheelOfFortune() : Subsystem("ExampleSubsystem") {}
+WheelOfFortune::WheelOfFortune() {
 
-void WheelOfFortune::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+void WheelOfFortune::Periodic() {
+  // Implementation of subsystem periodic method goes here.
+}
+
