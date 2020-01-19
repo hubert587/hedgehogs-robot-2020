@@ -43,7 +43,9 @@ RobotContainer::RobotContainer() {
       {&m_drive}));
 }
 
-void RobotContainer::ConfigureButtonBindings() {}
+void RobotContainer::ConfigureButtonBindings() {
+    
+}
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // Set up config for trajectory
