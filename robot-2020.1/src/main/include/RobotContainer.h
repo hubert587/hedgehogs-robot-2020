@@ -38,9 +38,20 @@ class RobotContainer {
   frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
 
   // The robot's subsystems and commands are defined here...
+  //////////////////////////////////////////////////////////////////
 
   // The robot's subsystems
   DriveSubsystem m_drive;
+
+  //blaster
+  
+  //hopper - need new subsystem for this
+
+  //intake
+
+  //grappling hook
+
+  //wheel of fortune
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;
