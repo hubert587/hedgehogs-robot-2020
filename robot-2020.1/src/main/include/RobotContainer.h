@@ -18,7 +18,21 @@
 #include <frc2/command/RunCommand.h>
 
 #include "Constants.h"
+
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/Blaster.h"
+#include "subsystems/WheelOfFortune.h"
+#include "subsystems/GrapplingHook.h"
+#include "subsystems/Hopper.h"
+#include "subsystems/Intake.h"
+
+#include "commands/AutoFireLaser.h"
+#include "commands/ChargeLaser.h"
+#include "commands/DechargeLaser.h"
+#include "commands/ManualFireLaser.h"
+#include "commands/SpinToColor.h"
+#include "commands/SpinWheel3.h"
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -42,6 +56,19 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
+  Blaster m_shooter;
+  WheelOfFortune m_colorWheel;
+  Hopper m_hopper;
+  GrapplingHook m_grapplingHook;
+  Intake m_collect;
+
+  // The robot's commands
+  AutoFireLaser m_AutoShoot;
+  ChargeLaser m_PowerUp;
+  DechargeLaser m_PowerDown;
+  ManualFireLaser m_ManualShoot;
+  SpinToColor m_GoToColor;
+  SpinWheel3 m_Spin3times;
 
   //blaster
   
