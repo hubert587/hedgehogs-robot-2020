@@ -31,14 +31,14 @@ enum canIDs {
     kRearRightDriveCanID = 7,
     kRearRightTurnCanID = 8,
     kColorWheelCanID = 9,
-    kIntakeOuterCanID = 10,
-    kIntakeInnerCanID = 11,
-    kHopperCanID = 12,
-    kShooterLeftCanID = 13,
-    kShooterRightCanID = 14,
-    kClimberLeftCanID = 15,
-    kClimberRightCanID = 16,
-    kClimberAdjustmentCanID = 17
+    kOuterIntakeMotorCanID = 10,
+    kInnerIntakeMotorCanID = 11,
+    kHopperMotorCanID = 12,
+    kLeftBlasterWheelCanID = 13,
+    kRightBlasterWheelCanID = 14,
+    kClimberLeftMptorCanID = 15,
+    kClimberRightMotorCanID = 16,
+    kClimberAdjustmentMotorCanID = 17
 };
 
 namespace DriveConstants {
@@ -129,4 +129,5 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 
 namespace OIConstants {
 constexpr int kDriverControllerPort = 1;
+constexpr int CoDriver = 2;
 }  // namespace OIConstants

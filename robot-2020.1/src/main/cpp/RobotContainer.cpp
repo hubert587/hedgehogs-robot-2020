@@ -44,7 +44,12 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-    
+    frc2::JoystickButton(&m_codriverController, 1).WhenPressed(&m_PowerUp); 
+    frc2::JoystickButton(&m_codriverController, 7).WhenPressed(&m_AutoShoot); 
+    frc2::JoystickButton(&m_codriverController, 8).WhenPressed(&m_ManualShoot);  
+    frc2::JoystickButton(&m_codriverController, 3).WhenPressed(&m_PowerDown); 
+    frc2::JoystickButton(&m_codriverController, 4).WhenPressed(&m_GoToColor);
+    frc2::JoystickButton(&m_codriverController, 2).WhenPressed(&m_Spin3times);  
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

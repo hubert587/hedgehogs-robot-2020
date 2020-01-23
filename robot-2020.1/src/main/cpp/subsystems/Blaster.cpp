@@ -15,3 +15,7 @@ void Blaster::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
+void Blaster::BlasterSpeed(double speed) {
+  m_LeftBlasterWheel.Set (speed);
+  m_RightBlasterWheel.Set (speed);
+}
