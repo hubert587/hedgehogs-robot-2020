@@ -9,6 +9,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <Constants.h> 
 
 class Intake : public frc2::SubsystemBase {
 
@@ -28,6 +29,6 @@ class Intake : public frc2::SubsystemBase {
   //Need to figure out how to do the pneumatics for this darn thingy thing
 
   //intaker
-  WPI_TalonSRX m_OuterIntakeMotor{1};
-  WPI_TalonSRX m_InnerIntakeMotor{1};
+  WPI_TalonSRX m_OuterIntakeMotor{ canIDs::kOuterIntakeMotorCanID };
+  WPI_TalonSRX m_InnerIntakeMotor{ canIDs::kInnerIntakeMotorCanID };
 };

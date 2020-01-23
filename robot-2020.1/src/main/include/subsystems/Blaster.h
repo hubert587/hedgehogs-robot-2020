@@ -9,6 +9,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <Constants.h> 
 
 class Blaster : public frc2::SubsystemBase{
 
@@ -25,7 +26,7 @@ class Blaster : public frc2::SubsystemBase{
   // declared private and exposed only through public methods.
 
   //fly wheels
-  WPI_TalonSRX m_LeftBlasterWheel{1};
-  WPI_TalonSRX m_RightBlasterWheel{1};
+  WPI_TalonSRX m_LeftBlasterWheel{ canIDs::kLeftBlasterWheelCanID };
+  WPI_TalonSRX m_RightBlasterWheel{ canIDs::kRightBlasterWheelCanID };
   
 };
