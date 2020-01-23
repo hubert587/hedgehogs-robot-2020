@@ -21,17 +21,36 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+enum canIDs {
+    kFrontLeftDriveCanID = 1,
+    kFrontLeftTurnCanID = 2,
+    kRearLeftDriveCanID = 3,
+    kRearLeftTurnCanID = 4,
+    kFrontRightDriveCanID = 5,
+    kFrontRightTurnCanID = 6,
+    kRearRightDriveCanID = 7,
+    kRearRightTurnCanID = 8,
+    kColorWheelCanID = 9,
+    kIntakeOuterCanID = 10,
+    kIntakeInnerCanID = 11,
+    kHopperCanID = 12,
+    kShooterLeftCanID = 13,
+    kShooterRightCanID = 14,
+    kClimberLeftCanID = 15,
+    kClimberRightCanID = 16,
+    kClimberAdjustmentCanID = 17
+};
 
 namespace DriveConstants {
-constexpr int kFrontLeftDriveMotorPort = 0;
-constexpr int kRearLeftDriveMotorPort = 2;
-constexpr int kFrontRightDriveMotorPort = 4;
-constexpr int kRearRightDriveMotorPort = 6;
+constexpr int kFrontLeftDriveMotorPort = kFrontLeftDriveCanID;
+constexpr int kRearLeftDriveMotorPort = kRearLeftDriveCanID;
+constexpr int kFrontRightDriveMotorPort = kFrontRightDriveCanID;
+constexpr int kRearRightDriveMotorPort = kRearRightDriveCanID;
 
-constexpr int kFrontLeftTurningMotorPort = 1;
-constexpr int kRearLeftTurningMotorPort = 3;
-constexpr int kFrontRightTurningMotorPort = 5;
-constexpr int kRearRightTurningMotorPort = 7;
+constexpr int kFrontLeftTurningMotorPort = kFrontLeftTurnCanID;
+constexpr int kRearLeftTurningMotorPort = kRearLeftTurnCanID;
+constexpr int kFrontRightTurningMotorPort = kFrontRightTurnCanID;
+constexpr int kRearRightTurningMotorPort = kRearRightTurnCanID;
 
 constexpr int kFrontLeftTurningEncoderPorts[2]{0, 1};
 constexpr int kRearLeftTurningEncoderPorts[2]{2, 3};
