@@ -110,4 +110,5 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 
 namespace OIConstants {
 constexpr int kDriverControllerPort = 1;
+constexpr int CoDriver = 2;
 }  // namespace OIConstants
