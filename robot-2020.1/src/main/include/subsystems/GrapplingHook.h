@@ -8,7 +8,8 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-
+#include <ctre/Phoenix.h>
+#include <Constants.h> 
 class GrapplingHook : public frc2::SubsystemBase {
 
  public:
@@ -22,4 +23,9 @@ class GrapplingHook : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
+
+  WPI_TalonSRX m_ClimberLeftMotor{ canIDs::kClimberLeftMptorCanID };
+  WPI_TalonSRX m_ClimberRightMotor{ canIDs::kClimberRightMotorCanID };
+  WPI_TalonSRX m_ClimberAdjustmentMotor{ canIDs::kClimberAdjustmentMotorCanID };
 };

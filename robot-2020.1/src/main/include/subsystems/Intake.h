@@ -8,6 +8,8 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <ctre/Phoenix.h>
+#include <Constants.h> 
 
 class Intake : public frc2::SubsystemBase {
 
@@ -22,4 +24,11 @@ class Intake : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
+  //deployer
+  //Need to figure out how to do the pneumatics for this darn thingy thing
+
+  //intaker
+  WPI_TalonSRX m_OuterIntakeMotor{ canIDs::kOuterIntakeMotorCanID };
+  WPI_TalonSRX m_InnerIntakeMotor{ canIDs::kInnerIntakeMotorCanID };
 };

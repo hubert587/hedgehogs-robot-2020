@@ -53,6 +53,7 @@ class RobotContainer {
   frc::XboxController m_codriverController{OIConstants::CoDriver};
 
   // The robot's subsystems and commands are defined here...
+  //////////////////////////////////////////////////////////////////
 
   // The robot's subsystems
   DriveSubsystem m_drive;
@@ -69,6 +70,16 @@ class RobotContainer {
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor;
   SpinWheel3 m_Spin3times;
+
+  //blaster
+  
+  //hopper - need new subsystem for this
+
+  //intake
+
+  //grappling hook
+
+  //wheel of fortune
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;
