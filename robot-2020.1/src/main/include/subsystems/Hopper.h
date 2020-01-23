@@ -8,7 +8,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-
+#include <ctre/Phoenix.h>
 class Hopper : public frc2::SubsystemBase {
  public:
   Hopper();
@@ -21,4 +21,5 @@ class Hopper : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  WPI_TalonSRX m_HopperMotor{1};
 };
