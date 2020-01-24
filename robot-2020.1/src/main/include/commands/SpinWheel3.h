@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <subsystems/WheelOfFortune.h>
 
 /**
  * An example command.
@@ -20,7 +21,7 @@
 class SpinWheel3
     : public frc2::CommandHelper<frc2::CommandBase, SpinWheel3> {
  public:
-  SpinWheel3();
+  SpinWheel3(WheelOfFortune* WheelOfFortune);
 
   void Initialize() override;
 
@@ -29,4 +30,6 @@ class SpinWheel3
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+ private:
+  WheelOfFortune* m_colorWheel;
 };

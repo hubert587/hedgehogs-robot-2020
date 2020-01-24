@@ -68,8 +68,8 @@ class RobotContainer {
   ChargeLaser m_PowerUp;
   DechargeLaser m_PowerDown;
   ManualFireLaser m_ManualShoot;
-  SpinToColor m_GoToColor;
-  SpinWheel3 m_Spin3times;
+  SpinToColor m_GoToColor{&m_colorWheel};
+  SpinWheel3 m_Spin3times{&m_colorWheel};
 
   //blaster
   

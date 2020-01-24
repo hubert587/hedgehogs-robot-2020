@@ -6,19 +6,28 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/SpinWheel3.h"
+#include "Robot.h"
 
-SpinWheel3::SpinWheel3() {
+SpinWheel3::SpinWheel3(WheelOfFortune* WheelOfFortune): m_colorWheel{WheelOfFortune} {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void SpinWheel3::Initialize() {}
+void SpinWheel3::Initialize() {
+   m_colorWheel->SpinWheel3Init();
+}
 
 // Called repeatedly when this Command is scheduled to run
-void SpinWheel3::Execute() {}
+void SpinWheel3::Execute() {
+  m_colorWheel->SpinWheel3();
+}
 
 // Called once the command ends or is interrupted.
-void SpinWheel3::End(bool interrupted) {}
+void SpinWheel3::End(bool interrupted) {
+  //Retract Arm
+}
 
 // Returns true when the command should end.
-bool SpinWheel3::IsFinished() { return false; }
+bool SpinWheel3::IsFinished() { 
+  return m_colorWheel->IsDone();
+}

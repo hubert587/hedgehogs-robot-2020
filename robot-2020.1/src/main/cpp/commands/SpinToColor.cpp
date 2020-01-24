@@ -6,19 +6,28 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/SpinToColor.h"
+#include "Robot.h"
 
-SpinToColor::SpinToColor() {
+SpinToColor::SpinToColor(WheelOfFortune* WheelOfFortune): m_colorWheel{WheelOfFortune} {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void SpinToColor::Initialize() {}
+void SpinToColor::Initialize() {
+  m_colorWheel->SpinToColorInit();
+}
 
 // Called repeatedly when this Command is scheduled to run
-void SpinToColor::Execute() {}
+void SpinToColor::Execute() {
+  m_colorWheel->SpinToColor();
+} 
 
 // Called once the command ends or is interrupted.
-void SpinToColor::End(bool interrupted) {}
+void SpinToColor::End(bool interrupted) {
+//Retract Arm
+}
 
 // Returns true when the command should end.
-bool SpinToColor::IsFinished() { return false; }
+bool SpinToColor::IsFinished() { 
+  return m_colorWheel->IsDone(); 
+}
