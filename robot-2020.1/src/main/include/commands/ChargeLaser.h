@@ -29,4 +29,6 @@ class ChargeLaser
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+  private:
+  Blaster* m_blaster;
 };

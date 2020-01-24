@@ -7,13 +7,15 @@
 
 #include "commands/ChargeLaser.h"
 
-ChargeLaser::ChargeLaser() {
+ChargeLaser::ChargeLaser(Blaster* blaster): m_blaster{blaster} {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
 //deploy
-void ChargeLaser::Initialize() {}
+void ChargeLaser::Initialize() {
+  m_blaster->BlasterSpeed(1);
+}
 
 // Called repeatedly when this Command is scheduled to run
 //start
@@ -23,4 +25,4 @@ void ChargeLaser::Execute() {}
 void ChargeLaser::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool ChargeLaser::IsFinished() { return false; }
+bool ChargeLaser::IsFinished() { return true; }

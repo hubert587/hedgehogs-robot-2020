@@ -57,7 +57,7 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
-  Blaster m_shooter;
+  Blaster m_blaster;
   WheelOfFortune m_colorWheel;
   Hopper m_hopper;
   GrapplingHook m_grapplingHook;
@@ -65,7 +65,7 @@ class RobotContainer {
 
   // The robot's commands
   AutoFireLaser m_AutoShoot;
-  ChargeLaser m_PowerUp;
+  ChargeLaser m_PowerUp{&m_blaster};
   DechargeLaser m_PowerDown;
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
