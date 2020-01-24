@@ -14,6 +14,8 @@ class Hopper : public frc2::SubsystemBase {
  public:
   Hopper();
 
+  void HopperSpeed(double speed);
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
