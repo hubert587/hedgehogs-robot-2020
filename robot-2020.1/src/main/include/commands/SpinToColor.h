@@ -21,7 +21,7 @@
 class SpinToColor
     : public frc2::CommandHelper<frc2::CommandBase, SpinToColor> {
  public:
-  SpinToColor(WheelOfFortune* WheelOfFortune);
+  SpinToColor(WheelOfFortune* SpinWheel);
 
   void Initialize() override;
 

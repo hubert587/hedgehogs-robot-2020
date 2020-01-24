@@ -73,29 +73,12 @@ void WheelOfFortune::SpinWheel3(){
   frc::Color detectedColor = m_colorSensor.GetColor();
 
     /**
-     * The sensor returns a raw IR value of the infrared light detected.
-     */
-
-    /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
      * sensor.
      */
     frc::SmartDashboard::PutNumber("Red", detectedColor.red);
     frc::SmartDashboard::PutNumber("Green", detectedColor.green);
     frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-
-    /*if ( detectedColor.red > 0.4 && detectedColor.green < 0.4 && detectedColor.blue < 0.4) {
-      std::cout << "RED" << "\n";
-    }
-  if ( detectedColor.red < 0.4 && detectedColor.green > 0.55 && detectedColor.blue < 0.4) {
-      std::cout << "REDNECK" << "\n";
-    }
-     if ( detectedColor.red < 0.4 && detectedColor.green < 0.5 && detectedColor.blue > 0.3) {
-      std::cout << "BLUE" << "\n";
-     }
-      if ( detectedColor.red > 0.4 && detectedColor.green > 0.4 && detectedColor.blue < 0.3) {
-      std::cout << "LUKE" << "\n";
-     }*/
 
   if(detectedColor.red > 0.4 && detectedColor.green < 0.4 && detectedColor.blue < 0.4 && onRed == false) {
         RedCount++;

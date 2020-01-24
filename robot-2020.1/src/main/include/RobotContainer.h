@@ -57,7 +57,7 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
-  Blaster m_shooter;
+  Blaster m_blaster;
   WheelOfFortune m_colorWheel;
   Hopper m_hopper;
   GrapplingHook m_grapplingHook;

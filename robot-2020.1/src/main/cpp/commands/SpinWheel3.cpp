@@ -8,7 +8,7 @@
 #include "commands/SpinWheel3.h"
 #include "Robot.h"
 
-SpinWheel3::SpinWheel3(WheelOfFortune* WheelOfFortune): m_colorWheel{WheelOfFortune} {
+SpinWheel3::SpinWheel3(WheelOfFortune* SpinWheel): m_colorWheel{SpinWheel} {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 

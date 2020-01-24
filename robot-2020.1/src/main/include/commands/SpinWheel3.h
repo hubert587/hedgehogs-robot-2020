@@ -21,7 +21,7 @@
 class SpinWheel3
     : public frc2::CommandHelper<frc2::CommandBase, SpinWheel3> {
  public:
-  SpinWheel3(WheelOfFortune* WheelOfFortune);
+  SpinWheel3(WheelOfFortune* SpinWheel);
 
   void Initialize() override;
 
