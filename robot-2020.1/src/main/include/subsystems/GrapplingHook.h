@@ -14,6 +14,9 @@ class GrapplingHook : public frc2::SubsystemBase {
 
  public:
   GrapplingHook();
+  void GrapplingHookSpeed(double speed);
+
+  void GrapplingHookAdjustmentSpeed(double speed);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

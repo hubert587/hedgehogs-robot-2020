@@ -14,3 +14,9 @@ Intake::Intake() {
 void Intake::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
+
+void Intake::IntakeSpeed(double speed) {
+  m_InnerIntakeMotor.Set (speed);
+  m_OuterIntakeMotor.Set (speed);
+
+}

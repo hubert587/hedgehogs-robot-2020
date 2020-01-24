@@ -15,3 +15,14 @@ void GrapplingHook::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
+void GrapplingHook::GrapplingHookSpeed(double speed) {
+  m_ClimberLeftMotor.Set (speed);
+  m_ClimberRightMotor.Set (speed);
+
+}
+
+void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {
+  m_ClimberAdjustmentMotor.Set (speed);
+
+}
+

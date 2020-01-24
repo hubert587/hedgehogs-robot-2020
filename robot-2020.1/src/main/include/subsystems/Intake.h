@@ -16,6 +16,8 @@ class Intake : public frc2::SubsystemBase {
  public:
   Intake();
 
+  void IntakeSpeed(double speed);
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

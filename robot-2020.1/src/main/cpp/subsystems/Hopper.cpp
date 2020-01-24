@@ -11,3 +11,8 @@ Hopper::Hopper() {}
 
 // This method will be called once per scheduler run
 void Hopper::Periodic() {}
+
+void Hopper::HopperSpeed(double speed) {
+  m_HopperMotor.Set (speed);
+
+}
