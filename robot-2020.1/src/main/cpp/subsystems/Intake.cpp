@@ -20,3 +20,17 @@ void Intake::IntakeSpeed(double speed) {
   m_OuterIntakeMotor.Set (speed);
 
 }
+
+void Intake::ExtendIntake(bool extend) {
+  ExtendIntakeSolenoid.Set(extend);
+}
+
+void Intake::StartIntake() {
+  ExtendIntake(true);
+  IntakeSpeed(0.5);
+};
+
+void Intake::StopIntake() {
+  IntakeSpeed(0);
+  ExtendIntake(false);
+}

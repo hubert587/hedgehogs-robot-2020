@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <subsystems/Blaster.h>
 
 /**
  * An example command.
@@ -20,7 +21,7 @@
 class ChargeLaser
     : public frc2::CommandHelper<frc2::CommandBase, ChargeLaser> {
  public:
-  ChargeLaser();
+  ChargeLaser(Blaster* blaster);
 
   void Initialize() override;
 

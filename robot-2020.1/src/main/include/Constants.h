@@ -41,6 +41,10 @@ enum canIDs {
     kClimberAdjustmentMotorCanID = 17
 };
 
+enum solenoidIDs {
+    kExtendIntakeSolenoid = 1
+};
+
 namespace DriveConstants {
 constexpr int kFrontLeftDriveMotorPort = kFrontLeftDriveCanID;
 constexpr int kRearLeftDriveMotorPort = kRearLeftDriveCanID;

@@ -10,7 +10,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <Constants.h>
 #include <ctre/Phoenix.h>
-#include "rev/ColorSensorV3.h"
+#include <rev/ColorSensorV3.h>
 #include <frc/smartdashboard/smartdashboard.h>
 #include <iostream>
 #include <string>

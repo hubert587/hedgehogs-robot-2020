@@ -70,6 +70,10 @@ class RobotContainer {
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
   SpinWheel3 m_Spin3times{&m_colorWheel};
+  frc2::InstantCommand m_ExtendIntake{[this] { m_collect.StartIntake(); }, {&m_collect}};
+  frc2::InstantCommand m_RetractIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
+  frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
+  frc2::InstantCommand m_UnreverseIntake{[this] { m_collect.IntakeSpeed(0.5); }, {&m_collect}};
 
   //blaster
   
