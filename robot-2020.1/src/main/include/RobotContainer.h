@@ -17,6 +17,7 @@
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/WaitCommand.h>
 
 #include "Constants.h"
 
@@ -81,13 +82,21 @@ class RobotContainer {
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
 
   //blaster
-  frc2::SequentialCommandGroup fireAll(
+  frc2::SequentialCommandGroup fireAll{
+    m_PowerUp,
+    frc2::WaitCommand{units::second_t(3)},
+    m_HopperStart,
+    frc2::WaitCommand{units::second_t(3)},
+    m_HopperStop,
+    frc2::WaitCommand{units::second_t(3)},
+    m_PowerDown
+  };
     //m_PowerUp,
-    ChargeLaser(&m_blaster),
-    DechargeLaser(&m_blaster)   
+    //ChargeLaser(&m_blaster),
+    //DechargeLaser(&m_blaster)   
     //m_HopperStart, 
     //m_HopperStop 
-  );
+  //);
     
 
   //intake
