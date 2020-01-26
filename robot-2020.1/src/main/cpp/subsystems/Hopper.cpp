@@ -5,7 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Hopper.h"
+#include <subsystems/Hopper.h>
+
 
 Hopper::Hopper() {}
 
@@ -15,4 +16,12 @@ void Hopper::Periodic() {}
 void Hopper::HopperSpeed(double speed) {
   m_HopperMotor.Set (speed);
 
+}
+
+void Hopper::AutoHopper(){
+  if (IntakeBallDetector.Get()){
+    HopperSpeed(1);
+  } else {
+    HopperSpeed(0);
+  }
 }

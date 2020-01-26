@@ -41,7 +41,15 @@ RobotContainer::RobotContainer() {
                       false);
       },
       {&m_drive}));
+
+    m_hopper.SetDefaultCommand(frc2::RunCommand (
+        [this] {
+            m_hopper.AutoHopper();
+        },   
+    {&m_hopper}));
 }
+
+
 
 void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_codriverController, 1).WhenPressed(&m_PowerUp); 

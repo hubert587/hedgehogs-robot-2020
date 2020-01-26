@@ -10,6 +10,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 #include <Constants.h> 
+#include <frc/DigitalInput.h>
+
 class Hopper : public frc2::SubsystemBase {
  public:
   Hopper();
@@ -21,8 +23,12 @@ class Hopper : public frc2::SubsystemBase {
    */
   void Periodic();
 
+  void AutoHopper();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   WPI_TalonSRX m_HopperMotor{ canIDs::kHopperMotorCanID };
+  frc::DigitalInput IntakeBallDetector{0};
+  
 };
