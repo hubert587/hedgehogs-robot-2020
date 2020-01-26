@@ -7,12 +7,14 @@
 
 #include "commands/DechargeLaser.h"
 
-DechargeLaser::DechargeLaser() {
+DechargeLaser::DechargeLaser(Blaster* blaster): m_blaster{blaster}  {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void DechargeLaser::Initialize() {}
+void DechargeLaser::Initialize() {
+  m_blaster->BlasterSpeed(0);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void DechargeLaser::Execute() {}
@@ -21,4 +23,4 @@ void DechargeLaser::Execute() {}
 void DechargeLaser::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool DechargeLaser::IsFinished() { return false; }
+bool DechargeLaser::IsFinished() { return true; }

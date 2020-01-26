@@ -16,6 +16,7 @@
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
+#include <frc2/command/SequentialCommandGroup.h>
 
 #include "Constants.h"
 
@@ -66,7 +67,7 @@ class RobotContainer {
   // The robot's commands
   AutoFireLaser m_AutoShoot;
   ChargeLaser m_PowerUp{&m_blaster};
-  DechargeLaser m_PowerDown;
+  DechargeLaser m_PowerDown{&m_blaster};
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
   SpinWheel3 m_Spin3times{&m_colorWheel};
@@ -75,9 +76,19 @@ class RobotContainer {
   frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
   frc2::InstantCommand m_UnreverseIntake{[this] { m_collect.IntakeSpeed(0.5); }, {&m_collect}};
 
-  //blaster
-  
   //hopper - need new subsystem for this
+  frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
+  frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
+
+  //blaster
+  frc2::SequentialCommandGroup fireAll(
+    //m_PowerUp,
+    ChargeLaser(&m_baster),
+    DechargeLaser(&m_baster)   
+    //m_HopperStart, 
+    //m_HopperStop 
+  );
+    
 
   //intake
 
