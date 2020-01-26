@@ -13,11 +13,12 @@
 #include <frc/drive/MecanumDrive.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Rotation2d.h>
-#include <frc/interfaces/Gyro.h>
+//#include <frc/interfaces/Gyro.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
+#include <AHRS.h>
 
 #include "Constants.h"
 #include "SwerveModule.h"
@@ -112,7 +113,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   SwerveModule m_rearRight;
 
   // The gyro sensor
-  frc::ADXRS450_Gyro m_gyro;
+  //frc::ADXRS450_Gyro m_gyro;
+  AHRS m_NavX{SPI::Port::kMXP};
 
   // Odometry class for tracking robot pose
   // 4 defines the number of modules

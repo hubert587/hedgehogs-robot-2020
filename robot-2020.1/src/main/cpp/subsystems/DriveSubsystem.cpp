@@ -86,13 +86,13 @@ void DriveSubsystem::ResetEncoders() {
 }
 
 double DriveSubsystem::GetHeading() {
-  return std::remainder(m_gyro.GetAngle(), 360) * (kGyroReversed ? -1. : 1.);
+  return std::remainder(m_NavX.GetAngle(), 360) * (kGyroReversed ? -1. : 1.);
 }
 
-void DriveSubsystem::ZeroHeading() { m_gyro.Reset(); }
+void DriveSubsystem::ZeroHeading() { m_NavX.ZeroYaw(); }
 
 double DriveSubsystem::GetTurnRate() {
-  return m_gyro.GetRate() * (kGyroReversed ? -1. : 1.);
+  return m_NavX.GetRate() * (kGyroReversed ? -1. : 1.);
 }
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }

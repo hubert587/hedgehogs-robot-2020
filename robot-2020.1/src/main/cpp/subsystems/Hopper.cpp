@@ -19,9 +19,12 @@ void Hopper::HopperSpeed(double speed) {
 }
 
 void Hopper::AutoHopper(){
-  if (IntakeBallDetector.Get()){
+  if (IntakeBallDetector.Get() && ShooterBallDetector.Get()){
+    HopperSpeed(0);
+  } else if (IntakeBallDetector.Get()) {
     HopperSpeed(1);
   } else {
     HopperSpeed(0);
   }
+
 }

@@ -18,6 +18,8 @@ class GrapplingHook : public frc2::SubsystemBase {
 
   void GrapplingHookAdjustmentSpeed(double speed);
 
+  
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -31,4 +33,5 @@ class GrapplingHook : public frc2::SubsystemBase {
   WPI_TalonSRX m_ClimberLeftMotor{ canIDs::kClimberLeftMptorCanID };
   WPI_TalonSRX m_ClimberRightMotor{ canIDs::kClimberRightMotorCanID };
   WPI_TalonSRX m_ClimberAdjustmentMotor{ canIDs::kClimberAdjustmentMotorCanID };
+  frc::Solenoid ClimbSolenoid{solenoidIDs::kClimbSolenoid};
 };

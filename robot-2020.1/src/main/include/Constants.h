@@ -42,7 +42,8 @@ enum canIDs {
 };
 
 enum solenoidIDs {
-    kExtendIntakeSolenoid = 1
+    kExtendIntakeSolenoid = 1,
+    kClimbSolenoid = 2
 };
 
 namespace DriveConstants {
