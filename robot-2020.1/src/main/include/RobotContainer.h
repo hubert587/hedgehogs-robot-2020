@@ -83,8 +83,8 @@ class RobotContainer {
   //blaster
   frc2::SequentialCommandGroup fireAll(
     //m_PowerUp,
-    ChargeLaser(&m_baster),
-    DechargeLaser(&m_baster)   
+    ChargeLaser(&m_blaster),
+    DechargeLaser(&m_blaster)   
     //m_HopperStart, 
     //m_HopperStop 
   );
