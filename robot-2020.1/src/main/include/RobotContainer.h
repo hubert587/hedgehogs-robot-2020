@@ -91,13 +91,6 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(3)},
     m_PowerDown
   };
-    //m_PowerUp,
-    //ChargeLaser(&m_blaster),
-    //DechargeLaser(&m_blaster)   
-    //m_HopperStart, 
-    //m_HopperStop 
-  //);
-    
 
   //intake
 
