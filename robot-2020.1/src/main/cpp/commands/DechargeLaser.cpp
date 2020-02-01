@@ -13,7 +13,7 @@ DechargeLaser::DechargeLaser(Blaster* blaster): m_blaster{blaster}  {
 
 // Called when the command is initially scheduled.
 void DechargeLaser::Initialize() {
-  m_blaster->BlasterSpeed(0);
+  m_blaster->BlasterSpeed(0, 0);
 }
 
 // Called repeatedly when this Command is scheduled to run

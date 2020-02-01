@@ -24,26 +24,31 @@ void WheelOfFortune::SpinToColorInit(){
   done = false;
 }
 
-void WheelOfFortune::SpinToColor(){
+std::string WheelOfFortune::GetColor(){
+  std::string color;
   frc::Color detectedColor = m_colorSensor.GetColor();
 
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+  frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+  frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+  frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
 
   if ( detectedColor.red > 0.4 && detectedColor.green < 0.4 && detectedColor.blue < 0.4) {
-    Current = "R";
+    color = "R";
+  } else if ( detectedColor.red < 0.4 && detectedColor.green > 0.55 && detectedColor.blue < 0.4) {
+    color = "G";
+  } else if ( detectedColor.red < 0.4 && detectedColor.green < 0.5 && detectedColor.blue > 0.3) {
+    color = "B";
+  } else if ( detectedColor.red > 0.4 && detectedColor.green > 0.4 && detectedColor.blue < 0.3) {
+    color = "Y";
+  } else {
+    //no color detected
+    color = "X";
   }
-  if ( detectedColor.red < 0.4 && detectedColor.green > 0.55 && detectedColor.blue < 0.4) {
-    Current = "G";
-  }
-  if ( detectedColor.red < 0.4 && detectedColor.green < 0.5 && detectedColor.blue > 0.3) {
-    Current = "B";
-  }
-  if ( detectedColor.red > 0.4 && detectedColor.green > 0.4 && detectedColor.blue < 0.3) {
-    Current = "Y";
-  }
+  return color;
+}
 
+void WheelOfFortune::SpinToColor(){
+  Current = GetColor();
     if (Goal == "Y" && Current == "G") {
       m_motor.Set(0);
       done = true;

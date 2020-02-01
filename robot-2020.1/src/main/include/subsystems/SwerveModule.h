@@ -49,7 +49,7 @@ class SwerveModule {
   rev::CANSparkMax m_driveMotor;
   rev::CANSparkMax m_turningMotor;
 
-  frc::Encoder m_driveEncoder;
+  rev::CANEncoder m_driveEncoder = m_driveMotor.GetEncoder();
   frc::Encoder m_turningEncoder;
 
   bool m_reverseDriveEncoder;

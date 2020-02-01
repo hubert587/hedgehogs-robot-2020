@@ -26,3 +26,6 @@ void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {
 
 }
 
+void GrapplingHook::Deploy(bool deploy) {
+  m_ClimbSolenoid.Set(deploy);
+}

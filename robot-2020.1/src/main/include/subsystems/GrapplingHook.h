@@ -10,6 +10,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 #include <Constants.h> 
+#include <frc/Solenoid.h> 
+
 class GrapplingHook : public frc2::SubsystemBase {
 
  public:
@@ -24,6 +26,7 @@ class GrapplingHook : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
+  void Deploy(bool deploy);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -33,5 +36,5 @@ class GrapplingHook : public frc2::SubsystemBase {
   WPI_TalonSRX m_ClimberLeftMotor{ canIDs::kClimberLeftMptorCanID };
   WPI_TalonSRX m_ClimberRightMotor{ canIDs::kClimberRightMotorCanID };
   WPI_TalonSRX m_ClimberAdjustmentMotor{ canIDs::kClimberAdjustmentMotorCanID };
-  frc::Solenoid ClimbSolenoid{solenoidIDs::kClimbSolenoid};
+  frc::Solenoid m_ClimbSolenoid{solenoidIDs::kClimbSolenoid};
 };
