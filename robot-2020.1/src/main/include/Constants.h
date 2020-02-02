@@ -96,6 +96,7 @@ constexpr double kPRearRightVel = 0.5;
 }  // namespace DriveConstants
 
 namespace ModuleConstants {
+constexpr double kDriveEncoderVelocityConversionFactor = 1/3;
 constexpr int kEncoderCPR = 1024;
 constexpr double kWheelDiameterMeters = .15;
 constexpr double kDriveEncoderDistancePerPulse =

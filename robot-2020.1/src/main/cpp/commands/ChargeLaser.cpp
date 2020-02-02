@@ -14,7 +14,7 @@ ChargeLaser::ChargeLaser(Blaster* blaster): m_blaster{blaster} {
 // Called when the command is initially scheduled.
 //deploy
 void ChargeLaser::Initialize() {
-  m_blaster->BlasterSpeed(1);
+  m_blaster->BlasterSpeed(1, 1);
 }
 
 // Called repeatedly when this Command is scheduled to run

@@ -18,6 +18,8 @@
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
+#include <units/units.h>
+#include <frc/geometry/Rotation2d.h>
 
 #include "Constants.h"
 
@@ -34,6 +36,8 @@
 #include "commands/ManualFireLaser.h"
 #include "commands/SpinToColor.h"
 #include "commands/SpinWheel3.h"
+#include <wpi/math>
+
 
 
 /**
@@ -76,12 +80,21 @@ class RobotContainer {
   frc2::InstantCommand m_RetractIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
   frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
   frc2::InstantCommand m_UnreverseIntake{[this] { m_collect.IntakeSpeed(0.5); }, {&m_collect}};
+  frc2::InstantCommand m_DeployClimber{[this] {m_grapplingHook.Deploy(true); }, {&m_grapplingHook}};
+  frc2::InstantCommand m_UndeployClimber{[this] {m_grapplingHook.Deploy(false); }, {&m_grapplingHook}};
+  frc2::InstantCommand m_DriveReverse{[this] {m_drive.Drive(units::meters_per_second_t (0),units::meters_per_second_t (-1),units::radians_per_second_t (0), true); }, {&m_drive}};
 
   //hopper - need new subsystem for this
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
 
   //blaster
+  frc2::InstantCommand m_StartBlaster{[this] {m_blaster.BlasterSpeed(1, 1); }, {&m_blaster}};
+  frc2::InstantCommand m_StopBlaster{[this] {m_blaster.BlasterSpeed(0, 0); }, {&m_blaster}};
+  frc2::SequentialCommandGroup Start {
+    m_StartBlaster,
+    frc2::WaitCommand{units::second_t(3)}
+  };
   frc2::SequentialCommandGroup fireAll{
     m_PowerUp,
     frc2::WaitCommand{units::second_t(3)},
@@ -89,7 +102,9 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(3)},
     m_HopperStop,
     frc2::WaitCommand{units::second_t(3)},
-    m_PowerDown
+    m_PowerDown,
+    frc2::WaitCommand{units::second_t(3)},
+    m_DriveReverse
   };
 
   //intake
