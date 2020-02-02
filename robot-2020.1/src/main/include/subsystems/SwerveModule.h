@@ -25,7 +25,6 @@ class SwerveModule {
 
  public:
   SwerveModule(int driveMotorChannel, int turningMotorChannel,
-               const int driveEncoderPorts[2], const int turningEncoderPorts[2],
                bool driveEncoderReversed, bool turningEncoderReversed);
 
   frc::SwerveModuleState GetState();
@@ -50,16 +49,26 @@ class SwerveModule {
   rev::CANSparkMax m_turningMotor;
 
   rev::CANEncoder m_driveEncoder = m_driveMotor.GetEncoder();
-  frc::Encoder m_turningEncoder;
+
+  rev::CANPIDController m_drivePIDController = m_driveMotor.GetPIDController();
+
+
+  rev::CANAnalog m_turnEncoder = m_turningMotor.GetAnalog();
+
+
 
   bool m_reverseDriveEncoder;
   bool m_reverseTurningEncoder;
 
-  frc2::PIDController m_drivePIDController{
-      ModuleConstants::kPModuleDriveController, 0, 0};
-  frc::ProfiledPIDController<units::radians> m_turningPIDController{
-      ModuleConstants::kPModuleTurningController,
-      0.0,
-      0.0,
-      {kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration}};
+  double turnP = -0.3;
+  double turnI = 0.0001;
+  double turnD = 0.00000001;
+
+  double driveP = 0.2;
+  double driveI = 0.01;
+  double driveD = 0.5;
+  double driveIz = 0.001;
+  double driveFF = 0.01;
+
+  frc2::PIDController m_turningPIDController{turnP, turnI, turnD};
 };

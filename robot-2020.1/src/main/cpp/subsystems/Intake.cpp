@@ -28,7 +28,7 @@ void Intake::ExtendIntake(bool extend) {
 void Intake::StartIntake() {
   ExtendIntake(true);
   IntakeSpeed(0.5);
-};
+}
 
 void Intake::StopIntake() {
   IntakeSpeed(0);

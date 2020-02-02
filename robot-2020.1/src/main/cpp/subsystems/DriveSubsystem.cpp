@@ -17,24 +17,19 @@ using namespace DriveConstants;
 DriveSubsystem::DriveSubsystem()
     : m_frontLeft{kFrontLeftDriveMotorPort,
                   kFrontLeftTurningMotorPort,
-                  kFrontLeftDriveEncoderPorts,
-                  kFrontLeftTurningEncoderPorts,
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed},
 
       m_rearLeft{
           kRearLeftDriveMotorPort,       kRearLeftTurningMotorPort,
-          kRearLeftDriveEncoderPorts,    kRearLeftTurningEncoderPorts,
           kRearLeftDriveEncoderReversed, kRearLeftTurningEncoderReversed},
 
       m_frontRight{
           kFrontRightDriveMotorPort,       kFrontRightTurningMotorPort,
-          kFrontRightDriveEncoderPorts,    kFrontRightTurningEncoderPorts,
           kFrontRightDriveEncoderReversed, kFrontRightTurningEncoderReversed},
 
       m_rearRight{
           kRearRightDriveMotorPort,       kRearRightTurningMotorPort,
-          kRearRightDriveEncoderPorts,    kRearRightTurningEncoderPorts,
           kRearRightDriveEncoderReversed, kRearRightTurningEncoderReversed},
 
       m_odometry{kDriveKinematics,
