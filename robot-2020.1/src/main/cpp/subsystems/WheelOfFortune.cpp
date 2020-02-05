@@ -23,8 +23,13 @@ void WheelOfFortune::SpinToColorInit(){
   m_motor.Set(1);
   done = false;
 }
+int WheelOfFortune::GetColor(){
+  
 
-std::string WheelOfFortune::GetColor(){
+
+
+}
+std::string WheelOfFortune::GetColorOld(){
   std::string color;
   frc::Color detectedColor = m_colorSensor.GetColor();
 

@@ -24,7 +24,8 @@ class WheelOfFortune : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
-  std::string GetColor();
+  std::string GetColorOld();
+  int GetColor();
   void SpinToColorInit();
   void SpinToColor();
   void SpinWheel3Init();

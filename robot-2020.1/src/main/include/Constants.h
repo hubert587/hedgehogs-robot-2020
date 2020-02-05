@@ -8,8 +8,10 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/trajectory/TrapezoidProfile.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <units/units.h>
 #include <wpi/math>
+#include <rev/ColorSensorV3.h> 
 
 #pragma once
 
@@ -137,3 +139,16 @@ namespace OIConstants {
 constexpr int kDriverControllerPort = 1;
 constexpr int CoDriver = 2;
 }  // namespace OIConstants
+
+
+namespace ColorConstants {
+    frc::Color kColorCodes[] = {
+        frc::Color(.42, .50, .08),
+        frc::Color(.61, .32, .07),
+        frc::Color(.24, .57, .19),
+        frc::Color(.19, .38, .34),
+    };
+    double kTolerance = .8; 
+
+}
+
