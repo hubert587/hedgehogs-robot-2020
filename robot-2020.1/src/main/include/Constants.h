@@ -148,7 +148,6 @@ namespace ColorConstants {
         frc::Color(.24, .57, .19),
         frc::Color(.19, .38, .34),
     };
-    double kTolerance = .8; 
-
+    double kColorTolerance = .8; 
 }
 

@@ -31,6 +31,8 @@ class WheelOfFortune : public frc2::SubsystemBase {
   void SpinWheel3Init();
   void SpinWheel3();
   bool IsDone();
+  void StartWheel();
+  void StopWheel();
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

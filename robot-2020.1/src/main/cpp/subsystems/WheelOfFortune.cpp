@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/WheelOfFortune.h"
-
+#include "rev/ColorSensorV3.h"
 
 WheelOfFortune::WheelOfFortune() {
 
@@ -19,16 +19,32 @@ void WheelOfFortune::Periodic() {
 
 void WheelOfFortune::SpinToColorInit(){
   frc::SmartDashboard::PutString("Color Defined", "R");
-  Goal = frc::SmartDashboard::GetString("Color Defined", "R");
-  m_motor.Set(1);
-  done = false;
+  //Goal = frc::SmartDashboard::GetString("Color Defined", "R");
+  //m_motor.Set(1);
+  //done = false;
+  
 }
 int WheelOfFortune::GetColor(){
-  
 
-
+  //frc::SmartDashboard::PutNumber("Tolerance", .8);
+  return 0;
 
 }
+
+void WheelOfFortune::StartWheel(){
+
+  m_motor.Set(1);
+
+}
+
+
+void WheelOfFortune::StopWheel(){
+
+  m_motor.Set(0);
+
+}
+
+
 std::string WheelOfFortune::GetColorOld(){
   std::string color;
   frc::Color detectedColor = m_colorSensor.GetColor();

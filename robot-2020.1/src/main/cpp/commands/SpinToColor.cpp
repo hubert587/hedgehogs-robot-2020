@@ -7,6 +7,7 @@
 
 #include "commands/SpinToColor.h"
 #include "Robot.h"
+#include "Constants.h"
 
 SpinToColor::SpinToColor(WheelOfFortune* SpinWheel): m_colorWheel{SpinWheel} {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -14,7 +15,9 @@ SpinToColor::SpinToColor(WheelOfFortune* SpinWheel): m_colorWheel{SpinWheel} {
 
 // Called when the command is initially scheduled.
 void SpinToColor::Initialize() {
-  m_colorWheel->SpinToColorInit();
+  //m_colorWheel->SpinToColorInit();
+  frc::SmartDashboard::PutNumber("Tolerance", ColorConstants::kColorTolerance);
+  //Goal = frc::SmartDashboard::GetString("Color Defined", "R");
 }
 
 // Called repeatedly when this Command is scheduled to run
