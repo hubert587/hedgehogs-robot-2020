@@ -5,8 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/WheelOfFortune.h"
-
+#include <subsystems/WheelOfFortune.h>
+#include <rev/ColorSensorV3.h>
+#include <rev/ColorMatch.h>
 
 WheelOfFortune::WheelOfFortune() {
 
@@ -17,12 +18,6 @@ void WheelOfFortune::Periodic() {
   
 }
 
-void WheelOfFortune::SpinToColorInit(){
-  frc::SmartDashboard::PutString("Color Defined", "R");
-  Goal = frc::SmartDashboard::GetString("Color Defined", "R");
-  m_motor.Set(1);
-  done = false;
-}
 int WheelOfFortune::GetColor(){
   frc::Color detectedColor = m_colorSensor.GetColor();
   frc::SmartDashboard::PutNumber("Red", detectedColor.red);
@@ -31,7 +26,7 @@ int WheelOfFortune::GetColor(){
   double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .8);
   rev::ColorMatch Matcher;
   for (int x = 0; x < 4; x++) {
-    Matcher.AddColorMatch(ColorConstants::kColorCodes[x]);
+    Matcher.AddColorMatch(kColorCodes[x]);
   }
   Matcher.SetConfidenceThreshold(tolerance);
   std::optional<frc::Color> matchedColor = Matcher.MatchColor(detectedColor);
@@ -40,7 +35,7 @@ int WheelOfFortune::GetColor(){
   frc::SmartDashboard::PutNumber("Matched Blue", matchedColor.has_value() ? matchedColor.value().blue : 0);
   int colorIndex = -1;
   for (int color = 0; color < 4; color++) {
-    if (matchedColor == ColorConstants::kColorCodes[color]) {
+    if (matchedColor == kColorCodes[color]) {
       frc::SmartDashboard::PutNumber("Color", color);
       colorIndex = color;
     }
@@ -60,88 +55,20 @@ std::string WheelOfFortune::ConvertColor(int colorIndex){
   } else {
     return "Unknown";
   }
-  
 }
 
-std::string WheelOfFortune::GetColorOld(){
-  std::string color;
-  frc::Color detectedColor = m_colorSensor.GetColor();
-
-  frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-  frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-  frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-
-  if ( detectedColor.red > 0.4 && detectedColor.green < 0.4 && detectedColor.blue < 0.4) {
-    color = "R";
-  } else if ( detectedColor.red < 0.4 && detectedColor.green > 0.55 && detectedColor.blue < 0.4) {
-    color = "G";
-  } else if ( detectedColor.red < 0.4 && detectedColor.green < 0.5 && detectedColor.blue > 0.3) {
-    color = "B";
-  } else if ( detectedColor.red > 0.4 && detectedColor.green > 0.4 && detectedColor.blue < 0.3) {
-    color = "Y";
-  } else {
-    //no color detected
-    color = "X";
-  }
-  return color;
-}
-
-void WheelOfFortune::SpinToColor(){
-  Current = GetColor();
-    if (Goal == "Y" && Current == "G") {
-      m_motor.Set(0);
-      done = true;
-    }
-    if (Goal == "B" && Current == "R") {
-      m_motor.Set(0);
-      done = true;
-    }
-    if (Goal == "G" && Current == "Y") {
-      m_motor.Set(0);
-      done = true;
-    }
-    if (Goal == "R" && Current == "B") {
-      m_motor.Set(0);
-      done = true;
-    }
-}
-
-void WheelOfFortune::SpinWheel3Init(){
-  RedCount = 0;
-  onRed = false;
+void WheelOfFortune::StartWheel(){
   m_motor.Set(1);
-  done = false;
 }
 
-void WheelOfFortune::SpinWheel3(){
-  frc::Color detectedColor = m_colorSensor.GetColor();
-
-    /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     */
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-
-  if(detectedColor.red > 0.4 && detectedColor.green < 0.4 && detectedColor.blue < 0.4 && onRed == false) {
-        RedCount++;
-        onRed = true;
-  } else if(detectedColor.red < 0.4 && detectedColor.green > 0.55 && detectedColor.blue < 0.4) {
-        onRed = false;
-  } else if (detectedColor.red < 0.4 && detectedColor.green < 0.5 && detectedColor.blue > 0.3) {
-        onRed = false;
-  } else if (detectedColor.red > 0.4 && detectedColor.green > 0.4 && detectedColor.blue < 0.3) {
-        onRed = false;
-  }
-      if(RedCount >= 7) {
-        m_motor.Set(0);
-        done = true;
-      }
-      
-      std::cout << "RedCount: " << RedCount << "\n";
+void WheelOfFortune::StopWheel(){
+  m_motor.Set(0);
 }
 
-bool WheelOfFortune::IsDone(){
-  return done;
+void WheelOfFortune::DeployWheel(){
+
+}
+
+void WheelOfFortune::RetractWheel(){
+
 }

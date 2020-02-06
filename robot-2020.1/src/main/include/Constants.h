@@ -11,7 +11,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <units/units.h>
 #include <wpi/math>
-#include <rev/ColorSensorV3.h> 
+//#include <rev/ColorSensorV3.h> 
 
 #pragma once
 
@@ -141,14 +141,4 @@ constexpr int CoDriver = 2;
 }  // namespace OIConstants
 
 
-namespace ColorConstants {
-    frc::Color kColorCodes[] = {
-        frc::Color(.42, .50, .08),
-        frc::Color(.61, .32, .07),
-        frc::Color(.24, .57, .19),
-        frc::Color(.19, .38, .34),
-    };
-    double kTolerance = .8; 
-
-}
 
