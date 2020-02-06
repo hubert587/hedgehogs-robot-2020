@@ -26,6 +26,7 @@ class WheelOfFortune : public frc2::SubsystemBase {
   void Periodic() override;
   std::string GetColorOld();
   int GetColor();
+  std::string ConvertColor(int colorIndex);
   void SpinToColorInit();
   void SpinToColor();
   void SpinWheel3Init();

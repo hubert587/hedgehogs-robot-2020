@@ -32,4 +32,7 @@ class SpinWheel3
   bool IsFinished() override;
  private:
   WheelOfFortune* m_colorWheel;
+  bool Done = false;
+  int RedCount = 0;
+  bool OnRed = false;
 };
