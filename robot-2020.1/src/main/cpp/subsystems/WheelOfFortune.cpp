@@ -18,7 +18,8 @@ void WheelOfFortune::Periodic() {
   
 }
 
-int WheelOfFortune::GetColor(){
+int WheelOfFortune::GetColor() {
+
   frc::Color detectedColor = m_colorSensor.GetColor();
   frc::SmartDashboard::PutNumber("Red", detectedColor.red);
   frc::SmartDashboard::PutNumber("Green", detectedColor.green);
@@ -57,18 +58,18 @@ std::string WheelOfFortune::ConvertColor(int colorIndex){
   }
 }
 
-void WheelOfFortune::StartWheel(){
+void WheelOfFortune::StartWheel() {
   m_motor.Set(1);
 }
 
-void WheelOfFortune::StopWheel(){
+void WheelOfFortune::StopWheel() {
   m_motor.Set(0);
 }
 
-void WheelOfFortune::DeployWheel(){
-
+void WheelOfFortune::DeployWheel() {
+  m_colorSolenoid.Set(true);
 }
 
-void WheelOfFortune::RetractWheel(){
-
+void WheelOfFortune::RetractWheel() {
+  m_colorSolenoid.Set(false);
 }
