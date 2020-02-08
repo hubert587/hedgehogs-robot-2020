@@ -12,6 +12,7 @@
 #include <ctre/Phoenix.h>
 #include <rev/ColorSensorV3.h>
 #include <frc/smartdashboard/smartdashboard.h>
+#include <frc/Solenoid.h> 
 #include <iostream>
 #include <string>
 
@@ -44,7 +45,7 @@ class WheelOfFortune : public frc2::SubsystemBase {
   //spinner
 
   //color detector
-  WPI_TalonSRX m_motor{kColorWheelCanID};
-  static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
-  rev::ColorSensorV3 m_colorSensor{i2cPort};
+  WPI_TalonSRX m_motor { kColorWheelCanID };
+  rev::ColorSensorV3 m_colorSensor { frc::I2C::Port::kOnboard };
+  frc::Solenoid m_colorSolenoid { solenoidIDs::kColorSolenoid };
 };
