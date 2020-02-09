@@ -96,3 +96,10 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
   m_odometry.ResetPosition(pose,
                            frc::Rotation2d(units::degree_t(GetHeading())));
 }
+
+//Going to make auto aiming system here
+
+
+
+
+
