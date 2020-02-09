@@ -91,20 +91,23 @@ def main():
     NetworkTables.initialize()
     
     print('Starting camera input thread')
-    cameraThread = CameraThread()
-    cameraThread.start()
+    #cameraThread = CameraThread()
+    #cameraThread.start()
     
     
-    #inst = CameraServer.getInstance()
+    inst = CameraServer.getInstance()
     #inst.enableLogging()
+
+    #E = inst.addServer("OurVideo")
+    #E.setSource(inst)
 
     #cap = cv2.VideoCapture('/dev/video0')
 
-    #camera = inst.startAutomaticCapture(name = "Cam0", path = '/dev/video0')
+    camera = inst.startAutomaticCapture(name = "Cam0", path = '/dev/video0')
 
     #cvSink = inst.getVideo()
 
-    #outputStream = inst.putVideo("Vision", 320, 240)
+    outputStream = inst.putVideo("Vision", 320, 240)
 
     #img = np.zeros(shape=(240, 320, 3), dtype=np.uint8)
 
@@ -132,7 +135,7 @@ def main():
         if have_frame:
             pipeline.process(frame)
             extra_processing(pipeline)
-            #outputStream.putFrame(frame)
+            outputStream.putFrame(frame)
 
     print('Capture closed')
 
