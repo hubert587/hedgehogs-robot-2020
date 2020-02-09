@@ -42,7 +42,7 @@ def extra_processing(pipeline):
 
     # Tartget coordinate should be ((x + w/2), h)
 
-    print(pipeline.filter_contours_output.__len__())
+    print('Number of Contours : ', pipeline.filter_contours_output.__len__())
 
     targetFound = False
     distance = 0
@@ -67,6 +67,8 @@ def extra_processing(pipeline):
         # Elias (distance to target = target length in pixels/1.7333,  degrees to turn inverse tan(Pxoff/640px))
         #target_x
         #target_y
+        print('distance : ', distance)
+        print('angle    : ', targetAngle)
 
     # Publish to the '/vision/red_areas' network table
 
