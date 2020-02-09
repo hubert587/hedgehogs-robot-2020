@@ -15,15 +15,15 @@ from threading import Thread
 
 
 class CameraThread(Thread):
-    sourceID = 1
-    exposure_ID = 15
+    sourceID = 0
+    #exposure_ID = 15
     #brightness_ID = 10 #unsure if ID is right, and change in brightness not needed anyways
     #brightness = -100
-    exposure = -10000
+    #exposure = -10000
     frame = None
     
     cap = cv2.VideoCapture(sourceID)
-    cap.set(exposure_ID, exposure)
+    #cap.set(exposure_ID, exposure)
         
     def run(self):
         while self.cap.isOpened():

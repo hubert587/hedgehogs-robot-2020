@@ -14,7 +14,7 @@ Sample program that uses a generated GRIP pipeline to detect lines in an image a
 import cv2
 import math
 from networktables import NetworkTables
-from grip_tartget_detection_v_one import GripPipeline
+from grip_target_detection_v_one import GripPipeline
 from Threads import CameraThread
 
 def calculateYaw(pixelX, centerX, hFocalLength):
@@ -37,9 +37,11 @@ def extra_processing(pipeline):
 
     # Tartget coordinate should be ((x + w/2), h)
 
-    print(pipeline.filter_contours_output.__len__())
+    print('Number of Contours : ', pipeline.filter_contours_output.__len__())
 
     targetFound = False
+    distance = 0
+    targetAngle = 0
 
     for contour in pipeline.filter_contours_output:
         #returns a Box2D structure which contains following detals
@@ -56,11 +58,13 @@ def extra_processing(pipeline):
         #distance is in inches
         distance = (39 * 320) / (2 * w * math.tan(28))
 
-        targetAngle = math.arctan(((x + w / 2) - 160)/640)
+        targetAngle = math.atan(((x + w / 2) - 160)/640)
         targetFound = True
         # Elias (distance to target = target length in pixels/1.7333,  degrees to turn inverse tan(Pxoff/640px))
         #target_x
         #target_y
+        print('distance : ', distance)
+        print('angle    : ', targetAngle)
 
     # Publish to the '/vision/red_areas' network table
 
@@ -93,7 +97,7 @@ def main():
     while True:
         have_frame, frame = cameraThread.read()
         # Display the resulting frame
-        cv2.imshow('Frame',frame)
+        #cv2.imshow('Frame',frame)
         # cv2.waitKey(25)
         
         if have_frame:
