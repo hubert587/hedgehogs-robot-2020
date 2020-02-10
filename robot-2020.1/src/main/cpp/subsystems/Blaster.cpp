@@ -19,3 +19,5 @@ void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
   m_LeftBlasterWheel.Set(leftSpeed);
   m_RightBlasterWheel.Set(rightSpeed);
 }
+
+//add angle adjustment
