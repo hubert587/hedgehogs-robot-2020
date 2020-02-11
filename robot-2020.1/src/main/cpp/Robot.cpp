@@ -10,7 +10,14 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+
+  TargetDetected = false;
+
+  Vision->GetTable("VisionTarget");//should create table if does not exist
+//control loop (where it crashes)
+
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -20,7 +27,18 @@ void Robot::RobotInit() {}
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
+void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); 
+
+  if (Vision /*&& Vision->IsConnected()*/){
+
+    Distance = Vision->GetNumber("distance", 0);
+    Angle = Vision->GetNumber("targetAngle", 0);
+    TargetDetected = Vision->GetBoolean("targetFound", false); 
+
+
+  }
+
+}
 
 /**
  * This function is called once each time the robot enters Disabled mode. You
