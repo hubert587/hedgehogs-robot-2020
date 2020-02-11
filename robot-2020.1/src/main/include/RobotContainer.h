@@ -83,6 +83,8 @@ class RobotContainer {
   frc2::InstantCommand m_DeployClimber{[this] {m_grapplingHook.Deploy(true); }, {&m_grapplingHook}};
   frc2::InstantCommand m_UndeployClimber{[this] {m_grapplingHook.Deploy(false); }, {&m_grapplingHook}};
   frc2::InstantCommand m_DriveReverse{[this] {m_drive.Drive(units::meters_per_second_t (0),units::meters_per_second_t (-1),units::radians_per_second_t (0), true); }, {&m_drive}};
+  frc2::InstantCommand m_RaiseAngle{[this] {m_blaster.AngleChange(true); }, {&m_blaster}};
+  frc2::InstantCommand m_LowerAngle{[this] {m_blaster.AngleChange(false); }, {&m_blaster}};
 
   //hopper - need new subsystem for this
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};

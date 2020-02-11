@@ -10,12 +10,14 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 #include <Constants.h> 
+#include <frc/Solenoid.h> 
 
 class Blaster : public frc2::SubsystemBase{
 
  public:
   Blaster();
   void BlasterSpeed(double leftSpeed, double rightSpeed);
+  void AngleChange(bool angledUp);
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -28,5 +30,5 @@ class Blaster : public frc2::SubsystemBase{
   //fly wheels
   WPI_TalonSRX m_LeftBlasterWheel{ canIDs::kLeftBlasterWheelCanID };
   WPI_TalonSRX m_RightBlasterWheel{ canIDs::kRightBlasterWheelCanID };
-  
+  frc::Solenoid m_AngleSolenoid{solenoidIDs::kAngleSolenoid};
 };
