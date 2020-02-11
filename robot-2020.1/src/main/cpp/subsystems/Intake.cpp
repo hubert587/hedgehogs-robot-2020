@@ -18,19 +18,33 @@ void Intake::Periodic() {
 void Intake::IntakeSpeed(double speed) {
   m_InnerIntakeMotor.Set (speed);
   m_OuterIntakeMotor.Set (speed);
-
 }
 
-void Intake::ExtendIntake(bool extend) {
-  ExtendIntakeSolenoid.Set(extend);
+void Intake::AdjustIntake(int adjustIntake) {
+  if (adjustIntake == 0) {
+    m_LeftInnerIntakeSolenoid.Set(false);
+    m_LeftOuterIntakeSolenoid.Set(false);
+    m_RightInnerIntakeSolenoid.Set(false);
+    m_RightOuterIntakeSolenoid.Set(false);
+  } else if (adjustIntake == 1) {
+    m_LeftInnerIntakeSolenoid.Set(true);
+    m_LeftOuterIntakeSolenoid.Set(false);
+    m_RightInnerIntakeSolenoid.Set(true);
+    m_RightOuterIntakeSolenoid.Set(false);
+  } else if (adjustIntake == 2) {
+    m_LeftInnerIntakeSolenoid.Set(true);
+    m_LeftOuterIntakeSolenoid.Set(true);
+    m_RightInnerIntakeSolenoid.Set(true);
+    m_RightOuterIntakeSolenoid.Set(true);
+  }
 }
 
 void Intake::StartIntake() {
-  ExtendIntake(true);
+  AdjustIntake(2);
   IntakeSpeed(0.5);
 }
 
 void Intake::StopIntake() {
   IntakeSpeed(0);
-  ExtendIntake(false);
+  AdjustIntake(0);
 }
