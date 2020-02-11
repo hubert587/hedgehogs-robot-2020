@@ -20,4 +20,8 @@ void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
   m_RightBlasterWheel.Set(rightSpeed);
 }
 
+void Blaster::AngleChange(bool angledUp) {
+  m_AngleSolenoid.Set(angledUp);
+}
+
 //add angle adjustment

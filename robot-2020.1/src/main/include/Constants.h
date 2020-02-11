@@ -47,6 +47,7 @@ enum solenoidIDs {
     kExtendIntakeSolenoid = 1,
     kClimbSolenoid = 2,
     kColorSolenoid = 3,
+    kAngleSolenoid = 4
 };
 
 namespace DriveConstants {
