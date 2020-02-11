@@ -44,10 +44,13 @@ enum canIDs {
 };
 
 enum solenoidIDs {
-    kExtendIntakeSolenoid = 1,
-    kClimbSolenoid = 2,
-    kColorSolenoid = 3,
-    kAngleSolenoid = 4
+    kLeftInnerIntakeSolenoid = 1,
+    kLeftOuterIntakeSolenoid = 2,
+    kRightInnerIntakeSolenoid = 3,
+    kRightOuterIntakeSolenoid = 4,
+    kClimbSolenoid = 5,
+    kColorSolenoid = 6,
+    kAngleSolenoid = 7
 };
 
 namespace DriveConstants {

@@ -19,7 +19,7 @@ class Intake : public frc2::SubsystemBase {
 
   void IntakeSpeed(double speed);
 
-  void ExtendIntake(bool extend);
+  void AdjustIntake(int adjustIntake);
 
   void StartIntake();
 
@@ -40,5 +40,8 @@ class Intake : public frc2::SubsystemBase {
   //intaker
   WPI_TalonSRX m_OuterIntakeMotor{canIDs::kOuterIntakeMotorCanID};
   WPI_TalonSRX m_InnerIntakeMotor{canIDs::kInnerIntakeMotorCanID};
-  frc::Solenoid ExtendIntakeSolenoid{solenoidIDs::kExtendIntakeSolenoid};
+  frc::Solenoid m_LeftInnerIntakeSolenoid{solenoidIDs::kLeftInnerIntakeSolenoid};
+  frc::Solenoid m_LeftOuterIntakeSolenoid{solenoidIDs::kLeftOuterIntakeSolenoid};
+  frc::Solenoid m_RightInnerIntakeSolenoid{solenoidIDs::kRightInnerIntakeSolenoid};
+  frc::Solenoid m_RightOuterIntakeSolenoid{solenoidIDs::kRightOuterIntakeSolenoid};
 };
