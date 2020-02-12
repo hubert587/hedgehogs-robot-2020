@@ -17,6 +17,15 @@ DriveCommand::DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxC
     void DriveCommand::Initialize() {}
     
     void DriveCommand::Execute() {
+
+        int targetYes = m_xboxController->GetAButton();
+
+        if(targetYes) {
+
+            
+
+
+        } else {
         
         m_driveSubsystem->Drive(units::meters_per_second_t(
                           m_xboxController->GetY(frc::GenericHID::kLeftHand)),
@@ -24,9 +33,20 @@ DriveCommand::DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxC
                           m_xboxController->GetY(frc::GenericHID::kRightHand)),
                       units::radians_per_second_t(
                           m_xboxController->GetX(frc::GenericHID::kLeftHand)),
+                        
                       false);
+
+        }
     }
 
-    void DriveCommand::End(bool interrupted) {}
+    void DriveCommand::End(bool interrupted) {
 
-    bool DriveCommand::IsFinished() {}
+
+
+    }
+
+    bool DriveCommand::IsFinished() {
+        
+        return false;
+    
+    }

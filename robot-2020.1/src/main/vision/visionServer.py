@@ -149,7 +149,7 @@ def extra_processing(pipeline):
         # Elias (distance to target = target length in pixels/1.7333,  degrees to turn inverse tan(Pxoff/640px))
         #target_x
         #target_y
-        print('(', x,',', y, '), ', w, ' X ', h, ', distance : ', distance, 'angle    : ', targetAngle*180/3.141592)
+        print('(', x,',', y, '), ', w, ' X ', h, ', distance : ', distance, 'angle : ', targetAngle*180/3.141592)
 
     # Publish to the '/vision/red_areas' network table
 

@@ -9,6 +9,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
+#include <networktables/NetworkTable.h>
 
 #include "RobotContainer.h"
 
@@ -23,6 +24,22 @@ class Robot : public frc::TimedRobot {
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TestPeriodic() override;
+  double GetAngle() {
+
+    return Angle;
+
+  };
+  double GetDistance(){
+
+    return Distance;
+
+  };
+  bool GetDetect(){
+
+    return TargetDetected;
+
+  };
+
 
  private:
   // Have it null by default so that if testing teleop it
@@ -30,4 +47,12 @@ class Robot : public frc::TimedRobot {
   frc2::Command* m_autonomousCommand = nullptr;
 
   RobotContainer m_container;
+
+  //declarations:
+  NetworkTable *Vision;
+
+  double Distance;
+  double Angle;
+  bool TargetDetected;
+
 };
