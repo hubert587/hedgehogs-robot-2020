@@ -61,7 +61,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_codriverController, 2).WhenPressed(&m_Spin3times);
     frc2::JoystickButton(&m_codriverController, 5).WhenPressed(&m_ExtendIntake);
     frc2::JoystickButton(&m_codriverController, 6).WhenPressed(&m_RetractIntake);
-    frc2::JoystickButton(&m_codriverController, 9).WhenPressed(&m_ReverseIntake).WhenReleased(&m_UnreverseIntake);
+    frc2::JoystickButton(&m_codriverController, 9).WhenPressed(&m_ReverseIntake).WhenReleased(&m_StartIntake);
     frc2::JoystickButton(&m_codriverController, 10).WhenPressed(&m_HopperStart).WhenReleased(&m_HopperStop);
     frc2::JoystickButton(&m_codriverController, 11).WhenPressed(&m_DeployClimber);
     frc2::JoystickButton(&m_codriverController, 12).WhenPressed(&m_UndeployClimber);
