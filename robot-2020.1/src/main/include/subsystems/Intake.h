@@ -43,8 +43,6 @@ class Intake : public frc2::SubsystemBase {
   int intakeTracker = 0;
   WPI_TalonSRX m_OuterIntakeMotor{canIDs::kOuterIntakeMotorCanID};
   WPI_TalonSRX m_InnerIntakeMotor{canIDs::kInnerIntakeMotorCanID};
-  frc::Solenoid m_LeftInnerIntakeSolenoid{solenoidIDs::kLeftInnerIntakeSolenoid};
-  frc::Solenoid m_LeftOuterIntakeSolenoid{solenoidIDs::kLeftOuterIntakeSolenoid};
-  frc::Solenoid m_RightInnerIntakeSolenoid{solenoidIDs::kRightInnerIntakeSolenoid};
-  frc::Solenoid m_RightOuterIntakeSolenoid{solenoidIDs::kRightOuterIntakeSolenoid};
+  frc::Solenoid m_InnerIntakeSolenoid{solenoidIDs::kInnerIntakeSolenoid};
+  frc::Solenoid m_OuterIntakeSolenoid{solenoidIDs::kOuterIntakeSolenoid};
 };

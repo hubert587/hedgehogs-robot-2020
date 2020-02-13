@@ -22,22 +22,16 @@ void Intake::IntakeSpeed(double speed) {
 
 void Intake::AdjustIntake(int adjustIntake) {
   if (adjustIntake == 0) {
-    m_LeftInnerIntakeSolenoid.Set(false);
-    m_LeftOuterIntakeSolenoid.Set(false);
-    m_RightInnerIntakeSolenoid.Set(false);
-    m_RightOuterIntakeSolenoid.Set(false);
+    m_InnerIntakeSolenoid.Set(false);
+    m_OuterIntakeSolenoid.Set(false);
     intakeTracker = 0;
   } else if (adjustIntake == 1) {
-    m_LeftInnerIntakeSolenoid.Set(true);
-    m_LeftOuterIntakeSolenoid.Set(false);
-    m_RightInnerIntakeSolenoid.Set(true);
-    m_RightOuterIntakeSolenoid.Set(false);
+    m_InnerIntakeSolenoid.Set(true);
+    m_OuterIntakeSolenoid.Set(false);
     intakeTracker = 1;
   } else if (adjustIntake == 2) {
-    m_LeftInnerIntakeSolenoid.Set(true);
-    m_LeftOuterIntakeSolenoid.Set(true);
-    m_RightInnerIntakeSolenoid.Set(true);
-    m_RightOuterIntakeSolenoid.Set(true);
+    m_InnerIntakeSolenoid.Set(true);
+    m_OuterIntakeSolenoid.Set(true);
     intakeTracker = 2;
   }
 }
