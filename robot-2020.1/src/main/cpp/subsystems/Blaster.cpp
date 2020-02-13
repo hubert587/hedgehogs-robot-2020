@@ -21,7 +21,12 @@ void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
 }
 
 void Blaster::AngleChange(bool angledUp) {
-  m_AngleSolenoid.Set(angledUp);
+  if (angledUp == true) {
+    m_AngleSolenoid.Set(frc::DoubleSolenoid::kForward);
+  } else {
+    m_AngleSolenoid.Set(frc::DoubleSolenoid::kReverse);
+  }
+  
 }
 
 //add angle adjustment
