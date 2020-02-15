@@ -24,33 +24,33 @@
  * they are needed.
  */
 enum canIDs {
-    kFrontLeftDriveCanID = 1,
-    kFrontLeftTurnCanID = 2,
-    kRearLeftDriveCanID = 3,
-    kRearLeftTurnCanID = 4,
-    kFrontRightDriveCanID = 5,
-    kFrontRightTurnCanID = 6,
-    kRearRightDriveCanID = 7,
-    kRearRightTurnCanID = 8,
-    kColorWheelCanID = 9,
-    kOuterIntakeMotorCanID = 10,
-    kInnerIntakeMotorCanID = 11,
-    kHopperMotorCanID = 12,
+    kFrontLeftDriveCanID = 2,
+    kFrontLeftTurnCanID = 1,
+    kRearLeftDriveCanID = 4,
+    kRearLeftTurnCanID = 3,
+    kFrontRightDriveCanID = 6,
+    kFrontRightTurnCanID = 5,
+    kRearRightDriveCanID = 8,
+    kRearRightTurnCanID = 7,
+    kOuterIntakeMotorCanID = 9,
+    kInnerIntakeMotorCanID = 10,
+    kHopperMotorCanID = 11,
     kLeftBlasterWheelCanID = 13,
-    kRightBlasterWheelCanID = 14,
+    kRightBlasterWheelCanID = 12,
     kClimberLeftMptorCanID = 15,
     kClimberRightMotorCanID = 16,
-    kClimberAdjustmentMotorCanID = 17
+    kClimberAdjustmentMotorCanID = 17,
+    kColorWheelCanID = 18
+
 };
 
 enum solenoidIDs {
-    kLeftInnerIntakeSolenoid = 1,
-    kLeftOuterIntakeSolenoid = 2,
-    kRightInnerIntakeSolenoid = 3,
-    kRightOuterIntakeSolenoid = 4,
+    kInnerIntakeSolenoid = 1,
+    kOuterIntakeSolenoid = 2,
     kClimbSolenoid = 5,
     kColorSolenoid = 6,
-    kAngleSolenoid = 7
+    kAngleSolenoid1 = 3,
+    kAngleSolenoid2 = 4
 };
 
 namespace DriveConstants {
