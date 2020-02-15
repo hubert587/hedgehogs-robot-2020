@@ -21,7 +21,7 @@
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="3">
         <value>
-          <double>119.24460431654676</double>
+          <double>135.29676258992808</double>
           <double>226.7150170648464</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
