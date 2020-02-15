@@ -39,9 +39,9 @@ RobotContainer::RobotContainer() {
                       units::radians_per_second_t(
                           m_driverController.GetX(frc::GenericHID::kLeftHand)),
                       false);*/
-        std::cout << "x_axis " << m_driverController.GetRawAxis(0) << "\n";
-        std::cout << "y_axis " << m_driverController.GetRawAxis(1) << "\n";
-        std::cout << "z_axis " << m_driverController.GetRawAxis(2) << "\n";
+        frc::SmartDashboard::PutNumber("x_axis", m_driverController.GetRawAxis(0));
+        frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
+        frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
 
 
         m_drive.Drive(units::meters_per_second_t(     
