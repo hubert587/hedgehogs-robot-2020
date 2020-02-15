@@ -22,11 +22,12 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_reverseTurningEncoder(turningEncoderReversed) {
 
       m_driveMotor.RestoreFactoryDefaults();
-      m_driveEncoder.SetPosition(0);
+      
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
       m_driveEncoder.SetVelocityConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051 / 60);       
- 
+      m_driveEncoder.SetPosition(0);
+
       m_drivePIDController.SetP(driveP);
       m_drivePIDController.SetI(driveI);  
       m_drivePIDController.SetD(driveD);
@@ -39,22 +40,22 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 20);
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 10);
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 10);
+      
       m_turnEncoder.SetPositionConversionFactor(1.89);
+      
       m_turningPIDController.Reset();
-
-
-  m_turningPIDController.EnableContinuousInput(-1 * wpi::math::pi, wpi::math::pi);
-  m_turningPIDController.SetTolerance(0.005);
+      m_turningPIDController.EnableContinuousInput(-1 * wpi::math::pi, wpi::math::pi);
+      m_turningPIDController.SetTolerance(0.005);
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
   return {units::meters_per_second_t{m_driveEncoder.GetVelocity()},
-          frc::Rotation2d(units::radian_t(m_turnEncoder.GetPosition() - wpi::math::pi/2))};
+          frc::Rotation2d(units::radian_t(m_turnEncoder.GetPosition() - wpi::math::pi / 2))};
 }
 
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
-  double encread = m_turnEncoder.GetPosition() - wpi::math::pi/2;
+  double encread = m_turnEncoder.GetPosition() - wpi::math::pi / 2;
   double newPos = (double)state.angle.Radians();
 
 
