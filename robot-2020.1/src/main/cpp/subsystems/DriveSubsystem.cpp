@@ -34,7 +34,13 @@ DriveSubsystem::DriveSubsystem()
 
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::degree_t(GetHeading())),
-                 frc::Pose2d()} {}
+                 frc::Pose2d()} {
+                   
+                   
+              
+                   
+                   
+                }
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
@@ -47,10 +53,17 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+
+                            frc::SmartDashboard::PutNumber("Drive.xSpeed", (double)xSpeed);
+                            frc::SmartDashboard::PutNumber("Drive.ySpeed", (double)ySpeed);
+                            frc::SmartDashboard::PutNumber("Drive.rot", (double)rot);
+                            frc::SmartDashboard::PutNumber("Drive.GetHeading", GetHeading());
+
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          frc::Rotation2d(units::degree_t(GetHeading())))
+                          //frc::Rotation2d(units::degree_t(GetHeading())))
+                          frc::Rotation2d(units::degree_t(0)))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
   kDriveKinematics.NormalizeWheelSpeeds(&states, AutoConstants::kMaxSpeed);
