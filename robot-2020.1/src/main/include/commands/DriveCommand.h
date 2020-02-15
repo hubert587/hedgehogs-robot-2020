@@ -9,7 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-
+#include <frc/Joystick.h>
 #include "subsystems/DriveSubsystem.h"
 #include <frc/XboxController.h>
 /**
@@ -27,7 +27,8 @@ class DriveCommand
    *
    * @param driveSubsystem The subsystem used by this command.
    */
-  explicit DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxController);
+  //explicit DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxController);
+  explicit DriveCommand(DriveSubsystem* driveSubsystem, Joystick* joystick);
 
     void Initialize() override;
     
@@ -42,7 +43,8 @@ class DriveCommand
  private:
   DriveSubsystem* m_driveSubsystem;
 
-  XboxController* m_xboxController;
+  //XboxController* m_xboxController;
+  Joystick* m_joystick;
 };
 
 

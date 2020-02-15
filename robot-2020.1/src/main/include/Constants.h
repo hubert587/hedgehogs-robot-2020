@@ -24,14 +24,14 @@
  * they are needed.
  */
 enum canIDs {
-    kFrontLeftDriveCanID = 2,
-    kFrontLeftTurnCanID = 1,
-    kRearLeftDriveCanID = 4,
-    kRearLeftTurnCanID = 3,
-    kFrontRightDriveCanID = 6,
-    kFrontRightTurnCanID = 5,
-    kRearRightDriveCanID = 8,
-    kRearRightTurnCanID = 7,
+    kFrontLeftDriveCanID = 1,
+    kFrontLeftTurnCanID = 2,
+    kRearLeftDriveCanID = 3,
+    kRearLeftTurnCanID = 4,
+    kFrontRightDriveCanID = 5,
+    kFrontRightTurnCanID = 6,
+    kRearRightDriveCanID = 7,
+    kRearRightTurnCanID = 8,
     kOuterIntakeMotorCanID = 9,
     kInnerIntakeMotorCanID = 10,
     kHopperMotorCanID = 11,
@@ -141,8 +141,8 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 }  // namespace AutoConstants
 
 namespace OIConstants {
-constexpr int kDriverControllerPort = 1;
-constexpr int CoDriver = 2;
+constexpr int kDriverControllerPort = 0;
+constexpr int CoDriver = 1;
 }  // namespace OIConstants
 
 

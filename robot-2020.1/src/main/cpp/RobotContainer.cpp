@@ -17,7 +17,7 @@
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <units/units.h>
-
+#include <frc/Joystick.h>
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
@@ -32,13 +32,28 @@ RobotContainer::RobotContainer() {
   // Set up default drive command
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        m_drive.Drive(units::meters_per_second_t(
+        /*m_drive.Drive(units::meters_per_second_t(
                           m_driverController.GetY(frc::GenericHID::kLeftHand)),
                       units::meters_per_second_t(
                           m_driverController.GetY(frc::GenericHID::kRightHand)),
                       units::radians_per_second_t(
                           m_driverController.GetX(frc::GenericHID::kLeftHand)),
-                      false);
+                      false);*/
+        std::cout << "x_axis " << m_driverController.GetRawAxis(0) << "\n";
+        std::cout << "y_axis " << m_driverController.GetRawAxis(1) << "\n";
+        std::cout << "z_axis " << m_driverController.GetRawAxis(2) << "\n";
+
+
+        m_drive.Drive(units::meters_per_second_t(     
+                            m_driverController.GetRawAxis(0)),
+                      units::meters_per_second_t(
+                          m_driverController.GetRawAxis(1)),
+                      units::radians_per_second_t(
+                          m_driverController.GetRawAxis(2)),
+                        
+                      true);   
+     
+     
       },
       {&m_drive}));
 
