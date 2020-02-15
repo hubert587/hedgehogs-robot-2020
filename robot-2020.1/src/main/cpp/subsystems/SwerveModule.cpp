@@ -43,18 +43,18 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_turningPIDController.Reset();
 
 
-  m_turningPIDController.EnableContinuousInput(0, 2 * wpi::math::pi);
+  m_turningPIDController.EnableContinuousInput(-1 * wpi::math::pi, wpi::math::pi);
   m_turningPIDController.SetTolerance(0.005);
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
   return {units::meters_per_second_t{m_driveEncoder.GetVelocity()},
-          frc::Rotation2d(units::radian_t(m_turnEncoder.GetPosition()-wpi::math::pi))};
+          frc::Rotation2d(units::radian_t(m_turnEncoder.GetPosition() - wpi::math::pi/2))};
 }
 
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
-  double encread = m_turnEncoder.GetPosition();
+  double encread = m_turnEncoder.GetPosition() - wpi::math::pi/2;
   double newPos = (double)state.angle.Radians();
 
 
@@ -65,7 +65,6 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
   m_turningMotor.Set(output);
 
   m_drivePIDController.SetReference(state.speed.to<double>(), rev::ControlType::kVelocity);
-
 
 }
 
