@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include <subsystems/Hopper.h>
+#include <frc/smartdashboard/smartdashboard.h>
 
-
-Hopper::Hopper() {}
+Hopper::Hopper() {
+   m_HopperMotor.SetInverted(true);
+}
 
 // This method will be called once per scheduler run
 void Hopper::Periodic() {}
@@ -19,9 +21,12 @@ void Hopper::HopperSpeed(double speed) {
 }
 
 void Hopper::AutoHopper(){
-  if (!IntakeBallDetector.Get() && !ShooterBallDetector.Get()){
+  bool intake1 = IntakeBallDetector.Get() == false;
+
+  frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
+  if (!intake1) {//&& !ShooterBallDetector.Get()){
     HopperSpeed(0);
-  } else if (!IntakeBallDetector.Get()) {
+  } else if (intake1) {
     HopperSpeed(1);
   } else {
     HopperSpeed(0);
