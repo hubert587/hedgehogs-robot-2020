@@ -6,9 +6,13 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Intake.h"
+#include <frc/smartdashboard/smartdashboard.h>
 
 Intake::Intake() {
-
+  m_InnerIntakeMotor.SetInverted(true);
+  m_OuterIntakeMotor.SetInverted(true);
+  IntakeSpeed(0);
+  AdjustIntake(0);
 }
 
 void Intake::Periodic() {
@@ -16,7 +20,7 @@ void Intake::Periodic() {
 }
 
 void Intake::IntakeSpeed(double speed) {
-  m_InnerIntakeMotor.Set(speed);
+  m_InnerIntakeMotor.Set(speed/4);
   m_OuterIntakeMotor.Set(speed);
 }
 
@@ -34,6 +38,8 @@ void Intake::AdjustIntake(int adjustIntake) {
     m_OuterIntakeSolenoid.Set(true);
     intakeTracker = 2;
   }
+  frc::SmartDashboard::PutNumber("intakeSet", adjustIntake);
+  frc::SmartDashboard::PutNumber("intakePost", intakeTracker);
 }
 
 void Intake::ShootingIntakePositioning() {

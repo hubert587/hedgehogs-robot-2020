@@ -21,15 +21,21 @@ void Hopper::HopperSpeed(double speed) {
 }
 
 void Hopper::AutoHopper(){
-  bool intake1 = IntakeBallDetector.Get() == false;
+  bool intake1 = IntakeBallDetector1.Get() == false;
+  bool intake2 = IntakeBallDetector2.Get() == false;
 
   frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
-  if (!intake1) {//&& !ShooterBallDetector.Get()){
+  frc::SmartDashboard::PutNumber("Hopper intake2", intake2);
+  /*if (!intake1) {//&& !ShooterBallDetector.Get()){
     HopperSpeed(0);
   } else if (intake1) {
     HopperSpeed(1);
   } else {
     HopperSpeed(0);
+  }*/
+  if (intake1 || intake2) {//&& !ShooterBallDetector.Get()){
+    HopperSpeed(1);
+  } else {
+    HopperSpeed(0);
   }
-
 }

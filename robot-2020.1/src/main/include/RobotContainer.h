@@ -81,9 +81,9 @@ class RobotContainer {
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
   SpinWheel3 m_Spin3times{&m_colorWheel};
-  frc2::InstantCommand m_StartIntake{[this] { m_collect.IntakeSpeed(0.5); }, {&m_collect}};
+  frc2::InstantCommand m_StartIntake{[this] { m_collect.StartIntake(); }, {&m_collect}};
   frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
-  frc2::InstantCommand m_StopIntake{[this] { m_collect.IntakeSpeed(0); }, {&m_collect}};
+  frc2::InstantCommand m_StopIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
   frc2::InstantCommand m_RetractIntake{[this] { m_collect.AdjustIntake(0); }, {&m_collect}};
   frc2::InstantCommand m_HalfExtendIntake{[this] { m_collect.AdjustIntake(1); }, {&m_collect}};
   frc2::InstantCommand m_ExtendIntake{[this] { m_collect.AdjustIntake(2); }, {&m_collect}};

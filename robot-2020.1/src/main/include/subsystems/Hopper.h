@@ -29,7 +29,8 @@ class Hopper : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   WPI_TalonSRX m_HopperMotor{ canIDs::kHopperMotorCanID };
-  frc::DigitalInput IntakeBallDetector{0};
-  frc::DigitalInput ShooterBallDetector{1};
+  frc::DigitalInput IntakeBallDetector1{0};
+  frc::DigitalInput IntakeBallDetector2{9};
+  frc::DigitalInput ShooterBallDetector{2};
   
 };
