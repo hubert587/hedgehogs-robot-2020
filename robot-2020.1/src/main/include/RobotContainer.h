@@ -120,7 +120,7 @@ class RobotContainer {
     m_PowerUp,
     frc2::WaitCommand{units::second_t(1)},
     m_HopperStart,
-    frc2::WaitCommand{units::second_t(3)},
+    frc2::WaitCommand{units::second_t(4)},
     m_HopperStop,
     m_PowerDown
   };

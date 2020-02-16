@@ -47,10 +47,10 @@ enum canIDs {
 enum solenoidIDs {
     kInnerIntakeSolenoid = 1,
     kOuterIntakeSolenoid = 2,
-    kClimbSolenoid = 5,
+    kClimbSolenoid = 3,
     kColorSolenoid = 6,
-    kAngleSolenoid1 = 3,
-    kAngleSolenoid2 = 4
+    kAngleSolenoid1 = 4,
+    kAngleSolenoid2 = 5
 };
 
 namespace DriveConstants {
@@ -80,8 +80,8 @@ constexpr int kFrontRightDriveEncoderPorts[2]{4, 5};
 constexpr int kRearRightDriveEncoderPorts[2]{5, 6};
 
 constexpr bool kFrontLeftDriveEncoderReversed = false;
-constexpr bool kRearLeftDriveEncoderReversed = true;
-constexpr bool kFrontRightDriveEncoderReversed = false;
+constexpr bool kRearLeftDriveEncoderReversed = false;
+constexpr bool kFrontRightDriveEncoderReversed = true;
 constexpr bool kRearRightDriveEncoderReversed = true;
 
 constexpr bool kGyroReversed = false;

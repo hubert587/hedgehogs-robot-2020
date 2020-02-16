@@ -95,8 +95,8 @@ void RobotContainer::ConfigureButtonBindings() {
     */ 
 
 
-    frc2::Button{[&] {return m_driverController.GetRawButton(4);}}.WhenPressed(&m_LowerAngle);
-    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_RaiseAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_LowerAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(4);}}.WhenPressed(&m_RaiseAngle);
     frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_fireAll);
 
     frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUp); 

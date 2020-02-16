@@ -8,7 +8,7 @@
 #include "subsystems/Blaster.h"
 
 Blaster::Blaster() {
-
+    m_LeftBlasterWheel.SetInverted(true);
 }
 
 void Blaster::Periodic() {

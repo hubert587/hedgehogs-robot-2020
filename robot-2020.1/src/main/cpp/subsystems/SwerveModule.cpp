@@ -22,6 +22,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_reverseTurningEncoder(turningEncoderReversed) {
 
       m_driveMotor.RestoreFactoryDefaults();
+      m_driveMotor.SetInverted(m_reverseDriveEncoder);
       
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
@@ -45,7 +46,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       
       m_turningPIDController.Reset();
       m_turningPIDController.EnableContinuousInput(-1 * wpi::math::pi, wpi::math::pi);
-      m_turningPIDController.SetTolerance(0.005);
+      m_turningPIDController.SetTolerance(0.1);
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
