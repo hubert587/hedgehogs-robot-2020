@@ -8,17 +8,18 @@
 #include "commands/DriveCommand.h"
 #include "Constants.h"
 
-DriveCommand::DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxController)
+DriveCommand::DriveCommand(DriveSubsystem* driveSubsystem, Joystick* joystick)
     : m_driveSubsystem{driveSubsystem},
-    m_xboxController{xboxController} {}
-    
+    m_joystick{joystick} {}
+    //m_xboxController{xboxController} {}
     
     
     void DriveCommand::Initialize() {}
     
     void DriveCommand::Execute() {
 
-        int targetYes = m_xboxController->GetAButton();
+        int targetYes = m_joystick->GetRawButton(1);
+        //int targetYes = m_xboxController->GetAButton();
 
         if(targetYes) {
 
@@ -27,15 +28,25 @@ DriveCommand::DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxC
 
         } else {
         
-        m_driveSubsystem->Drive(units::meters_per_second_t(
+        /*m_driveSubsystem->Drive(units::meters_per_second_t(
                           m_xboxController->GetY(frc::GenericHID::kLeftHand)),
                       units::meters_per_second_t(
                           m_xboxController->GetY(frc::GenericHID::kRightHand)),
                       units::radians_per_second_t(
                           m_xboxController->GetX(frc::GenericHID::kLeftHand)),
                         
-                      false);
-
+                      false);*/
+        
+        m_driveSubsystem->Drive(units::meters_per_second_t(
+                          m_joystick->GetRawAxis(0)),
+                      units::meters_per_second_t(
+                          m_joystick->GetRawAxis(1)),
+                      units::radians_per_second_t(
+                          m_joystick->GetRawAxis(2)),
+                        
+                      true);
+        
+        
         }
     }
 

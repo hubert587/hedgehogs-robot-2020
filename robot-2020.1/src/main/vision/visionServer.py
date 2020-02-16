@@ -16,7 +16,7 @@ import time
 import sys
 from threading import Thread
 
-from cscore import CameraServer, VideoSource
+from cscore import CameraServer, VideoSource, VideoMode, UsbCamera
 from networktables import NetworkTablesInstance
 import cv2
 import numpy as np
@@ -158,6 +158,7 @@ def extra_processing(pipeline):
     table.putNumber('distance', distance)
     table.putNumber('targetAngle', targetAngle)
     table.putBoolean('targetFound', targetFound)
+    table.putNumber('numContours', pipeline.filter_contours_output.__len__())
     #table.putNumberArray('x', center_x_positions)
     #table.putNumberArray('y', center_y_positions)
     #table.putNumberArray('width', widths)
@@ -168,7 +169,17 @@ def extra_processing(pipeline):
 def startCamera():
     print("Starting camera rPi on /dev/video0")
     cs = CameraServer.getInstance()
-    camera = cs.startAutomaticCapture(name="rPi Camera", path="/dev/video0")
+    camera = UsbCamera("rPi Camera", "/dev/video0")
+    #camera.setVideoMode(VideoMode.PixelFormat.kMJPEG, 320, 240, 60)
+    camera.setVideoMode(VideoMode.PixelFormat.kYUYV, 320, 240, 60)
+    #camera = cs.startAutomaticCapture(name="rPi Camera", path="/dev/video0")
+    server = cs.startAutomaticCapture(camera=camera, return_server=True)
+    server.setCompression(25)
+    server.setFPS(45)
+    #camera.setResolution(320,240)
+    #camera.setConfigJson(json.dumps(config.config))
+    camera.getProperty('color_effects').set(3)
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
     return cs, camera
 
 if __name__ == "__main__":
@@ -191,7 +202,7 @@ if __name__ == "__main__":
     # Allocating new images is very expensive, always try to preallocate
     img = np.zeros(shape=(image_height, image_width, 3), dtype=np.uint8)
     #Start thread outputing stream
-    streamViewer = VideoShow(image_width,image_height, cameraServer, frame=img, name="Vision").start()
+    #streamViewer = VideoShow(image_width,image_height, cameraServer, frame=img, name="Vision").start()
 
     print('Creating pipeline')
     pipeline = GripPipeline()
@@ -205,7 +216,7 @@ if __name__ == "__main__":
 
         if timestamp == 0:
             # Send the output the error.
-            streamViewer.notifyError(cap.getError());
+            #streamViewer.notifyError(cap.getError());
             # skip the rest of the current iteration
             continue
 
