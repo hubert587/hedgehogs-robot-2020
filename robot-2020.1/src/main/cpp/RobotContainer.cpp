@@ -93,6 +93,12 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_codriverController, 11).WhenPressed(&m_DeployClimber);
     frc2::JoystickButton(&m_codriverController, 12).WhenPressed(&m_UndeployClimber);
     */ 
+
+
+    frc2::Button{[&] {return m_driverController.GetRawButton(4);}}.WhenPressed(&m_LowerAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_RaiseAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_fireAll);
+
     frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUp); 
     frc2::Button{[&] {return m_codriverController.GetRawButton(3);}}.WhenPressed(&m_PowerDown); 
     frc2::Button{[&] {return m_codriverController.GetRawButton(7);}}.WhenPressed(&m_AutoShoot); 
