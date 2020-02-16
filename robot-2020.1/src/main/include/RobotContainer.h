@@ -38,7 +38,10 @@
 #include "commands/SpinWheel3.h"
 #include <wpi/math>
 
+#include <ntcore.h>
+#include <networktables/NetworkTable.h>
 
+using std::shared_ptr;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -60,6 +63,13 @@ class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   //////////////////////////////////////////////////////////////////
+
+  // Create JD
+  
+  
+  
+  shared_ptr<NetworkTable> m_vision;
+  
 
   // The robot's subsystems
   DriveSubsystem m_drive;

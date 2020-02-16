@@ -21,10 +21,22 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 
+#include <ntcore.h>
+#include <networktables/NetworkTable.h>
+
+
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
+
+
+    NetworkTable::SetClientMode();
+    NetworkTable::SetTeam(587);
+    NetworkTable::SetIPAddress("roborio-587-frc" ); /*we don't know if this is right */
+    NetworkTable::Initialize();
+    m_vision = NetworkTable::GetTable("Vision");
+
 
   // Configure the button bindings
   ConfigureButtonBindings();
