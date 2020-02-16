@@ -62,8 +62,8 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          //frc::Rotation2d(units::degree_t(GetHeading())))
-                          frc::Rotation2d(units::degree_t(0)))
+                          frc::Rotation2d(units::degree_t(GetHeading())))
+                          //frc::Rotation2d(units::degree_t(0)))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
   kDriveKinematics.NormalizeWheelSpeeds(&states, AutoConstants::kMaxSpeed);
