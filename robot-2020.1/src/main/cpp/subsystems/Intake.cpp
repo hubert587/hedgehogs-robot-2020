@@ -43,7 +43,7 @@ void Intake::AdjustIntake(int adjustIntake) {
 }
 
 void Intake::ShootingIntakePositioning() {
-  if (intakeTracker == 2) {
+  if (intakeTracker == 0) {
     AdjustIntake(1);
   }
 }

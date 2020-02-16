@@ -158,6 +158,7 @@ def extra_processing(pipeline):
     table.putNumber('distance', distance)
     table.putNumber('targetAngle', targetAngle)
     table.putBoolean('targetFound', targetFound)
+    table.putNumber('numContours', pipeline.filter_contours_output.__len__())
     #table.putNumberArray('x', center_x_positions)
     #table.putNumberArray('y', center_y_positions)
     #table.putNumberArray('width', widths)
