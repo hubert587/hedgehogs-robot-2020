@@ -44,7 +44,7 @@ DriveCommand::DriveCommand(DriveSubsystem* driveSubsystem, Joystick* joystick)
                       units::radians_per_second_t(
                           m_joystick->GetRawAxis(2)),
                         
-                      true);
+                      false);
         
         
         }
