@@ -31,4 +31,7 @@ class Blaster : public frc2::SubsystemBase{
   WPI_TalonSRX m_LeftBlasterWheel{ canIDs::kLeftBlasterWheelCanID };
   WPI_TalonSRX m_RightBlasterWheel{ canIDs::kRightBlasterWheelCanID };
   frc::DoubleSolenoid m_AngleSolenoid{solenoidIDs::kAngleSolenoid1, solenoidIDs::kAngleSolenoid2};
+
+  
+
 };
