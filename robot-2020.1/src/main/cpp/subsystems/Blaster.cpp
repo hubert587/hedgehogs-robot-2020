@@ -8,14 +8,25 @@
 #include "subsystems/Blaster.h"
 
 Blaster::Blaster() {
-
+    m_LeftBlasterWheel.SetInverted(true);
 }
 
 void Blaster::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
-void Blaster::BlasterSpeed(double speed) {
-  m_LeftBlasterWheel.Set (speed);
-  m_RightBlasterWheel.Set (speed);
+void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
+  m_LeftBlasterWheel.Set(leftSpeed);
+  m_RightBlasterWheel.Set(rightSpeed);
 }
+
+void Blaster::AngleChange(bool angledUp) {
+  if (angledUp == true) {
+    m_AngleSolenoid.Set(frc::DoubleSolenoid::kForward);
+  } else {
+    m_AngleSolenoid.Set(frc::DoubleSolenoid::kReverse);
+  }
+  
+}
+
+//add angle adjustment

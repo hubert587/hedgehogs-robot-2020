@@ -7,6 +7,7 @@
 
 #include "commands/SpinToColor.h"
 #include "Robot.h"
+#include "Constants.h"
 
 SpinToColor::SpinToColor(WheelOfFortune* SpinWheel): m_colorWheel{SpinWheel} {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -14,20 +15,37 @@ SpinToColor::SpinToColor(WheelOfFortune* SpinWheel): m_colorWheel{SpinWheel} {
 
 // Called when the command is initially scheduled.
 void SpinToColor::Initialize() {
-  m_colorWheel->SpinToColorInit();
+  m_colorWheel->DeployWheel();
+  m_colorWheel->StartWheel();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void SpinToColor::Execute() {
-  m_colorWheel->SpinToColor();
+
 } 
 
 // Called once the command ends or is interrupted.
 void SpinToColor::End(bool interrupted) {
-//Retract Arm
+  m_colorWheel->StopWheel();
+  m_colorWheel->RetractWheel();
 }
 
 // Returns true when the command should end.
 bool SpinToColor::IsFinished() { 
-  return m_colorWheel->IsDone(); 
+  std::string Goal = frc::SmartDashboard::GetString("Color Defined", "R");
+  int CurrentColorValue = m_colorWheel->GetColor();
+  std::string CurrentColor = m_colorWheel->ConvertColor(CurrentColorValue);
+    if (Goal == "Y" && CurrentColor == "G") {
+      return true;
+    }
+    if (Goal == "B" && CurrentColor == "R") {
+      return true;
+    }
+    if (Goal == "G" && CurrentColor == "Y") {
+      return true;
+    }
+    if (Goal == "R" && CurrentColor == "B") {
+      return true;
+    } 
+    return false;
 }

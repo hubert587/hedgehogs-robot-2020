@@ -9,7 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/WheelOfFortune.h>
+#include <subsystems/GrapplingHook.h>
 
 /**
  * An example command.
@@ -18,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SpinWheel3
-    : public frc2::CommandHelper<frc2::CommandBase, SpinWheel3> {
+class ClimbControl
+    : public frc2::CommandHelper<frc2::CommandBase, ClimbControl> {
  public:
-  SpinWheel3(WheelOfFortune* SpinWheel);
+  ClimbControl();
 
   void Initialize() override;
 
@@ -30,9 +30,4 @@ class SpinWheel3
   void End(bool interrupted) override;
 
   bool IsFinished() override;
- private:
-  WheelOfFortune* m_colorWheel;
-  bool Done = false;
-  int RedCount = 0;
-  bool OnRed = false;
 };

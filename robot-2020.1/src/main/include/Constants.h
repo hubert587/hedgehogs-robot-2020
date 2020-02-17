@@ -8,8 +8,10 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/trajectory/TrapezoidProfile.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <units/units.h>
 #include <wpi/math>
+//#include <rev/ColorSensorV3.h> 
 
 #pragma once
 
@@ -30,19 +32,25 @@ enum canIDs {
     kFrontRightTurnCanID = 6,
     kRearRightDriveCanID = 7,
     kRearRightTurnCanID = 8,
-    kColorWheelCanID = 9,
-    kOuterIntakeMotorCanID = 10,
-    kInnerIntakeMotorCanID = 11,
-    kHopperMotorCanID = 12,
+    kOuterIntakeMotorCanID = 9,
+    kInnerIntakeMotorCanID = 10,
+    kHopperMotorCanID = 11,
     kLeftBlasterWheelCanID = 13,
-    kRightBlasterWheelCanID = 14,
+    kRightBlasterWheelCanID = 12,
     kClimberLeftMptorCanID = 15,
     kClimberRightMotorCanID = 16,
-    kClimberAdjustmentMotorCanID = 17
+    kClimberAdjustmentMotorCanID = 17,
+    kColorWheelCanID = 18
+
 };
 
 enum solenoidIDs {
-    kExtendIntakeSolenoid = 1
+    kInnerIntakeSolenoid = 1,
+    kOuterIntakeSolenoid = 2,
+    kClimbSolenoid = 3,
+    kColorSolenoid = 6,
+    kAngleSolenoid1 = 4,
+    kAngleSolenoid2 = 5
 };
 
 namespace DriveConstants {
@@ -72,8 +80,8 @@ constexpr int kFrontRightDriveEncoderPorts[2]{4, 5};
 constexpr int kRearRightDriveEncoderPorts[2]{5, 6};
 
 constexpr bool kFrontLeftDriveEncoderReversed = false;
-constexpr bool kRearLeftDriveEncoderReversed = true;
-constexpr bool kFrontRightDriveEncoderReversed = false;
+constexpr bool kRearLeftDriveEncoderReversed = false;
+constexpr bool kFrontRightDriveEncoderReversed = true;
 constexpr bool kRearRightDriveEncoderReversed = true;
 
 constexpr bool kGyroReversed = false;
@@ -95,6 +103,7 @@ constexpr double kPRearRightVel = 0.5;
 }  // namespace DriveConstants
 
 namespace ModuleConstants {
+constexpr double kDriveEncoderVelocityConversionFactor = 1/3;
 constexpr int kEncoderCPR = 1024;
 constexpr double kWheelDiameterMeters = .15;
 constexpr double kDriveEncoderDistancePerPulse =
@@ -132,6 +141,9 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 }  // namespace AutoConstants
 
 namespace OIConstants {
-constexpr int kDriverControllerPort = 1;
-constexpr int CoDriver = 2;
+constexpr int kDriverControllerPort = 0;
+constexpr int CoDriver = 1;
 }  // namespace OIConstants
+
+
+

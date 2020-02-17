@@ -15,16 +15,28 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
-#include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/Button.h>
 #include <units/units.h>
-
+#include <frc/Joystick.h>
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+
+#include <ntcore.h>
+#include <networktables/NetworkTable.h>
+
 
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
+
+
+    NetworkTable::SetClientMode();
+    NetworkTable::SetTeam(587);
+    NetworkTable::SetIPAddress("roborio-587-frc" ); /*we don't know if this is right */
+    NetworkTable::Initialize();
+    m_vision = NetworkTable::GetTable("Vision");
+
 
   // Configure the button bindings
   ConfigureButtonBindings();
@@ -32,19 +44,43 @@ RobotContainer::RobotContainer() {
   // Set up default drive command
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        m_drive.Drive(units::meters_per_second_t(
+        /*m_drive.Drive(units::meters_per_second_t(
                           m_driverController.GetY(frc::GenericHID::kLeftHand)),
                       units::meters_per_second_t(
                           m_driverController.GetY(frc::GenericHID::kRightHand)),
                       units::radians_per_second_t(
                           m_driverController.GetX(frc::GenericHID::kLeftHand)),
-                      false);
+                      false);*/
+        frc::SmartDashboard::PutNumber("x_axis", m_driverController.GetRawAxis(0));
+        frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
+        frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
+
+
+        m_drive.Drive(units::meters_per_second_t(     
+                            m_driverController.GetRawAxis(0)),
+                      units::meters_per_second_t(
+                          m_driverController.GetRawAxis(1)),
+                      units::radians_per_second_t(
+                          m_driverController.GetRawAxis(2)),
+                        
+                      false);   
+     
+     
       },
       {&m_drive}));
+
+    m_hopper.SetDefaultCommand(frc2::RunCommand (
+        [this] {
+            m_hopper.AutoHopper();
+        },   
+    {&m_hopper}));
+    
 }
 
+
+
 void RobotContainer::ConfigureButtonBindings() {
-    frc2::JoystickButton(&m_codriverController, 1).WhenPressed(&m_PowerUp); 
+    /*frc2::JoystickButton(&m_codriverController, 1).WhenPressed(&m_PowerUp); 
     frc2::JoystickButton(&m_codriverController, 3).WhenPressed(&m_PowerDown); 
     frc2::JoystickButton(&m_codriverController, 7).WhenPressed(&m_AutoShoot); 
     frc2::JoystickButton(&m_codriverController, 8).WhenPressed(&m_ManualShoot);  
@@ -52,8 +88,29 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_codriverController, 2).WhenPressed(&m_Spin3times);
     frc2::JoystickButton(&m_codriverController, 5).WhenPressed(&m_ExtendIntake);
     frc2::JoystickButton(&m_codriverController, 6).WhenPressed(&m_RetractIntake);
-    frc2::JoystickButton(&m_codriverController, 9).WhenPressed(&m_ReverseIntake).WhenReleased(&m_UnreverseIntake);
+    frc2::JoystickButton(&m_codriverController, 9).WhenPressed(&m_ReverseIntake).WhenReleased(&m_StartIntake);
     frc2::JoystickButton(&m_codriverController, 10).WhenPressed(&m_HopperStart).WhenReleased(&m_HopperStop);
+    frc2::JoystickButton(&m_codriverController, 11).WhenPressed(&m_DeployClimber);
+    frc2::JoystickButton(&m_codriverController, 12).WhenPressed(&m_UndeployClimber);
+    */ 
+
+
+    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_LowerAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(4);}}.WhenPressed(&m_RaiseAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_fireAll);
+
+    frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUp); 
+    frc2::Button{[&] {return m_codriverController.GetRawButton(3);}}.WhenPressed(&m_PowerDown); 
+    frc2::Button{[&] {return m_codriverController.GetRawButton(7);}}.WhenPressed(&m_AutoShoot); 
+    frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_ManualShoot);  
+    frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_GoToColor);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(2);}}.WhenPressed(&m_Spin3times);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(5);}}.WhenPressed(&m_StartIntake);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(6);}}.WhenPressed(&m_StopIntake);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_ReverseIntake).WhenReleased(&m_StartIntake);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(10);}}.WhenPressed(&m_HopperStart).WhenReleased(&m_HopperStop);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(11);}}.WhenPressed(&m_DeployClimber);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(12);}}.WhenPressed(&m_UndeployClimber);
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

@@ -12,6 +12,7 @@
 #include <ctre/Phoenix.h>
 #include <rev/ColorSensorV3.h>
 #include <frc/smartdashboard/smartdashboard.h>
+#include <frc/Solenoid.h> 
 #include <iostream>
 #include <string>
 
@@ -20,15 +21,23 @@ class WheelOfFortune : public frc2::SubsystemBase {
  public:
   WheelOfFortune();
 
+  frc::Color kColorCodes[4] = {
+      frc::Color(.42, .50, .08),
+      frc::Color(.61, .32, .07),
+      frc::Color(.24, .57, .19),
+      frc::Color(.19, .38, .34),
+  };
+  double kColorTolerance = .8; 
     /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
-  void SpinToColorInit();
-  void SpinToColor();
-  void SpinWheel3Init();
-  void SpinWheel3();
-  bool IsDone();
+  int GetColor();
+  std::string ConvertColor(int colorIndex);
+  void StartWheel();
+  void StopWheel();
+  void DeployWheel();
+  void RetractWheel();
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -36,12 +45,7 @@ class WheelOfFortune : public frc2::SubsystemBase {
   //spinner
 
   //color detector
-  bool done = false;
-  int RedCount = 0;
-  bool onRed = false;
-  std::string Goal = "R";
-  std::string Current = "R";
-  WPI_TalonSRX m_motor{kColorWheelCanID};
-  static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
-  rev::ColorSensorV3 m_colorSensor{i2cPort};
+  WPI_TalonSRX m_motor { kColorWheelCanID };
+  rev::ColorSensorV3 m_colorSensor { frc::I2C::Port::kOnboard };
+  frc::Solenoid m_colorSolenoid { solenoidIDs::kColorSolenoid };
 };

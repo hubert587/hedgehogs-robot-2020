@@ -5,24 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ChargeLaser.h"
+#include "commands/ClimbControl.h"
 
-ChargeLaser::ChargeLaser(Blaster* blaster): m_blaster{blaster} {
+ClimbControl::ClimbControl() {
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-//deploy
-void ChargeLaser::Initialize() {
-  m_blaster->BlasterSpeed(1, 1);
-}
+void ClimbControl::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-//start
-void ChargeLaser::Execute() {}
+void ClimbControl::Execute() {}
 
 // Called once the command ends or is interrupted.
-void ChargeLaser::End(bool interrupted) {}
+void ClimbControl::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool ChargeLaser::IsFinished() { return true; }
+bool ClimbControl::IsFinished() { return false; }

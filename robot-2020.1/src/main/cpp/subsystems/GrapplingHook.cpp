@@ -18,11 +18,12 @@ void GrapplingHook::Periodic() {
 void GrapplingHook::GrapplingHookSpeed(double speed) {
   m_ClimberLeftMotor.Set (speed);
   m_ClimberRightMotor.Set (speed);
-
 }
 
 void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {
   m_ClimberAdjustmentMotor.Set (speed);
-
 }
 
+void GrapplingHook::Deploy(bool deploy) {
+  m_ClimbSolenoid.Set(deploy);
+}

@@ -17,6 +17,9 @@
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/WaitCommand.h>
+#include <units/units.h>
+#include <frc/geometry/Rotation2d.h>
 
 #include "Constants.h"
 
@@ -33,7 +36,13 @@
 #include "commands/ManualFireLaser.h"
 #include "commands/SpinToColor.h"
 #include "commands/SpinWheel3.h"
+#include <wpi/math>
 
+#include <ntcore.h>
+#include <networktables/NetworkTable.h>
+#include <frc/Joystick.h>
+
+using std::shared_ptr;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -50,11 +59,22 @@ class RobotContainer {
 
  private:
   // The driver's controller
-  frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
-  frc::XboxController m_codriverController{OIConstants::CoDriver};
+  //frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
+  //frc::XboxController m_codriverController{OIConstants::CoDriver};
+
+  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
+  frc::Joystick m_codriverController{OIConstants::CoDriver};
+
 
   // The robot's subsystems and commands are defined here...
   //////////////////////////////////////////////////////////////////
+
+  // Create JD
+  
+  
+  
+  shared_ptr<NetworkTable> m_vision;
+  
 
   // The robot's subsystems
   DriveSubsystem m_drive;
@@ -71,24 +91,39 @@ class RobotContainer {
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
   SpinWheel3 m_Spin3times{&m_colorWheel};
-  frc2::InstantCommand m_ExtendIntake{[this] { m_collect.StartIntake(); }, {&m_collect}};
-  frc2::InstantCommand m_RetractIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
+  frc2::InstantCommand m_StartIntake{[this] { m_collect.StartIntake(); }, {&m_collect}};
   frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
-  frc2::InstantCommand m_UnreverseIntake{[this] { m_collect.IntakeSpeed(0.5); }, {&m_collect}};
+  frc2::InstantCommand m_StopIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
+  frc2::InstantCommand m_RetractIntake{[this] { m_collect.AdjustIntake(0); }, {&m_collect}};
+  frc2::InstantCommand m_HalfExtendIntake{[this] { m_collect.AdjustIntake(1); }, {&m_collect}};
+  frc2::InstantCommand m_ExtendIntake{[this] { m_collect.AdjustIntake(2); }, {&m_collect}};
+  frc2::InstantCommand m_PositionIntake{[this] { m_collect.ShootingIntakePositioning(); }, {&m_collect}};
+  frc2::InstantCommand m_DeployClimber{[this] {m_grapplingHook.Deploy(true); }, {&m_grapplingHook}};
+  frc2::InstantCommand m_UndeployClimber{[this] {m_grapplingHook.Deploy(false); }, {&m_grapplingHook}};
+  frc2::InstantCommand m_DriveReverse{[this] {m_drive.Drive(units::meters_per_second_t (0),units::meters_per_second_t (-1),units::radians_per_second_t (0), true); }, {&m_drive}};
+  frc2::InstantCommand m_RaiseAngle{[this] {m_blaster.AngleChange(true); }, {&m_blaster}};
+  frc2::InstantCommand m_LowerAngle{[this] {m_blaster.AngleChange(false); }, {&m_blaster}};
 
   //hopper - need new subsystem for this
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
 
   //blaster
-  frc2::SequentialCommandGroup fireAll(
-    //m_PowerUp,
-    ChargeLaser(&m_blaster),
-    DechargeLaser(&m_blaster)   
-    //m_HopperStart, 
-    //m_HopperStop 
-  );
-    
+  frc2::InstantCommand m_StartBlaster{[this] {m_blaster.BlasterSpeed(1, 1); }, {&m_blaster}};
+  frc2::InstantCommand m_StopBlaster{[this] {m_blaster.BlasterSpeed(0, 0); }, {&m_blaster}};
+  frc2::SequentialCommandGroup Start {
+    m_StartBlaster,
+    frc2::WaitCommand{units::second_t(3)}
+  };
+  frc2::SequentialCommandGroup m_fireAll {
+    m_PositionIntake,
+    m_PowerUp,
+    frc2::WaitCommand{units::second_t(1)},
+    m_HopperStart,
+    frc2::WaitCommand{units::second_t(4)},
+    m_HopperStop,
+    m_PowerDown
+  };
 
   //intake
 

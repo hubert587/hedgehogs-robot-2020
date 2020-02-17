@@ -9,30 +9,42 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/WheelOfFortune.h>
-
+#include <frc/Joystick.h>
+#include "subsystems/DriveSubsystem.h"
+#include <frc/XboxController.h>
 /**
- * An example command.
+ * An example command that uses an example subsystem.
  *
  * <p>Note that this extends CommandHelper, rather extending CommandBase
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SpinWheel3
-    : public frc2::CommandHelper<frc2::CommandBase, SpinWheel3> {
+class DriveCommand
+    : public frc2::CommandHelper<frc2::CommandBase, DriveCommand> {
  public:
-  SpinWheel3(WheelOfFortune* SpinWheel);
+  /**
+   * Creates a new DriveCommand.
+   *
+   * @param driveSubsystem The subsystem used by this command.
+   */
+  //explicit DriveCommand(DriveSubsystem* driveSubsystem, XboxController* xboxController);
+  explicit DriveCommand(DriveSubsystem* driveSubsystem, Joystick* joystick);
 
-  void Initialize() override;
+    void Initialize() override;
+    
+    void Execute() override;
 
-  void Execute() override;
+    void End(bool interrupted) override;
 
-  void End(bool interrupted) override;
+    bool IsFinished() override;
 
-  bool IsFinished() override;
+
+
  private:
-  WheelOfFortune* m_colorWheel;
-  bool Done = false;
-  int RedCount = 0;
-  bool OnRed = false;
+  DriveSubsystem* m_driveSubsystem;
+
+  //XboxController* m_xboxController;
+  Joystick* m_joystick;
 };
+
+

@@ -9,30 +9,45 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/WheelOfFortune.h>
+
+#include "subsystems/DriveSubsystem.h"
 
 /**
- * An example command.
+ * An example command that uses an example subsystem.
  *
  * <p>Note that this extends CommandHelper, rather extending CommandBase
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SpinWheel3
-    : public frc2::CommandHelper<frc2::CommandBase, SpinWheel3> {
+class AutoAimCommand
+    : public frc2::CommandHelper<frc2::CommandBase, AutoAimCommand> {
  public:
-  SpinWheel3(WheelOfFortune* SpinWheel);
+  /**
+   * Creates a new AutoAimCommand
+   *
+   * @param driveSubsystem The subsystem used by this command.
+   */
+  explicit AutoAimCommand(DriveSubsystem* driveSubsystem);
 
-  void Initialize() override;
+    void Initialize() override;
+    
+    void Execute() override;
 
-  void Execute() override;
+    void End(bool interrupted) override;
 
-  void End(bool interrupted) override;
+    bool IsFinished() override;
 
-  bool IsFinished() override;
+    void SetTurnAngle(double angle) {m_turnAngle = angle;};
+
+    double GetTurnAngle() {return m_turnAngle;};
+
  private:
-  WheelOfFortune* m_colorWheel;
-  bool Done = false;
-  int RedCount = 0;
-  bool OnRed = false;
+  DriveSubsystem* m_driveSubsystem;
+
+  double m_turnAngle;
+
+  double m_startAngle;
+
+  double m_turnRate;
+
 };
