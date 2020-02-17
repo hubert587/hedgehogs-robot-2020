@@ -86,7 +86,7 @@ class RobotContainer {
 
   // The robot's commands
   AutoFireLaser m_AutoShoot;
-  ChargeLaser m_PowerUp{&m_blaster};
+  ChargeLaser m_PowerUpBlaster{&m_blaster};
   DechargeLaser m_PowerDown{&m_blaster};
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
@@ -97,7 +97,7 @@ class RobotContainer {
   frc2::InstantCommand m_RetractIntake{[this] { m_collect.AdjustIntake(0); }, {&m_collect}};
   frc2::InstantCommand m_HalfExtendIntake{[this] { m_collect.AdjustIntake(1); }, {&m_collect}};
   frc2::InstantCommand m_ExtendIntake{[this] { m_collect.AdjustIntake(2); }, {&m_collect}};
-  frc2::InstantCommand m_PositionIntake{[this] { m_collect.ShootingIntakePositioning(); }, {&m_collect}};
+  frc2::InstantCommand m_PositionIntakeHalf{[this] { m_collect.ShootingIntakePositioning(); }, {&m_collect}};
   frc2::InstantCommand m_DeployClimber{[this] {m_grapplingHook.Deploy(true); }, {&m_grapplingHook}};
   frc2::InstantCommand m_UndeployClimber{[this] {m_grapplingHook.Deploy(false); }, {&m_grapplingHook}};
   frc2::InstantCommand m_DriveReverse{[this] {m_drive.Drive(units::meters_per_second_t (0),units::meters_per_second_t (-1),units::radians_per_second_t (0), true); }, {&m_drive}};
@@ -117,8 +117,8 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(3)}
   };
   frc2::SequentialCommandGroup m_fireAll {
-    m_PositionIntake,
-    m_PowerUp,
+    m_PositionIntakeHalf,
+    m_PowerUpBlaster,
     frc2::WaitCommand{units::second_t(1)},
     m_HopperStart,
     frc2::WaitCommand{units::second_t(4)},
