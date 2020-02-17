@@ -43,7 +43,7 @@ DriveSubsystem::DriveSubsystem()
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
+  m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())),
                     m_frontLeft.GetState(), m_rearLeft.GetState(),
                     m_frontRight.GetState(), m_rearRight.GetState());
 }
