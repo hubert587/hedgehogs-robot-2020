@@ -37,7 +37,7 @@
 #include "commands/SpinToColor.h"
 #include "commands/SpinWheel3.h"
 #include <wpi/math>
-
+#include <commands/DriveCommand.h>
 #include <ntcore.h>
 #include <networktables/NetworkTable.h>
 #include <frc/Joystick.h>
@@ -56,7 +56,7 @@ class RobotContainer {
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
-
+  
  private:
   // The driver's controller
   //frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
@@ -104,6 +104,7 @@ class RobotContainer {
   frc2::InstantCommand m_RaiseAngle{[this] {m_blaster.AngleChange(true); }, {&m_blaster}};
   frc2::InstantCommand m_LowerAngle{[this] {m_blaster.AngleChange(false); }, {&m_blaster}};
 
+  DriveCommand m_DriveCommand;
   //hopper - need new subsystem for this
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
