@@ -17,8 +17,10 @@ Hopper::Hopper() {
 void Hopper::Periodic() {}
 
 void Hopper::HopperSpeed(double speed) {
+  if(speed > 0) {
+    speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.5);
+  }
   m_HopperMotor.Set(speed);
-
 }
 
 void Hopper::AutoHopper(){

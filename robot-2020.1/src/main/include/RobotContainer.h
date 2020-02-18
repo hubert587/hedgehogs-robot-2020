@@ -107,7 +107,7 @@ class RobotContainer {
   DriveCommand m_DriveCommand;
   //hopper - need new subsystem for this
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
-   frc2::InstantCommand m_HopperReverse{[this] {m_hopper.HopperSpeed(-1); }, {&m_hopper}};
+  frc2::InstantCommand m_HopperReverse{[this] {m_hopper.HopperSpeed(-1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
 
   //blaster

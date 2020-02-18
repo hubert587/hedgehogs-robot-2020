@@ -43,9 +43,9 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
 
   // Set up default drive command
   
-  m_drive.SetDefaultCommand(m_DriveCommand);
+  //m_drive.SetDefaultCommand(m_DriveCommand);
   
-  /*m_drive.SetDefaultCommand(frc2::RunCommand(
+  m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
         m_drive.Drive(units::meters_per_second_t(
                           m_driverController.GetY(frc::GenericHID::kLeftHand)),
@@ -54,9 +54,9 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
                       units::radians_per_second_t(
                           m_driverController.GetX(frc::GenericHID::kLeftHand)),
                       false);
-        frc::SmartDashboard::PutNumber("x_axis", m_driverController.GetRawAxis(0));
-        frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
-        frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
+        //frc::SmartDashboard::PutNumber("x_axis", m_driverController.GetRawAxis(0));
+        //frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
+        //frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
 
 
         m_drive.Drive(units::meters_per_second_t(     
@@ -70,7 +70,7 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
      
      
       },
-      {&m_drive})); */
+      {&m_drive}));
 
     m_hopper.SetDefaultCommand(frc2::RunCommand (
         [this] {
@@ -103,7 +103,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_driverController.GetRawButton(7);}}.WhenPressed(&m_fireAll);
 
     //frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUpBlaster); 
-    //frc2::Button{[&] {return m_codriverController.GetRawButton(3);}}.WhenPressed(&m_PowerDown); 
+    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_PowerDown); 
     //frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_ManualShoot);  
     //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_GoToColor);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(2);}}.WhenPressed(&m_Spin3times);
