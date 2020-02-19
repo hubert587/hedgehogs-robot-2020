@@ -19,10 +19,11 @@ void Blaster::Periodic() {
 }
 
 void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
+  
+  leftSpeed = frc::SmartDashboard::GetNumber("Left Blaster", 1);
+  rightSpeed = frc::SmartDashboard::GetNumber("Right Blaster", 1);
   m_LeftBlasterWheel.Set(leftSpeed);
   m_RightBlasterWheel.Set(rightSpeed);
-  frc::SmartDashboard::PutNumber("Left Blaster", leftSpeed);
-  frc::SmartDashboard::PutNumber("Right Blaster", rightSpeed);
 }
 
 void Blaster::AngleChange(bool angledUp) {

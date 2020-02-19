@@ -120,9 +120,9 @@ class RobotContainer {
   frc2::SequentialCommandGroup m_fireAll {
     m_PositionIntakeHalf,
     m_PowerUpBlaster,
-    frc2::WaitCommand{units::second_t(1)},
+    frc2::WaitCommand{units::second_t(2)},
     m_HopperStart,
-    frc2::WaitCommand{units::second_t(4)},
+    frc2::WaitCommand{units::second_t(10)},
     m_HopperStop,
     m_PowerDown
   };
