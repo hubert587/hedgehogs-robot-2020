@@ -94,7 +94,8 @@ void DriveSubsystem::ResetEncoders() {
 }
 
 double DriveSubsystem::GetHeading() {
-  return std::remainder(m_NavX.GetAngle(), 360) * (kGyroReversed ? -1. : 1.);
+  double degrees = std::remainder(m_NavX.GetAngle(), 360) * (kGyroReversed ? -1. : 1.);
+  return (degrees * wpi::math::pi) / 180.0;
 }
 
 void DriveSubsystem::ZeroHeading() { m_NavX.ZeroYaw(); }

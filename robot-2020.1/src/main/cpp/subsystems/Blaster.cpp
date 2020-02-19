@@ -6,9 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Blaster.h"
+#include <frc/shuffleboard/Shuffleboard.h>
 
 Blaster::Blaster() {
     m_LeftBlasterWheel.SetInverted(true);
+    frc::SmartDashboard::PutNumber("Left Blaster", 0.5);
+    frc::SmartDashboard::PutNumber("Right Blaster", 0.5);
 }
 
 void Blaster::Periodic() {
@@ -16,6 +19,9 @@ void Blaster::Periodic() {
 }
 
 void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
+  
+  leftSpeed = frc::SmartDashboard::GetNumber("Left Blaster", 1);
+  rightSpeed = frc::SmartDashboard::GetNumber("Right Blaster", 1);
   m_LeftBlasterWheel.Set(leftSpeed);
   m_RightBlasterWheel.Set(rightSpeed);
 }
