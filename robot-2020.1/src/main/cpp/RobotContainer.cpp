@@ -53,7 +53,7 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
                           m_driverController.GetY(frc::GenericHID::kRightHand)),
                       units::radians_per_second_t(
                           m_driverController.GetX(frc::GenericHID::kLeftHand)),
-                      false);
+                      true);
         //frc::SmartDashboard::PutNumber("x_axis", m_driverController.GetRawAxis(0));
         //frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
         //frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
