@@ -58,7 +58,7 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
         //frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
         //frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
 
-
+/*
         m_drive.Drive(units::meters_per_second_t(     
                             m_driverController.GetRawAxis(0)),
                       units::meters_per_second_t(
@@ -67,7 +67,7 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
                           m_driverController.GetRawAxis(2)),
                         
                       false);   
-     
+     */
      
       },
       {&m_drive}));

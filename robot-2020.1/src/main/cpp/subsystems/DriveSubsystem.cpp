@@ -33,7 +33,7 @@ DriveSubsystem::DriveSubsystem()
           kRearRightDriveEncoderReversed, kRearRightTurningEncoderReversed},
 
       m_odometry{kDriveKinematics,
-                 frc::Rotation2d(units::degree_t(GetHeading())),
+                 frc::Rotation2d(units::radian_t(GetHeading())),
                  frc::Pose2d()} {
                    
                    
@@ -44,7 +44,7 @@ DriveSubsystem::DriveSubsystem()
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
+  m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())),
                     m_frontLeft.GetState(), m_rearLeft.GetState(),
                     m_frontRight.GetState(), m_rearRight.GetState());
 }
@@ -62,7 +62,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          frc::Rotation2d(units::degree_t(GetHeading())))
+                          frc::Rotation2d(units::radian_t(GetHeading())))
                           //frc::Rotation2d(units::degree_t(0)))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 

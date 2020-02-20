@@ -34,7 +34,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_drivePIDController.SetD(driveD);
       m_drivePIDController.SetIZone(driveIz);  
       m_drivePIDController.SetFF(driveFF); 
-      m_drivePIDController.SetOutputRange(-0.25, 0.25); 
+      m_drivePIDController.SetOutputRange(-1, 1); 
       // I have crippled the robot
 
       m_turningMotor.RestoreFactoryDefaults();
