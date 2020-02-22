@@ -109,6 +109,7 @@ class RobotContainer {
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperReverse{[this] {m_hopper.HopperSpeed(-1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
+  frc2::InstantCommand m_DriveSlow{[this] {m_drive.ToggleSlow(); }, {&m_drive}};
 
   //blaster
   frc2::InstantCommand m_StartBlaster{[this] {m_blaster.BlasterSpeed(1, 1); }, {&m_blaster}};
