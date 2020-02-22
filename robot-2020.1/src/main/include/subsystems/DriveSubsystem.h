@@ -98,18 +98,24 @@ class DriveSubsystem : public frc2::SubsystemBase {
       0.6604_m;  // Distance between centers of front and back wheels on robot
 
   frc::SwerveDriveKinematics<4> kDriveKinematics{
+      frc::Translation2d(-kTrackWidth / 2, kWheelBase / 2),
+      frc::Translation2d(kTrackWidth / 2, kWheelBase / 2),
+      frc::Translation2d(-kTrackWidth / 2, -kWheelBase / 2),
+      frc::Translation2d(kTrackWidth / 2, -kWheelBase / 2)};
+  /*    
+  frc::SwerveDriveKinematics<4> kDriveKinematics{
       frc::Translation2d(kWheelBase / 2, kTrackWidth / 2),
       frc::Translation2d(kWheelBase / 2, -kTrackWidth / 2),
       frc::Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-      frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};
+      frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};*/
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
   SwerveModule m_frontLeft;
+  SwerveModule m_frontRight; 
   SwerveModule m_rearLeft;
-  SwerveModule m_frontRight;
   SwerveModule m_rearRight;
 
   // The gyro sensor

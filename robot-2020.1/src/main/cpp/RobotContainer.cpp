@@ -44,31 +44,20 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
   // Set up default drive command
   
   //m_drive.SetDefaultCommand(m_DriveCommand);
-  
+
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        m_drive.Drive(units::meters_per_second_t(
-                          m_driverController.GetY(frc::GenericHID::kLeftHand)),
-                      units::meters_per_second_t(
-                          m_driverController.GetY(frc::GenericHID::kRightHand)),
-                      units::radians_per_second_t(
-                          m_driverController.GetX(frc::GenericHID::kLeftHand)),
+        double x = m_driverController.GetRawAxis(0);
+        double y = -m_driverController.GetRawAxis(1);
+        double r = -m_driverController.GetRawAxis(2); //4 for new logitech
+        m_drive.Drive(units::meters_per_second_t(x),
+                      units::meters_per_second_t(y),
+                      units::radians_per_second_t(r),
                       true);
-        //frc::SmartDashboard::PutNumber("x_axis", m_driverController.GetRawAxis(0));
-        //frc::SmartDashboard::PutNumber("y_axis", m_driverController.GetRawAxis(1));
-        //frc::SmartDashboard::PutNumber("z_axis", m_driverController.GetRawAxis(2));
-
-/*
-        m_drive.Drive(units::meters_per_second_t(     
-                            m_driverController.GetRawAxis(0)),
-                      units::meters_per_second_t(
-                          m_driverController.GetRawAxis(1)),
-                      units::radians_per_second_t(
-                          m_driverController.GetRawAxis(2)),
-                        
-                      false);   
-     */
-     
+                      //false);
+        //frc::SmartDashboard::PutNumber("x_axis", x);
+        //frc::SmartDashboard::PutNumber("y_axis", y);
+        //frc::SmartDashboard::PutNumber("z_axis", r);     
       },
       {&m_drive}));
 
