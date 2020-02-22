@@ -24,7 +24,7 @@ class SwerveModule {
                            units::inverse<units::squared<units::second>>>;
 
  public:
-  SwerveModule(int driveMotorChannel, int turningMotorChannel,
+  SwerveModule(std::string modname, int driveMotorChannel, int turningMotorChannel,
                bool driveEncoderReversed, bool turningEncoderReversed);
 
   frc::SwerveModuleState GetState();
@@ -55,7 +55,7 @@ class SwerveModule {
 
   rev::CANAnalog m_turnEncoder = m_turningMotor.GetAnalog();
 
-
+  std::string m_name;
 
   bool m_reverseDriveEncoder;
   bool m_reverseTurningEncoder;

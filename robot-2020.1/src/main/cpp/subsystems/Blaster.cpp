@@ -19,9 +19,10 @@ void Blaster::Periodic() {
 }
 
 void Blaster::BlasterSpeed(double leftSpeed, double rightSpeed) {
-  
-  leftSpeed = frc::SmartDashboard::GetNumber("Left Blaster", 1);
-  rightSpeed = frc::SmartDashboard::GetNumber("Right Blaster", 1);
+  if(leftSpeed > 0) {
+    leftSpeed = frc::SmartDashboard::GetNumber("Left Blaster", 1);
+    rightSpeed = frc::SmartDashboard::GetNumber("Right Blaster", 1);
+  }
   m_LeftBlasterWheel.Set(leftSpeed);
   m_RightBlasterWheel.Set(rightSpeed);
 }

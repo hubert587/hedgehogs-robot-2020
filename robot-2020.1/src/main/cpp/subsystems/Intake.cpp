@@ -21,7 +21,7 @@ void Intake::Periodic() {
 
 void Intake::IntakeSpeed(double speed) {
   m_InnerIntakeMotor.Set(speed/4);
-  m_OuterIntakeMotor.Set(speed);
+  m_OuterIntakeMotor.Set(speed/2);
 }
 
 void Intake::AdjustIntake(int adjustIntake) {

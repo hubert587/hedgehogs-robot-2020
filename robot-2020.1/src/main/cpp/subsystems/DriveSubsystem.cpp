@@ -15,31 +15,28 @@
 using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
-    : m_frontLeft{kFrontLeftDriveMotorPort,
+    : m_frontLeft{"Fr_left",
+                  kFrontLeftDriveMotorPort,
                   kFrontLeftTurningMotorPort,
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed},
 
-      m_rearLeft{
+      m_rearLeft{"Bk_left",
           kRearLeftDriveMotorPort,       kRearLeftTurningMotorPort,
           kRearLeftDriveEncoderReversed, kRearLeftTurningEncoderReversed},
 
-      m_frontRight{
+      m_frontRight{"Fr_right",
           kFrontRightDriveMotorPort,       kFrontRightTurningMotorPort,
           kFrontRightDriveEncoderReversed, kFrontRightTurningEncoderReversed},
 
-      m_rearRight{
+      m_rearRight{"Bk_right",
           kRearRightDriveMotorPort,       kRearRightTurningMotorPort,
           kRearRightDriveEncoderReversed, kRearRightTurningEncoderReversed},
 
       m_odometry{kDriveKinematics,
-                 frc::Rotation2d(units::degree_t(GetHeading())),
+                 frc::Rotation2d(units::radian_t(GetHeading())),
                  frc::Pose2d()} {
-                   
-                   
-              
-                   
-                   
+                                     
                 }
 
 void DriveSubsystem::Periodic() {
@@ -53,22 +50,42 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+  // full speed
+  xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
+  ySpeed = ySpeed * AutoConstants::kMaxSpeed.to<double>();
+  rot = rot * 3;
 
-                            frc::SmartDashboard::PutNumber("Drive.xSpeed", (double)xSpeed);
-                            frc::SmartDashboard::PutNumber("Drive.ySpeed", (double)ySpeed);
-                            frc::SmartDashboard::PutNumber("Drive.rot", (double)rot);
-                            frc::SmartDashboard::PutNumber("Drive.GetHeading", GetHeading());
+  frc::SmartDashboard::PutNumber("Drive.xSpeed", (double)xSpeed);
+  frc::SmartDashboard::PutNumber("Drive.ySpeed", (double)ySpeed);
+  frc::SmartDashboard::PutNumber("Drive.rot", (double)rot);
+  frc::SmartDashboard::PutNumber("Drive.GetHeading", GetHeading());
 
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          frc::Rotation2d(units::degree_t(GetHeading())))
+                          frc::Rotation2d(units::radian_t(GetHeading())))
                           //frc::Rotation2d(units::degree_t(0)))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
   kDriveKinematics.NormalizeWheelSpeeds(&states, AutoConstants::kMaxSpeed);
 
   auto [fl, fr, bl, br] = states;
+
+  // fix angles
+  Rotation2d halfpi{units::radian_t(wpi::math::pi/2.0)};
+  fl.angle = (fl.angle - halfpi) * -1.0;
+  fr.angle = (fr.angle - halfpi) * -1.0;
+  bl.angle = (bl.angle - halfpi) * -1.0;
+  br.angle = (br.angle - halfpi) * -1.0;
+  
+  frc::SmartDashboard::PutNumber("FL speed", fl.speed.to<double>());
+  frc::SmartDashboard::PutNumber("FL angle", fl.angle.Degrees().to<double>());
+  frc::SmartDashboard::PutNumber("FR speed", fr.speed.to<double>());
+  frc::SmartDashboard::PutNumber("FR angle", fr.angle.Degrees().to<double>());
+  frc::SmartDashboard::PutNumber("BL speed", bl.speed.to<double>());
+  frc::SmartDashboard::PutNumber("BL angle", bl.angle.Degrees().to<double>());
+  frc::SmartDashboard::PutNumber("BR speed", br.speed.to<double>());
+  frc::SmartDashboard::PutNumber("BR angle", br.angle.Degrees().to<double>());
 
   m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);

@@ -13,10 +13,13 @@
 
 #include "Constants.h"
 
-SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
-                           bool driveEncoderReversed,
-                           bool turningEncoderReversed)
-    : m_driveMotor(driveMotorChannel, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
+SwerveModule::SwerveModule(std::string modname,
+                          int driveMotorChannel, 
+                          int turningMotorChannel,
+                          bool driveEncoderReversed,
+                          bool turningEncoderReversed)
+    : m_name(modname),
+      m_driveMotor(driveMotorChannel, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
       m_turningMotor(turningMotorChannel, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
       m_reverseDriveEncoder(driveEncoderReversed),
       m_reverseTurningEncoder(turningEncoderReversed) {
@@ -24,17 +27,18 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_driveMotor.RestoreFactoryDefaults();
       m_driveMotor.SetInverted(m_reverseDriveEncoder);
       
+      m_driveEncoder.SetPosition(0);
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
       m_driveEncoder.SetVelocityConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051 / 60);       
-      m_driveEncoder.SetPosition(0);
+      
 
       m_drivePIDController.SetP(driveP);
       m_drivePIDController.SetI(driveI);  
       m_drivePIDController.SetD(driveD);
       m_drivePIDController.SetIZone(driveIz);  
       m_drivePIDController.SetFF(driveFF); 
-      m_drivePIDController.SetOutputRange(-0.25, 0.25); 
+      m_drivePIDController.SetOutputRange(-1.0, 1.0); 
       // I have crippled the robot
 
       m_turningMotor.RestoreFactoryDefaults();
@@ -45,20 +49,21 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_turnEncoder.SetPositionConversionFactor(1.89);
       
       m_turningPIDController.Reset();
-      m_turningPIDController.EnableContinuousInput(-1 * wpi::math::pi, wpi::math::pi);
+      m_turningPIDController.EnableContinuousInput(-wpi::math::pi, wpi::math::pi);
       m_turningPIDController.SetTolerance(0.1);
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
   return {units::meters_per_second_t{m_driveEncoder.GetVelocity()},
-          frc::Rotation2d(units::radian_t(m_turnEncoder.GetPosition() - wpi::math::pi / 2))};
+          frc::Rotation2d(units::radian_t(m_turnEncoder.GetPosition() - wpi::math::pi))};
 }
 
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
-  double encread = m_turnEncoder.GetPosition() - wpi::math::pi / 2;
+  double encread = m_turnEncoder.GetPosition() - wpi::math::pi;
   double newPos = (double)state.angle.Radians();
 
+  frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
 
   double output = m_turningPIDController.Calculate(encread, newPos);
   if (output > 1.0) output = 1.0;
