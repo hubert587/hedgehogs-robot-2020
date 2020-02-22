@@ -26,7 +26,8 @@ SwerveModule::SwerveModule(std::string modname,
 
       m_driveMotor.RestoreFactoryDefaults();
       m_driveMotor.SetInverted(m_reverseDriveEncoder);
-      
+      m_driveMotor.SetSmartCurrentLimit(50);
+      m_driveMotor.SetSecondaryCurrentLimit(80);
       m_driveEncoder.SetPosition(0);
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
