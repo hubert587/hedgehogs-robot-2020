@@ -112,11 +112,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
       frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};*/
 
 
-      void ToggleSlow(){
-
-          slow = !slow;
-
-      }
+      void ToggleSlow() { slow = !slow; }
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
