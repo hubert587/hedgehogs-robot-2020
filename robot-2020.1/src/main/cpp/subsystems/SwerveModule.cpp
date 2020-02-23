@@ -28,12 +28,13 @@ SwerveModule::SwerveModule(std::string modname,
       m_driveMotor.SetInverted(m_reverseDriveEncoder);
       m_driveMotor.SetSmartCurrentLimit(50);
       m_driveMotor.SetSecondaryCurrentLimit(80);
-
+      
       //test IDle mode brake
       //m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
       
       //testing ramp
       //m_driveMotor.SetOpenLoopRampRate(.1);
+      //m_driveMotor.SetClosedLoopRampRate(.1);
       
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
