@@ -37,6 +37,8 @@ DriveSubsystem::DriveSubsystem()
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t(GetHeading())),
                  frc::Pose2d()} {
+                    
+                    slow = false;
                                      
                 }
 
@@ -67,9 +69,22 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   //if(abs(rot.to<double>()) < idle) rot = units::radians_per_second_t{0};
 
   // full speed
+
+
+
+
   xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
   ySpeed = ySpeed * AutoConstants::kMaxSpeed.to<double>();
-  rot = rot * 3;
+  rot = rot * 4.5;
+
+
+  if (slow == true){
+
+    xSpeed = xSpeed/2;
+    ySpeed = ySpeed/2;
+    rot = rot * 1.5;
+
+  }
 
   frc::SmartDashboard::PutNumber("Drive.xSpeed", (double)xSpeed);
   frc::SmartDashboard::PutNumber("Drive.ySpeed", (double)ySpeed);
@@ -79,7 +94,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          frc::Rotation2d(units::radian_t(GetHeading())))
+                          -frc::Rotation2d(units::radian_t(GetHeading())))
                           //frc::Rotation2d(units::degree_t(0)))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 

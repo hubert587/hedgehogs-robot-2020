@@ -26,15 +26,16 @@ SwerveModule::SwerveModule(std::string modname,
 
       m_driveMotor.RestoreFactoryDefaults();
       m_driveMotor.SetInverted(m_reverseDriveEncoder);
-      
+      m_driveMotor.SetSmartCurrentLimit(50);
+      m_driveMotor.SetSecondaryCurrentLimit(80);
+
       //testing ramp
       //m_driveMotor.SetOpenLoopRampRate(.1);
       
-      m_driveEncoder.SetPosition(0);
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
       m_driveEncoder.SetVelocityConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051 / 60);       
-      
+      m_driveEncoder.SetPosition(0);
 
       m_drivePIDController.SetP(driveP);
       m_drivePIDController.SetI(driveI);  
@@ -78,7 +79,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
   //    newPos = WrapAngle(newPos + wpi::math::pi);
   //    state.speed *= -1; 
   //}
-  
+
   double output = m_turningPIDController.Calculate(encread, newPos);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;

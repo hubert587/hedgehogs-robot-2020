@@ -20,6 +20,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <AHRS.h>
 
+#include <frc/Joystick.h>
+
 #include "Constants.h"
 #include "SwerveModule.h"
 
@@ -109,6 +111,13 @@ class DriveSubsystem : public frc2::SubsystemBase {
       frc::Translation2d(-kWheelBase / 2, kTrackWidth / 2),
       frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};*/
 
+
+      void ToggleSlow(){
+
+          slow = !slow;
+
+      }
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -117,6 +126,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   SwerveModule m_frontRight; 
   SwerveModule m_rearLeft;
   SwerveModule m_rearRight;
+
+  bool slow;
 
   // The gyro sensor
   //frc::ADXRS450_Gyro m_gyro;
