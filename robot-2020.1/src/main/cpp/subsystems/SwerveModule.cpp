@@ -29,6 +29,9 @@ SwerveModule::SwerveModule(std::string modname,
       m_driveMotor.SetSmartCurrentLimit(50);
       m_driveMotor.SetSecondaryCurrentLimit(80);
 
+      //test IDle mode brake
+      //m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+      
       //testing ramp
       //m_driveMotor.SetOpenLoopRampRate(.1);
       
@@ -73,12 +76,12 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
   frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
 
   //should stop wheel from turnforward to back
-  //newPos = WrapAngle(newPos);
-  //double dist = fabs(newPos - encread);
-  //if (dist > wpi::math::pi / 2.0 && dist < 3.0 * wpi::math::pi / 2.0) {
-  //    newPos = WrapAngle(newPos + wpi::math::pi);
-  //    state.speed *= -1; 
-  //}
+  /*newPos = WrapAngle(newPos);
+  double dist = fabs(newPos - encread);
+  if (dist > wpi::math::pi / 2.0 && dist < 3.0 * wpi::math::pi / 2.0) {
+      newPos = WrapAngle(newPos + wpi::math::pi);
+      state.speed *= -1; 
+  }*/
 
   double output = m_turningPIDController.Calculate(encread, newPos);
   if (output > 1.0) output = 1.0;
