@@ -7,6 +7,7 @@
 
 #include "subsystems/DriveSubsystem.h"
 
+#include <stdlib.h>
 #include <frc/geometry/Rotation2d.h>
 #include <units/units.h>
 
@@ -46,10 +47,25 @@ void DriveSubsystem::Periodic() {
                     m_frontRight.GetState(), m_rearRight.GetState());
 }
 
+
+
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+
+  //round inputs
+  //double round = 100;
+  //xSpeed = units::meters_per_second_t{floor(xSpeed.to<double>() * round) / round};
+  //ySpeed = units::meters_per_second_t{floor(ySpeed.to<double>() * round) / round};
+  //rot = units::radians_per_second_t{floor(rot.to<double>() * round) / round};
+
+  //correct idle noise
+  //double idle = .1;
+  //if(abs(xSpeed.to<double>()) < idle) xSpeed = units::meters_per_second_t{0};
+  //if(abs(ySpeed.to<double>()) < idle) ySpeed = units::meters_per_second_t{0};
+  //if(abs(rot.to<double>()) < idle) rot = units::radians_per_second_t{0};
+
   // full speed
   xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
   ySpeed = ySpeed * AutoConstants::kMaxSpeed.to<double>();

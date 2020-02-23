@@ -10,7 +10,7 @@
 
 Hopper::Hopper() {
    m_HopperMotor.SetInverted(true);
-   frc::SmartDashboard::PutNumber("Hopper Speed", 0.5);
+   frc::SmartDashboard::PutNumber("Hopper Speed", 0.95);
 }
 
 // This method will be called once per scheduler run
@@ -18,7 +18,7 @@ void Hopper::Periodic() {}
 
 void Hopper::HopperSpeed(double speed) {
   if(speed > 0) {
-    speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.5);
+    speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.95);
   }
   m_HopperMotor.Set(speed);
 }
@@ -29,7 +29,7 @@ void Hopper::AutoHopper(){
 
   frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
   frc::SmartDashboard::PutNumber("Hopper intake2", intake2);
-  double speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.4);
+  double speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.95);
   /*if (!intake1) {//&& !ShooterBallDetector.Get()){
     HopperSpeed(0);
   } else if (intake1) {

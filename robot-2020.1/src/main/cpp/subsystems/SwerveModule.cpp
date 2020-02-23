@@ -27,6 +27,9 @@ SwerveModule::SwerveModule(std::string modname,
       m_driveMotor.RestoreFactoryDefaults();
       m_driveMotor.SetInverted(m_reverseDriveEncoder);
       
+      //testing ramp
+      //m_driveMotor.SetOpenLoopRampRate(.1);
+      
       m_driveEncoder.SetPosition(0);
       //Wheel diamter x Pi x inches per meter / position counts per wheel rev
       m_driveEncoder.SetPositionConversionFactor(3.94 * wpi::math::pi * 0.0254 / 5.9858051);
@@ -45,6 +48,9 @@ SwerveModule::SwerveModule(std::string modname,
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 20);
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 10);
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 10);
+      
+      //testing init turning motor
+      //m_turningMotor.Set(0);
       
       m_turnEncoder.SetPositionConversionFactor(1.89);
       
@@ -65,6 +71,14 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
   frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
 
+  //should stop wheel from turnforward to back
+  //newPos = WrapAngle(newPos);
+  //double dist = fabs(newPos - encread);
+  //if (dist > wpi::math::pi / 2.0 && dist < 3.0 * wpi::math::pi / 2.0) {
+  //    newPos = WrapAngle(newPos + wpi::math::pi);
+  //    state.speed *= -1; 
+  //}
+  
   double output = m_turningPIDController.Calculate(encread, newPos);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
@@ -73,6 +87,12 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
   m_drivePIDController.SetReference(state.speed.to<double>(), rev::ControlType::kVelocity);
 
+}
+
+double SwerveModule::WrapAngle(double angle) {
+    if (angle >= wpi::math::pi) angle -= 2.0 * wpi::math::pi;
+    if (angle <= -wpi::math::pi) angle += 2.0 * wpi::math::pi;
+    return angle;
 }
 
 void SwerveModule::ResetEncoders() {

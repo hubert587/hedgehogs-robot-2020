@@ -45,6 +45,8 @@ class SwerveModule {
           units::unit_t<radians_per_second_squared_t>(
               wpi::math::pi * 2.0);  // radians per second squared
 
+  double WrapAngle(double angle);
+  
   rev::CANSparkMax m_driveMotor;
   rev::CANSparkMax m_turningMotor;
 
