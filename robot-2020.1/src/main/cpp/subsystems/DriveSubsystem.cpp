@@ -80,7 +80,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     ySpeed = ySpeed/2;
     rot = rot * 1.5;
   } else {
-    frc::SmartDashboard::PutString("Drive.Gear", "Slow");
+    frc::SmartDashboard::PutString("Drive.Gear", "Normal");
   }
 
   frc::SmartDashboard::PutNumber("Drive.xSpeed", (double)xSpeed);
