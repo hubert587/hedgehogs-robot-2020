@@ -65,9 +65,9 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   //correct idle noise
 /*  double idle = .1;
-  if(abs(xSpeed.to<double>()) < idle) xSpeed = units::meters_per_second_t{0};
-  if(abs(ySpeed.to<double>()) < idle) ySpeed = units::meters_per_second_t{0};
-  if(abs(rot.to<double>()) < idle) rot = units::radians_per_second_t{0};
+  if(fabs(xSpeed.to<double>()) < idle) xSpeed = units::meters_per_second_t{0};
+  if(fabs(ySpeed.to<double>()) < idle) ySpeed = units::meters_per_second_t{0};
+  if(fabs(rot.to<double>()) < idle) rot = units::radians_per_second_t{0};
 */
   // full speed
   xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
