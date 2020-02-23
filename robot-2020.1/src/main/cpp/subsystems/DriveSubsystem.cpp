@@ -62,11 +62,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   rot = rot * 4.5;
 
 
-  if (slow = true){
+  if (slow == true){
 
-  xSpeed = xSpeed/2;
-  ySpeed = ySpeed/2;
-  rot = rot * 2;
+    xSpeed = xSpeed/2;
+    ySpeed = ySpeed/2;
+    rot = rot * 1.5;
 
   }
 
