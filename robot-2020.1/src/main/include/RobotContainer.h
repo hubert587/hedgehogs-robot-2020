@@ -20,6 +20,7 @@
 #include <frc2/command/WaitCommand.h>
 #include <units/units.h>
 #include <frc/geometry/Rotation2d.h>
+#include <frc/AddressableLED.h>
 
 #include "Constants.h"
 
@@ -68,6 +69,11 @@ class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   //////////////////////////////////////////////////////////////////
+  static constexpr int kLength = 62; // number of leds in rings
+  // PWM port 0
+  // Must be a PWM header, not MXP or DIO
+  frc::AddressableLED m_led{0};
+  std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
 
   // Create JD
   

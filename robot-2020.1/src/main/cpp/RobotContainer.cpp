@@ -40,7 +40,13 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
 
   // Configure the button bindings
   ConfigureButtonBindings();
+     // Set the value
+   for (int i = 0; i < kLength; i++) {
 
+      // Set the value
+      m_ledBuffer[i].SetRGB(0,255,0);
+    }
+    m_led.SetLength(kLength);
   // Set up default drive command
   
   //m_drive.SetDefaultCommand(m_DriveCommand);
