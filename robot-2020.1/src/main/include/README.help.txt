@@ -109,3 +109,45 @@ the next couple of lines.
   http://revrobotics.com/content/sw/color-sensor-v3/sdk/REVColorSensorV3.json
   https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
   http://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/Phoenix-latest.json
+
+Include for LEDs
+  #include <frc/AddressableLED.h>
+Definitions for LEDs
+  static constexpr int kLength = 62; // number of leds in rings
+  // PWM port 0
+  // Must be a PWM header, not MXP or DIO
+  frc::AddressableLED m_led{0};
+  std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
+
+To init the LEDs to green
+    for (int i = 0; i < kLength; i++) {
+
+      // Set the value
+      m_ledBuffer[i].SetRGB(0,255,0);
+    }
+    m_led.SetLength(kLength);
+
+To set the LEDs to the color/s defined in the array m_ledBuffer
+    m_led.SetData(m_ledBuffer);
+    m_led.Start();
+
+Includes for Network tables, used to get info from the Raspberry Pi.
+  #include <networktables/NetworkTableEntry.h>
+  #include <networktables/NetworkTableInstance.h>
+
+  using std::shared_ptr;
+
+Definition of table to get data from
+  shared_ptr<NetworkTable> m_vision;
+
+Get the instance of the table, put in robotInit() or possibly subsystem constructor 
+(might not be valid this early)
+    m_vision = NetworkTable::GetTable("VisionTarget"); 
+
+Read these in robot periodic or something that continuously gets called so they update properly.
+Also might want to make the variables for holding the data, class variables so they can be 
+used later
+    double distance = m_vision->GetNumber("distance", 0);
+    double angle = m_vision->GetNumber("targetAngle", 0);
+    double numContours = m_vision->GetNumber("numContours", -1);
+    bool targetDetected = m_vision->GetBoolean("targetFound", false);

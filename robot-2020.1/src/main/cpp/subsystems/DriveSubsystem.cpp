@@ -7,6 +7,7 @@
 
 #include "subsystems/DriveSubsystem.h"
 
+#include <stdlib.h>
 #include <frc/geometry/Rotation2d.h>
 #include <units/units.h>
 
@@ -36,6 +37,8 @@ DriveSubsystem::DriveSubsystem()
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t(GetHeading())),
                  frc::Pose2d()} {
+                    
+                    slow = false;
                                      
                 }
 
@@ -46,14 +49,39 @@ void DriveSubsystem::Periodic() {
                     m_frontRight.GetState(), m_rearRight.GetState());
 }
 
+
+
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+
+  //round inputs
+/*  double round = 100;
+  xSpeed = units::meters_per_second_t{floor(xSpeed.to<double>() * round) / round};
+  ySpeed = units::meters_per_second_t{floor(ySpeed.to<double>() * round) / round};
+  rot = units::radians_per_second_t{floor(rot.to<double>() * round) / round};
+*/
+
+  //correct idle noise
+/*  double idle = .1;
+  if(fabs(xSpeed.to<double>()) < idle) xSpeed = units::meters_per_second_t{0};
+  if(fabs(ySpeed.to<double>()) < idle) ySpeed = units::meters_per_second_t{0};
+  if(fabs(rot.to<double>()) < idle) rot = units::radians_per_second_t{0};
+*/
   // full speed
   xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
   ySpeed = ySpeed * AutoConstants::kMaxSpeed.to<double>();
-  rot = rot * 3;
+  rot = rot * 4.5;
+
+  if (slow == true){
+    frc::SmartDashboard::PutString("Drive.Gear", "Slow");
+    xSpeed = xSpeed/2;
+    ySpeed = ySpeed/2;
+    rot = rot * 1.5;
+  } else {
+    frc::SmartDashboard::PutString("Drive.Gear", "Normal");
+  }
 
   frc::SmartDashboard::PutNumber("Drive.xSpeed", (double)xSpeed);
   frc::SmartDashboard::PutNumber("Drive.ySpeed", (double)ySpeed);
@@ -63,7 +91,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          frc::Rotation2d(units::radian_t(GetHeading())))
+                          -frc::Rotation2d(units::radian_t(GetHeading())))
                           //frc::Rotation2d(units::degree_t(0)))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 

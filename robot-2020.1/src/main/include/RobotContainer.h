@@ -103,12 +103,13 @@ class RobotContainer {
   frc2::InstantCommand m_DriveReverse{[this] {m_drive.Drive(units::meters_per_second_t (0),units::meters_per_second_t (-1),units::radians_per_second_t (0), true); }, {&m_drive}};
   frc2::InstantCommand m_RaiseAngle{[this] {m_blaster.AngleChange(true); }, {&m_blaster}};
   frc2::InstantCommand m_LowerAngle{[this] {m_blaster.AngleChange(false); }, {&m_blaster}};
-
+  frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
   DriveCommand m_DriveCommand;
   //hopper - need new subsystem for this
   frc2::InstantCommand m_HopperStart{[this] {m_hopper.HopperSpeed(1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperReverse{[this] {m_hopper.HopperSpeed(-1); }, {&m_hopper}};
   frc2::InstantCommand m_HopperStop{[this] {m_hopper.HopperSpeed(0); }, {&m_hopper}};
+  frc2::InstantCommand m_DriveSlow{[this] {m_drive.ToggleSlow(); }, {&m_drive}};
 
   //blaster
   frc2::InstantCommand m_StartBlaster{[this] {m_blaster.BlasterSpeed(1, 1); }, {&m_blaster}};
@@ -120,11 +121,17 @@ class RobotContainer {
   frc2::SequentialCommandGroup m_fireAll {
     m_PositionIntakeHalf,
     m_PowerUpBlaster,
-    frc2::WaitCommand{units::second_t(2)},
+    frc2::WaitCommand{units::second_t(3)},
     m_HopperStart,
-    frc2::WaitCommand{units::second_t(10)},
+    frc2::WaitCommand{units::second_t(5)},
     m_HopperStop,
     m_PowerDown
+  };
+
+  frc2::SequentialCommandGroup m_stopAll {
+    m_HopperStop,
+    m_PowerDown,
+    m_StopIntake
   };
 
   //intake
