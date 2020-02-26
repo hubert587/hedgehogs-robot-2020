@@ -71,6 +71,8 @@ frc::SwerveModuleState SwerveModule::GetState() {
 
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
+  //if (fabs(state.speed.to<double>()) < 0.05){ return; }
+
   double encread = m_turnEncoder.GetPosition() - wpi::math::pi;
   double newPos = (double)state.angle.Radians();
 

@@ -10,11 +10,12 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
+
 void Robot::RobotInit() {
 
   TargetDetected = false;
 
-  Vision->GetTable("VisionTarget");//should create table if does not exist
+  //Vision->GetTable("VisionTarget");//should create table if does not exist
 //control loop (where it crashes)
 
 }
@@ -31,9 +32,9 @@ void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run();
 
   if (Vision /*&& Vision->IsConnected()*/){
 
-    Distance = Vision->GetNumber("distance", 0);
-    Angle = Vision->GetNumber("targetAngle", 0);
-    TargetDetected = Vision->GetBoolean("targetFound", false); 
+    //Distance = Vision->GetNumber("distance", 0);
+    //Angle = Vision->GetNumber("targetAngle", 0);
+    //TargetDetected = Vision->GetBoolean("targetFound", false); 
 
 
   }
@@ -77,7 +78,11 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+
+  m_container.TestVision();
+
+}
 
 /**
  * This function is called periodically during test mode.
