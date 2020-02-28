@@ -61,7 +61,7 @@ SwerveModule::SwerveModule(std::string modname,
       
       m_turningPIDController.Reset();
       m_turningPIDController.EnableContinuousInput(-wpi::math::pi, wpi::math::pi);
-      m_turningPIDController.SetTolerance(0.1);
+      m_turningPIDController.SetTolerance(0.05);
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {

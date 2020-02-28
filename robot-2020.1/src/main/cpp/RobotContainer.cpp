@@ -155,6 +155,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
       // Start at the origin facing the +X direction
       frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
       // Pass through these two interior waypoints, making an 's' curve path
       {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
       // End 3 meters straight ahead of where we started, facing forward
@@ -179,12 +180,22 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
   // no auto
   return new frc2::SequentialCommandGroup(
-      std::move(swerveControllerCommand), std::move(swerveControllerCommand),
-      frc2::InstantCommand(
-          [this]() {
-            m_drive.Drive(units::meters_per_second_t(0),
-                          units::meters_per_second_t(0),
-                          units::radians_per_second_t(0), false);
-          },
-          {}));
+    frc2::SequentialCommandGroup{
+      m_PositionIntakeHalf,
+      m_RaiseAngle,
+      m_PowerUpBlaster,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStart,
+      frc2::WaitCommand{units::second_t(5)},
+      m_HopperStop,
+      m_PowerDown
+    },
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
 }
