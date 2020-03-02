@@ -22,13 +22,13 @@ DriveSubsystem::DriveSubsystem()
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed},
 
-      m_rearLeft{"Bk_left",
-          kRearLeftDriveMotorPort,       kRearLeftTurningMotorPort,
-          kRearLeftDriveEncoderReversed, kRearLeftTurningEncoderReversed},
-
       m_frontRight{"Fr_right",
           kFrontRightDriveMotorPort,       kFrontRightTurningMotorPort,
           kFrontRightDriveEncoderReversed, kFrontRightTurningEncoderReversed},
+
+      m_rearLeft{"Bk_left",
+          kRearLeftDriveMotorPort,       kRearLeftTurningMotorPort,
+          kRearLeftDriveEncoderReversed, kRearLeftTurningEncoderReversed},
 
       m_rearRight{"Bk_right",
           kRearRightDriveMotorPort,       kRearRightTurningMotorPort,
