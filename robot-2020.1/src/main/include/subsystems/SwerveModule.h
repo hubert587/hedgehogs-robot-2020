@@ -56,7 +56,7 @@ class SwerveModule {
 
 
   rev::CANAnalog m_turnEncoder = m_turningMotor.GetAnalog();
-
+  //rev::CANEncoder m_turnEncoder = m_turningMotor.GetEncoder();
   std::string m_name;
 
   bool m_reverseDriveEncoder;

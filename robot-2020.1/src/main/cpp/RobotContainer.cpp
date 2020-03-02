@@ -186,7 +186,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       m_PowerUpBlaster,
       frc2::WaitCommand{units::second_t(3)},
       m_HopperStart,
-      frc2::WaitCommand{units::second_t(5)},
+      frc2::WaitCommand{units::second_t(3)},
       m_HopperStop,
       m_PowerDown
     },

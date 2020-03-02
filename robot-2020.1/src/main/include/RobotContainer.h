@@ -37,6 +37,7 @@
 #include "commands/ManualFireLaser.h"
 #include "commands/SpinToColor.h"
 #include "commands/SpinWheel3.h"
+#include "commands/DriveRotate.h"
 #include <wpi/math>
 #include <commands/DriveCommand.h>
 #include <ntcore.h>
@@ -100,6 +101,7 @@ class RobotContainer {
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
   SpinWheel3 m_Spin3times{&m_colorWheel};
+  //DriveRotate m_Drive180{&m_drive,180};
   frc2::InstantCommand m_StartIntake{[this] { m_collect.StartIntake(); }, {&m_collect}};
   frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
   frc2::InstantCommand m_StopIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
@@ -134,7 +136,7 @@ class RobotContainer {
     m_PowerUpBlaster,
     frc2::WaitCommand{units::second_t(3)},
     m_HopperStart,
-    frc2::WaitCommand{units::second_t(5)},
+    frc2::WaitCommand{units::second_t(3)},
     m_HopperStop,
     m_PowerDown
   };
