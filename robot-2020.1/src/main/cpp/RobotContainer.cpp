@@ -96,7 +96,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUpBlaster); 
     frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_PowerDown); 
     frc2::Button{[&] {return m_driverController.GetRawButton(1);}}.WhenPressed(&m_DriveSlow);
-
+    frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_Drive180);
 
     //frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_ManualShoot);  
     //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_GoToColor);
@@ -145,6 +145,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
       // Start at the origin facing the +X direction
       frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
       // Pass through these two interior waypoints, making an 's' curve path
       {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
       // End 3 meters straight ahead of where we started, facing forward
@@ -169,12 +170,23 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
   // no auto
   return new frc2::SequentialCommandGroup(
-      std::move(swerveControllerCommand), std::move(swerveControllerCommand),
-      frc2::InstantCommand(
-          [this]() {
-            m_drive.Drive(units::meters_per_second_t(0),
-                          units::meters_per_second_t(0),
-                          units::radians_per_second_t(0), false);
-          },
-          {}));
+    frc2::SequentialCommandGroup{
+      m_PositionIntakeHalf,
+      m_RaiseAngle,
+      m_PowerUpBlaster,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStart,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStop,
+      m_PowerDown,
+      m_Drive180
+    },
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
 }

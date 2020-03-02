@@ -99,18 +99,24 @@ class DriveSubsystem : public frc2::SubsystemBase {
   units::meter_t kWheelBase =
       0.6604_m;  // Distance between centers of front and back wheels on robot
 
+
   frc::SwerveDriveKinematics<4> kDriveKinematics{
+      frc::Translation2d(-kTrackWidth / 2, kWheelBase / 2),
+      frc::Translation2d(-kTrackWidth / 2, -kWheelBase / 2),
+      frc::Translation2d(kTrackWidth / 2, kWheelBase / 2),      
+      frc::Translation2d(kTrackWidth / 2, -kWheelBase / 2)};
+      /*
       frc::Translation2d(-kTrackWidth / 2, kWheelBase / 2),
       frc::Translation2d(kTrackWidth / 2, kWheelBase / 2),
       frc::Translation2d(-kTrackWidth / 2, -kWheelBase / 2),
-      frc::Translation2d(kTrackWidth / 2, -kWheelBase / 2)};
+      frc::Translation2d(kTrackWidth / 2, -kWheelBase / 2)};*/
   /*    
   frc::SwerveDriveKinematics<4> kDriveKinematics{
       frc::Translation2d(kWheelBase / 2, kTrackWidth / 2),
       frc::Translation2d(kWheelBase / 2, -kTrackWidth / 2),
       frc::Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-      frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};*/
-
+      frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};
+*/
 
       void ToggleSlow() { slow = !slow; }
 

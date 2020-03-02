@@ -10,8 +10,8 @@
 
 Blaster::Blaster() {
     m_LeftBlasterWheel.SetInverted(true);
-    frc::SmartDashboard::PutNumber("Left Blaster", 0.5);
-    frc::SmartDashboard::PutNumber("Right Blaster", 0.5);
+    frc::SmartDashboard::PutNumber("Left Blaster", 0.8);
+    frc::SmartDashboard::PutNumber("Right Blaster", 0.8);
 }
 
 void Blaster::Periodic() {

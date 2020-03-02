@@ -69,16 +69,19 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   if(fabs(ySpeed.to<double>()) < idle) ySpeed = units::meters_per_second_t{0};
   if(fabs(rot.to<double>()) < idle) rot = units::radians_per_second_t{0};
 
+  //keep wheel rotation unchanged when joysticks are idle
+  //if(xSpeed.to<double>() == 0 && ySpeed.to<double>() == 0 && rot.to<double>() == 0) return;
+
   // full speed
   xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
   ySpeed = ySpeed * AutoConstants::kMaxSpeed.to<double>();
-  rot = rot * 4.5;
+  rot = rot * 8;
 
   if (slow == true){
     frc::SmartDashboard::PutString("Drive.Gear", "Slow");
-    xSpeed = xSpeed/2;
-    ySpeed = ySpeed/2;
-    rot = rot * 1.5;
+    xSpeed = xSpeed/3.0;
+    ySpeed = ySpeed/3.0;
+    rot = rot / 2.2;
   } else {
     frc::SmartDashboard::PutString("Drive.Gear", "Normal");
   }
@@ -87,6 +90,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   frc::SmartDashboard::PutNumber("Drive.ySpeed", (double)ySpeed);
   frc::SmartDashboard::PutNumber("Drive.rot", (double)rot);
   frc::SmartDashboard::PutNumber("Drive.GetHeading", GetHeading());
+  frc::SmartDashboard::PutBoolean("field Orient", fieldRelative);
 
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
@@ -97,7 +101,8 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   kDriveKinematics.NormalizeWheelSpeeds(&states, AutoConstants::kMaxSpeed);
 
-  auto [fl, fr, bl, br] = states;
+  //auto [fl, fr, bl, br] = states;
+  auto [fl, bl, fr, br] = states;
 
   // fix angles
   Rotation2d halfpi{units::radian_t(wpi::math::pi/2.0)};

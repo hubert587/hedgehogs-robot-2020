@@ -62,6 +62,8 @@ SwerveModule::SwerveModule(std::string modname,
       m_turningPIDController.Reset();
       m_turningPIDController.EnableContinuousInput(-wpi::math::pi, wpi::math::pi);
       m_turningPIDController.SetTolerance(0.1);
+
+      frc::SmartDashboard::PutNumber("TestSwerveAngle", 0);
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
@@ -72,12 +74,15 @@ frc::SwerveModuleState SwerveModule::GetState() {
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
   //if (fabs(state.speed.to<double>()) < 0.05){ return; }
-
+  //double encread = ((m_turnEncoder.GetPosition() - floor(m_turnEncoder.GetPosition())) * 2 * wpi::math::pi) - wpi::math::pi;
   double encread = m_turnEncoder.GetPosition() - wpi::math::pi;
   double newPos = (double)state.angle.Radians();
 
-  frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
+  //newPos = frc::SmartDashboard::GetNumber("TestSwerveAngle", 0);
 
+  frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
+  frc::SmartDashboard::PutNumber(m_name + " Angle", newPos);
+  frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
   //should stop wheel from turnforward to back
   /*newPos = WrapAngle(newPos);
   double dist = fabs(newPos - encread);
@@ -104,6 +109,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
   if (output < -1.0) output = -1.0;
 
   m_turningMotor.Set(output);
+  //m_turningMotor.Set(.1);
 
   m_drivePIDController.SetReference(state.speed.to<double>(), rev::ControlType::kVelocity);
 
