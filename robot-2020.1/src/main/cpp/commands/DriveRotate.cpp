@@ -10,9 +10,9 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-/*
+
 DriveRotate::DriveRotate(DriveSubsystem* drive, units::degree_t target) :
-    : CommandHelper(frc2::PIDController(kTurnP, kTurnI, kTurnD),
+     CommandHelper(frc2::PIDController(kTurnP, kTurnI, kTurnD),
                    // Close loop on heading
                     [drive] { return drive->GetHeading(); },
                     // Set reference to target
@@ -36,4 +36,3 @@ DriveRotate::DriveRotate(DriveSubsystem* drive, units::degree_t target) :
 
 // Returns true when the command should end.
 bool DriveRotate::IsFinished() { return GetController().AtSetpoint(); }
-*/

@@ -10,7 +10,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/PIDCommand.h>
 #include <subsystems/DriveSubsystem.h>
-/*
+
 class DriveRotate
     : public frc2::CommandHelper<frc2::PIDCommand, DriveRotate> {
  public:
@@ -24,4 +24,3 @@ class DriveRotate
     const double kTurnD = 0.0;
 
 };
-*/

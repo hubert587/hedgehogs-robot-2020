@@ -106,7 +106,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUpBlaster); 
     frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_PowerDown); 
     frc2::Button{[&] {return m_driverController.GetRawButton(1);}}.WhenPressed(&m_DriveSlow);
-
+    frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_Drive180);
 
     //frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_ManualShoot);  
     //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_GoToColor);
@@ -188,7 +188,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       m_HopperStart,
       frc2::WaitCommand{units::second_t(3)},
       m_HopperStop,
-      m_PowerDown
+      m_PowerDown,
+      m_Drive180
     },
     std::move(swerveControllerCommand), std::move(swerveControllerCommand),
     frc2::InstantCommand(

@@ -101,7 +101,7 @@ class RobotContainer {
   ManualFireLaser m_ManualShoot;
   SpinToColor m_GoToColor{&m_colorWheel};
   SpinWheel3 m_Spin3times{&m_colorWheel};
-  //DriveRotate m_Drive180{&m_drive,180};
+  DriveRotate m_Drive180{&m_drive,units::degree_t{180}};
   frc2::InstantCommand m_StartIntake{[this] { m_collect.StartIntake(); }, {&m_collect}};
   frc2::InstantCommand m_ReverseIntake{[this] { m_collect.IntakeSpeed(-0.5); }, {&m_collect}};
   frc2::InstantCommand m_StopIntake{[this] { m_collect.StopIntake(); }, {&m_collect}};
