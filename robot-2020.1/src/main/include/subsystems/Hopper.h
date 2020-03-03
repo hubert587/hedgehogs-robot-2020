@@ -11,6 +11,7 @@
 #include <ctre/Phoenix.h>
 #include <Constants.h> 
 #include <frc/DigitalInput.h>
+#include <frc/Joystick.h>
 
 class Hopper : public frc2::SubsystemBase {
  public:
@@ -32,5 +33,5 @@ class Hopper : public frc2::SubsystemBase {
   frc::DigitalInput IntakeBallDetector1{0};
   frc::DigitalInput IntakeBallDetector2{9};
   frc::DigitalInput ShooterBallDetector{2};
-  
+  frc::Joystick m_codriverController{OIConstants::CoDriver};
 };

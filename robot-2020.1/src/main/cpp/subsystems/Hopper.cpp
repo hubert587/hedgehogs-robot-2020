@@ -5,7 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+
 #include <subsystems/Hopper.h>
+#include <RobotContainer.h>
+#include <Robot.h>
 #include <frc/smartdashboard/smartdashboard.h>
 
 Hopper::Hopper() {
@@ -24,22 +27,26 @@ void Hopper::HopperSpeed(double speed) {
 }
 
 void Hopper::AutoHopper(){
-  bool intake1 = IntakeBallDetector1.Get() == false;
-  bool intake2 = IntakeBallDetector2.Get() == false;
+  if (m_codriverController.GetRawButton(11)) {
+    m_HopperMotor.Set(m_codriverController.GetRawAxis(1));
+  } else {
+    bool intake1 = IntakeBallDetector1.Get() == false;
+    bool intake2 = IntakeBallDetector2.Get() == false;
 
-  frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
-  frc::SmartDashboard::PutNumber("Hopper intake2", intake2);
-  double speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.95);
-  /*if (!intake1) {//&& !ShooterBallDetector.Get()){
-    HopperSpeed(0);
-  } else if (intake1) {
-    HopperSpeed(1);
-  } else {
-    HopperSpeed(0);
-  }*/
-  if (intake1 || intake2) {//&& !ShooterBallDetector.Get()){
-    HopperSpeed(speed);
-  } else {
-    HopperSpeed(0);
+    frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
+    frc::SmartDashboard::PutNumber("Hopper intake2", intake2);
+    double speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.95);
+    /*if (!intake1) {//&& !ShooterBallDetector.Get()){
+      HopperSpeed(0);
+    } else if (intake1) {
+      HopperSpeed(1);
+    } else {
+      HopperSpeed(0);
+    }*/
+   if (intake1 || intake2) {//&& !ShooterBallDetector.Get()){
+      HopperSpeed(speed);
+    } else {
+      HopperSpeed(0);
+    }
   }
 }

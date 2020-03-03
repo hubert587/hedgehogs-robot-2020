@@ -108,10 +108,10 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_codriverController.GetRawButton(2);}}.WhenPressed(&m_HalfExtendIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(3);}}.WhenPressed(&m_ExtendIntake);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_ReverseIntake).WhenReleased(&m_StartIntake);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(7);}}.WhenPressed(&m_HopperStart);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_HopperReverse);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_HopperStop);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_stopAll);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(5);}}.WhenPressed(&m_StopBlaster);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(6);}}.WhenPressed(&m_TrenchSpeed);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(7);}}.WhenPressed(&m_LowGoalSpeed);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_InitiationLineSpeed);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(11);}}.WhenPressed(&m_DeployClimber);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(12);}}.WhenPressed(&m_UndeployClimber);
 }

@@ -62,15 +62,13 @@ class RobotContainer {
 
   frc2::Command* GetAutonomousCommand();
   
- private:
   // The driver's controller
   //frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
   //frc::XboxController m_codriverController{OIConstants::CoDriver};
-
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   frc::Joystick m_codriverController{OIConstants::CoDriver};
 
-
+ private:
   // The robot's subsystems and commands are defined here...
   //////////////////////////////////////////////////////////////////
   // PWM port 0
@@ -121,10 +119,13 @@ class RobotContainer {
 
 
   //blaster
-  frc2::InstantCommand m_StartBlaster{[this] {m_blaster.BlasterSpeed(1, 1); }, {&m_blaster}};
+
+  frc2::InstantCommand m_InitiationLineSpeed{[this] {m_blaster.BlasterSpeed(0.53, 0.55); }, {&m_blaster}};
+  frc2::InstantCommand m_TrenchSpeed{[this] {m_blaster.BlasterSpeed(0.68, 0.70); }, {&m_blaster}};
+  frc2::InstantCommand m_LowGoalSpeed{[this] {m_blaster.BlasterSpeed(0.32, 0.30); }, {&m_blaster}};
   frc2::InstantCommand m_StopBlaster{[this] {m_blaster.BlasterSpeed(0, 0); }, {&m_blaster}};
   frc2::SequentialCommandGroup Start {
-    m_StartBlaster,
+    m_TrenchSpeed,
     frc2::WaitCommand{units::second_t(3)}
   };
   frc2::SequentialCommandGroup m_fireAll {
