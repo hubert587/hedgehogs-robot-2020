@@ -17,7 +17,7 @@ void GrapplingHook::Periodic() {
 
 void GrapplingHook::GrapplingHookSpeed(double speed) {
   m_ClimberLeftMotor.Set (speed);
-  m_ClimberRightMotor.Set (speed);
+  m_ClimberRightMotor.Set (-speed);
 }
 
 void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {

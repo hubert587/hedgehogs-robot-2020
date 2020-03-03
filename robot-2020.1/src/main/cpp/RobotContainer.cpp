@@ -112,6 +112,11 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_HopperReverse);
     frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_HopperStop);
     frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_stopAll);
+    frc2::Button{[&] {return m_codriverController.GetRawButton(10);}}.WhenPressed(&m_DeployClimb);
+    frc2::Button{[&] {return m_codriverController.GetPOV (1);}}.WhenPressed(&m_ClimbUp);
+    frc2::Button{[&] {return m_codriverController.GetPOV(2);}}.WhenPressed(&m_ClimbDown);
+    frc2::Button{[&] {return m_codriverController.GetPOV(3);}}.WhenPressed(&m_EliCool);
+
     //frc2::Button{[&] {return m_codriverController.GetRawButton(11);}}.WhenPressed(&m_DeployClimber);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(12);}}.WhenPressed(&m_UndeployClimber);
 }
