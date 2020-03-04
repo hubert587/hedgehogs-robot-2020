@@ -94,16 +94,17 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_codriverController, 12).WhenPressed(&m_UndeployClimber);
     */ 
 
-
-    frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_LowerAngle);
-    frc2::Button{[&] {return m_driverController.GetRawButton(6);}}.WhenPressed(&m_RaiseAngle);
-    frc2::Button{[&] {return m_driverController.GetRawButton(7);}}.WhenPressed(&m_fireAll);
+    //Drive Controller Button Mapping
+    frc2::Button{[&] {return m_driverController.GetRawButton(1);}}.WhenPressed(&m_RaiseAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_LowerAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_DriveSlow);
+    frc2::Button{[&] {return m_driverController.GetRawButton(7);}}.WhenPressed(&m_AutoAim);
+    frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_fireAll);
     frc2::Button{[&] {return m_driverController.GetRawButton(9);}}.WhenPressed(&m_stopAll);
     frc2::Button{[&] {return m_driverController.GetRawButton(10);}}.WhenPressed(&m_ZeroHeading);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUpBlaster); 
-    frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_PowerDown); 
-    frc2::Button{[&] {return m_driverController.GetRawButton(1);}}.WhenPressed(&m_DriveSlow);
-    frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_Drive180);
+    //frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_PowerDown); 
+    //frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_Drive180);
 
     //frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_ManualShoot);  
     //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_GoToColor);
@@ -111,10 +112,12 @@ void RobotContainer::ConfigureButtonBindings() {
     //frc2::Button{[&] {return m_codriverController.GetRawButton(6);}}.WhenPressed(&m_StartIntake);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_ReverseIntake);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(5);}}.WhenPressed(&m_StopIntake);
+    //frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_ReverseIntake).WhenReleased(&m_StartIntake);
+    
+    //Codriver Controller Button Mapping
     frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_RetractIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(2);}}.WhenPressed(&m_HalfExtendIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(3);}}.WhenPressed(&m_ExtendIntake);
-    //frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_ReverseIntake).WhenReleased(&m_StartIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(5);}}.WhenPressed(&m_StopBlaster);
     frc2::Button{[&] {return m_codriverController.GetRawButton(6);}}.WhenPressed(&m_TrenchSpeed);
     frc2::Button{[&] {return m_codriverController.GetRawButton(7);}}.WhenPressed(&m_LowGoalSpeed);

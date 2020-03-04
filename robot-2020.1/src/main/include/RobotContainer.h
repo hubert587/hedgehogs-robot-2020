@@ -32,6 +32,7 @@
 #include "subsystems/Intake.h"
 
 #include "commands/AutoFireLaser.h"
+#include "commands/AutoAimCommand.h"
 #include "commands/ChargeLaser.h"
 #include "commands/DechargeLaser.h"
 #include "commands/ManualFireLaser.h"
@@ -90,6 +91,7 @@ class RobotContainer {
 
   // The robot's commands
   AutoFireLaser m_AutoShoot;
+  AutoAimCommand m_AutoAim{&m_drive};
   ChargeLaser m_PowerUpBlaster{&m_blaster};
   DechargeLaser m_PowerDown{&m_blaster};
   ManualFireLaser m_ManualShoot;
