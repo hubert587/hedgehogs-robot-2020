@@ -67,6 +67,13 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
             m_hopper.AutoHopper();
         },   
     {&m_hopper}));
+
+
+    m_collect.SetDefaultCommand(frc2::RunCommand (
+        [this] {
+            m_collect.IntakeSpeed(m_codriverController.GetRawAxis(3));
+        },   
+    {&m_collect}));
     
 }
 
@@ -101,9 +108,9 @@ void RobotContainer::ConfigureButtonBindings() {
     //frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_ManualShoot);  
     //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_GoToColor);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(2);}}.WhenPressed(&m_Spin3times);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(6);}}.WhenPressed(&m_StartIntake);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_ReverseIntake);
-    frc2::Button{[&] {return m_codriverController.GetRawButton(5);}}.WhenPressed(&m_StopIntake);
+    //frc2::Button{[&] {return m_codriverController.GetRawButton(6);}}.WhenPressed(&m_StartIntake);
+    //frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_ReverseIntake);
+    //frc2::Button{[&] {return m_codriverController.GetRawButton(5);}}.WhenPressed(&m_StopIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_RetractIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(2);}}.WhenPressed(&m_HalfExtendIntake);
     frc2::Button{[&] {return m_codriverController.GetRawButton(3);}}.WhenPressed(&m_ExtendIntake);

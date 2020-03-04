@@ -28,7 +28,7 @@ void Hopper::HopperSpeed(double speed) {
 
 void Hopper::AutoHopper(){
   if (m_codriverController.GetRawButton(11)) {
-    m_HopperMotor.Set(m_codriverController.GetRawAxis(1));
+    m_HopperMotor.Set(-m_codriverController.GetRawAxis(1));
   } else {
     bool intake1 = IntakeBallDetector1.Get() == false;
     bool intake2 = IntakeBallDetector2.Get() == false;
