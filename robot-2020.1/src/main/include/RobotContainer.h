@@ -120,9 +120,9 @@ class RobotContainer {
 
   //grappling hook
   frc2::InstantCommand m_DeployClimb{[this] {m_grapplingHook.Deploy(true); }, {&m_grapplingHook}};
-  frc2::InstantCommand m_ClimbUp{[this] {m_grapplingHook.GrapplingHookSpeed(0.5); }, {&m_grapplingHook}};
-  frc2::InstantCommand m_ClimbDown{[this] {m_grapplingHook.GrapplingHookSpeed(-0.5); }, {&m_grapplingHook}};
-  frc2::InstantCommand m_EliCool{[this] {m_grapplingHook.GrapplingHookSpeed(0); }, {&m_grapplingHook}};
+  //frc2::InstantCommand m_ClimbUp{[this] {m_grapplingHook.GrapplingHookSpeed(0.5); }, {&m_grapplingHook}};
+  //frc2::InstantCommand m_ClimbDown{[this] {m_grapplingHook.GrapplingHookSpeed(-0.5); }, {&m_grapplingHook}};
+  //frc2::InstantCommand m_EliCool{[this] {m_grapplingHook.GrapplingHookSpeed(0); }, {&m_grapplingHook}};
 
 
 

@@ -9,6 +9,8 @@
 
 GrapplingHook::GrapplingHook() {
 
+  EndGameStarted = false;
+
 }
 
 void GrapplingHook::Periodic() {
@@ -24,6 +26,18 @@ void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {
   m_ClimberAdjustmentMotor.Set (speed);
 }
 
+void GrapplingHook::Execute(){
+
+if (EndGameStarted == true){
+
+  double speed = m_codriverController.GetRawAxis(1);
+  GrapplingHookSpeed(speed);
+  
+}
+
+}
+
 void GrapplingHook::Deploy(bool deploy) {
   m_ClimbSolenoid.Set(deploy);
+  EndGameStarted = true;
 }

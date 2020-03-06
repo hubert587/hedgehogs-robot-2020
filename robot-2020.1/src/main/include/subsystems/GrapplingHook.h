@@ -11,6 +11,8 @@
 #include <ctre/Phoenix.h>
 #include <Constants.h> 
 #include <frc/Solenoid.h> 
+#include <frc/Joystick.h>
+
 
 class GrapplingHook : public frc2::SubsystemBase {
 
@@ -19,6 +21,8 @@ class GrapplingHook : public frc2::SubsystemBase {
   void GrapplingHookSpeed(double speed);
 
   void GrapplingHookAdjustmentSpeed(double speed);
+
+  void Execute();
 
   
 
@@ -32,9 +36,12 @@ class GrapplingHook : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
+  bool EndGameStarted;
 
   WPI_TalonSRX m_ClimberLeftMotor{ canIDs::kClimberLeftMptorCanID };
   WPI_TalonSRX m_ClimberRightMotor{ canIDs::kClimberRightMotorCanID };
   WPI_TalonSRX m_ClimberAdjustmentMotor{ canIDs::kClimberAdjustmentMotorCanID };
   frc::Solenoid m_ClimbSolenoid{solenoidIDs::kClimbSolenoid};
+   frc::Joystick m_codriverController{OIConstants::CoDriver};
+
 };
