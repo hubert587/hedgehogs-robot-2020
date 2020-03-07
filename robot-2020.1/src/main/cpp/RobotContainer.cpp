@@ -23,28 +23,40 @@
 
 #include <ntcore.h>
 #include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableEntry.h>
+#include <networktables/NetworkTableInstance.h>
 #include <commands/DriveCommand.h>
+#include <Globals.h>
 
 using namespace DriveConstants;
+
+//extern double g_Distance;
+//extern double g_Angle;
+//extern double g_Contours;
+//extern bool g_TargetDetected;
 
 RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
   // Initialize all of your commands and subsystems here
 
 
-  NetworkTable::SetClientMode();
-  NetworkTable::SetTeam(587);
+  //NetworkTable::SetClientMode();
+  //NetworkTable::SetTeam(587);
   //NetworkTable::SetIPAddress("roborio-587-frc" ); 
-  NetworkTable::SetIPAddress("10.5.87.2");
-  NetworkTable::Initialize();
-  m_vision = NetworkTable::GetTable("VisionTarget");
+  //NetworkTable::SetIPAddress("10.5.87.2");
+  //NetworkTable::Initialize();
+  //m_vision = NetworkTable::GetTable("VisionTarget");
+
+  //NetworkTableInstance inst = NetworkTableInstance::GetDefault();
+  //NetworkTable table = inst.getTable("datatable");
+  m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
+  //auto table = inst.GetTable("datatable");
+  //xEntry = table->GetEntry("X");
 
   for (int i = 0; i < kLength; i++) {
-
-            // Set the value
+    //Set the value
     m_ledBuffer[i].SetRGB(0,255,0);
   }
   m_led.SetLength(kLength);
-
   m_led.SetData(m_ledBuffer);
   m_led.Start();
 
@@ -149,14 +161,14 @@ void RobotContainer::TestVision ()
 
 {
 
-  g_Distance = m_vision->GetNumber("distance", 0);
-  g_Angle = m_vision->GetNumber("targetAngle", 0);
-  g_Contours = m_vision->GetNumber("numContours", -1);
-  g_TargetDetected = m_vision->GetBoolean("targetFound", false);
-  frc::SmartDashboard::PutNumber("distance", g_Distance);
-  frc::SmartDashboard::PutNumber("targetAngle", g_Angle);
-  frc::SmartDashboard::PutNumber("numContours", g_Contours);
-  frc::SmartDashboard::PutBoolean("targetFound", g_TargetDetected);
+  VisionGlobals::g_Distance = m_vision->GetNumber("distance", 0);
+  VisionGlobals::g_Angle = m_vision->GetNumber("targetAngle", 0);
+  VisionGlobals::g_Contours = m_vision->GetNumber("numContours", -1);
+  VisionGlobals::g_TargetDetected = m_vision->GetBoolean("targetFound", false);
+  frc::SmartDashboard::PutNumber("distance", VisionGlobals::g_Distance);
+  frc::SmartDashboard::PutNumber("targetAngle", VisionGlobals::g_Angle);
+  frc::SmartDashboard::PutNumber("numContours", VisionGlobals::g_Contours);
+  frc::SmartDashboard::PutBoolean("targetFound", VisionGlobals::g_TargetDetected);
 
 
 

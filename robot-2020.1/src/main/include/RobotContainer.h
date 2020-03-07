@@ -47,11 +47,6 @@
 
 using std::shared_ptr;
 
-double g_Distance;
-double g_Angle;
-double g_Contours;
-bool g_TargetDetected;
-
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
