@@ -31,12 +31,22 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
   // Initialize all of your commands and subsystems here
 
 
-    //NetworkTable::SetClientMode();
-    //NetworkTable::SetTeam(587);
-    //NetworkTable::SetIPAddress("roborio-587-frc" ); 
-    //NetworkTable::SetIPAddress("10.5.87.2");
-    //NetworkTable::Initialize();
-    //m_vision = NetworkTable::GetTable("VisionTarget");
+  NetworkTable::SetClientMode();
+  NetworkTable::SetTeam(587);
+  //NetworkTable::SetIPAddress("roborio-587-frc" ); 
+  NetworkTable::SetIPAddress("10.5.87.2");
+  NetworkTable::Initialize();
+  m_vision = NetworkTable::GetTable("VisionTarget");
+
+  for (int i = 0; i < kLength; i++) {
+
+            // Set the value
+    m_ledBuffer[i].SetRGB(0,255,0);
+  }
+  m_led.SetLength(kLength);
+
+  m_led.SetData(m_ledBuffer);
+  m_led.Start();
 
 
   // Configure the button bindings
@@ -139,14 +149,14 @@ void RobotContainer::TestVision ()
 
 {
 
- // double distance = m_vision->GetNumber("distance", 0);
-  //double angle = m_vision->GetNumber("targetAngle", 0);
-  //double numContours = m_vision->GetNumber("numContours", -1);
-  //bool targetDetected = m_vision->GetBoolean("targetFound", false);
-    //  frc::SmartDashboard::PutNumber("distance", distance);
-    //frc::SmartDashboard::PutNumber("targetAngle", angle);
-    //frc::SmartDashboard::PutNumber("numContours", numContours);
-    //frc::SmartDashboard::PutBoolean("targetFound", targetDetected);
+  g_Distance = m_vision->GetNumber("distance", 0);
+  g_Angle = m_vision->GetNumber("targetAngle", 0);
+  g_Contours = m_vision->GetNumber("numContours", -1);
+  g_TargetDetected = m_vision->GetBoolean("targetFound", false);
+  frc::SmartDashboard::PutNumber("distance", g_Distance);
+  frc::SmartDashboard::PutNumber("targetAngle", g_Angle);
+  frc::SmartDashboard::PutNumber("numContours", g_Contours);
+  frc::SmartDashboard::PutBoolean("targetFound", g_TargetDetected);
 
 
 

@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/AutoAimCommand.h"
+#include <RobotContainer.h>
 
 AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
     : m_driveSubsystem{driveSubsystem} {
@@ -19,6 +20,8 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
     void AutoAimCommand::Initialize() {
       
         m_startAngle = m_driveSubsystem->GetHeading();  // Set the value
+
+        m_turnAngle = g_Angle;
 
         /*for (int i = 0; i < kLength; i++) {
 
@@ -40,15 +43,7 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
                       units::meters_per_second_t(0),
                       units::radians_per_second_t(m_turnRate),
                       false);
-/*        double distance = m_vision->GetNumber("distance", 0);
-        double angle = m_vision->GetNumber("targetAngle", 0);
-        double numContours = m_vision->GetNumber("numContours", -1);
-        bool targetDetected = m_vision->GetBoolean("targetFound", false);
-        frc::SmartDashboard::PutNumber("distance", distance);
-        frc::SmartDashboard::PutNumber("targetAngle", angle);
-        frc::SmartDashboard::PutNumber("numContours", numContours);
-        frc::SmartDashboard::PutBoolean("targetFound", targetDetected);
-  */            
+   
     }
 
     void AutoAimCommand::End(bool interrupted) {}

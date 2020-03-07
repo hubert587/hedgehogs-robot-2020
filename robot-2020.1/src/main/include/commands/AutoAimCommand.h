@@ -49,14 +49,6 @@ class AutoAimCommand
  private:
   DriveSubsystem* m_driveSubsystem;
    
-   /*static constexpr int kLength = 62; // number of leds in rings
-  std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
-  // Must be a PWM header, not MXP or DIO
-  frc::AddressableLED m_led{0};
-  // Create JD
-  shared_ptr<NetworkTable> m_vision;
-  */
-
  
 
   double m_turnAngle;

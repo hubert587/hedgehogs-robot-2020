@@ -47,6 +47,12 @@
 
 using std::shared_ptr;
 
+double g_Distance;
+double g_Angle;
+double g_Contours;
+bool g_TargetDetected;
+
+
 /**
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -90,6 +96,7 @@ class RobotContainer {
   Hopper m_hopper;
   GrapplingHook m_grapplingHook;
   Intake m_collect;
+
 
   // The robot's commands
   AutoFireLaser m_AutoShoot;
