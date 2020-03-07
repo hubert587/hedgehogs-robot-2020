@@ -18,8 +18,8 @@ void GrapplingHook::Periodic() {
 }
 
 void GrapplingHook::GrapplingHookSpeed(double speed) {
-  m_ClimberLeftMotor.Set (-speed * 0.4);
-  m_ClimberRightMotor.Set (-speed * 0.4);
+  m_ClimberLeftMotor.Set (-speed);
+  m_ClimberRightMotor.Set (-speed);
 }
 
 void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {
@@ -31,8 +31,12 @@ void GrapplingHook::Execute(){
 if (EndGameStarted == true){
 
   double speed = m_codriverController.GetRawAxis(1);
+  speed = speed * 0.6;
   if (fabs(speed) < 0.1) m_ClimbSolenoid.Set(false);
-  else if (speed < 0) m_ClimbSolenoid.Set(true);
+  else if (speed < 0) {
+    m_ClimbSolenoid.Set(true);
+    speed = speed * 1.1;
+  }
   else m_ClimbSolenoid.Set(false);
   GrapplingHookSpeed(speed);
   
