@@ -62,6 +62,8 @@ class RobotContainer {
 
 
   frc2::Command* GetAutonomousCommand();
+  frc2::Command* GetAutonomousCommandLeft();
+  frc2::Command* GetAutonomousCommandRight();
   
   // The driver's controller
   //frc::XboxController m_driverController{OIConstants::kDriverControllerPort};

@@ -14,7 +14,7 @@
 void Robot::RobotInit() {
 
   TargetDetected = false;
-
+  frc::SmartDashboard::PutNumber("Auto,0M,1L,2R", 0);
   //Vision->GetTable("VisionTarget");//should create table if does not exist
 //control loop (where it crashes)
 
@@ -55,7 +55,14 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  m_autonomousCommand = m_container.GetAutonomousCommand();
+  int ver = frc::SmartDashboard::GetNumber("Auto,0M,1L,2R", 0);
+  
+  if (ver == 1)
+    m_autonomousCommand = m_container.GetAutonomousCommandLeft();
+  else if (ver == 2)
+    m_autonomousCommand = m_container.GetAutonomousCommandRight();
+  else
+    m_autonomousCommand = m_container.GetAutonomousCommand();
 
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Schedule();

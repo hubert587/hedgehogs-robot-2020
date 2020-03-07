@@ -107,7 +107,7 @@ def calculateYaw(pixelX, centerX, hFocalLength):
     return round(yaw)
 
 
-def extra_processing(pipeline):
+def extra_processing(pipeline, img):
     """
     Performs extra processing on the pipeline's outputs and publishes data to NetworkTables.
     :param pipeline: the pipeline that just processed an image
@@ -140,6 +140,20 @@ def extra_processing(pipeline):
         widths.append(w)
         heights.append(h)
 
+        ratio = w/h
+        # make sure contour is fairly level either close to 0 degrees or 90 if rotated
+        if abs(angle) > 10:
+            # if rotate switch the width and height
+            if (abs(angle) > 80) and (abs(angle) < 100):
+                ratio = h/w
+            else
+                continue
+
+        # make sure width is a bit wider than height, if not probably not a target
+        if (ratio < 1.3) or (ratio > 2.7):
+            continue
+
+        cv2.circle(img, (int(x),int(y)), int((w+h)/2), (255,0,0), 1)
         peri = cv2.arcLength(contour, True)
         approx = cv2.approxPolyDP(contour, 0.1 * peri, True)
 
@@ -208,6 +222,9 @@ if __name__ == "__main__":
     #Start thread outputing stream
     #streamViewer = VideoShow(image_width,image_height, cameraServer, frame=img, name="Vision").start()
 
+    outstream = cameraServer.putVideo("Processed", 320, 240)
+    outstream.setFPS(10)
+
     print('Creating pipeline')
     pipeline = GripPipeline()
 
@@ -225,12 +242,14 @@ if __name__ == "__main__":
             continue
 
         pipeline.process(img)
-        extra_processing(pipeline)
+        extra_processing(pipeline, img)
 
         #Puts timestamp of camera on netowrk tables
         networkTable.putNumber("VideoTimestamp", timestamp)
         #streamViewer.frame = processed
         #Flushes camera values to reduce latency
         ntinst.flush()
+
+        outstream.putFrame(img)
  
     
