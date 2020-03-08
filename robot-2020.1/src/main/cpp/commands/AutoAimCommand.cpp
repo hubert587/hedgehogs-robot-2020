@@ -6,7 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/AutoAimCommand.h"
-#include <RobotContainer.h>
+#include <Globals.h>
+
+
 
 AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
     : m_driveSubsystem{driveSubsystem} {
@@ -21,7 +23,7 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
       
         m_startAngle = m_driveSubsystem->GetHeading();  // Set the value
 
-        m_turnAngle = g_Angle;
+        m_turnAngle = VisionGlobals::g_Angle;
 
         /*for (int i = 0; i < kLength; i++) {
 
