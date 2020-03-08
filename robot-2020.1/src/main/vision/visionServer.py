@@ -141,11 +141,13 @@ def extra_processing(pipeline, img):
         heights.append(h)
 
         ratio = w/h
+        flip = 0
         # make sure contour is fairly level either close to 0 degrees or 90 if rotated
         if abs(angle) > 10:
             # if rotate switch the width and height
             if (abs(angle) > 80) and (abs(angle) < 100):
                 ratio = h/w
+                flip = 1
             else:
                 continue
 
@@ -159,6 +161,9 @@ def extra_processing(pipeline, img):
 
         #distance is in inches
         distance = (17 * 240) / (2 * h * math.tan(10.27*math.pi/180))
+        # check to see if the bounding box is 90 degrees off, if so use width, since that is really the height
+        if flip == 1:
+            distance = (17 * 240) / (2 * w * math.tan(10.27*math.pi/180))
 
         targetAngle = math.atan((x - 160)/640)
         #targetAngle = 14 * ((x - 160) / 160)
