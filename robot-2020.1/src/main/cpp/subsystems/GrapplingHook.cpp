@@ -46,5 +46,10 @@ if (EndGameStarted == true){
 
 void GrapplingHook::Deploy(bool deploy) {
   m_ClimbSolenoid.Set(deploy);
+  if (EndGameStarted) { // skip this for the first loop to let the soleniod engage
+      GrapplingHookSpeed(-1.0);
+  }
+  
   EndGameStarted = true;
+
 }
