@@ -17,6 +17,7 @@
 #include <wpi/math>
 #include <rev/CANSparkMax.h>
 #include "Constants.h"
+#include "AbsoluteEncoder.h"
 
 class SwerveModule {
   using radians_per_second_squared_t =
@@ -25,6 +26,9 @@ class SwerveModule {
 
  public:
   SwerveModule(std::string modname, int driveMotorChannel, int turningMotorChannel,
+               #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+                    int turningEncoderPort, 
+               #endif
                bool driveEncoderReversed, bool turningEncoderReversed);
 
   frc::SwerveModuleState GetState();
@@ -55,7 +59,11 @@ class SwerveModule {
   rev::CANPIDController m_drivePIDController = m_driveMotor.GetPIDController();
 
 
-  rev::CANAnalog m_turnEncoder = m_turningMotor.GetAnalog();
+  #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+    AbsoluteEncoder m_turnEncoder; 
+  #else
+    rev::CANAnalog m_turnEncoder = m_turningMotor.GetAnalog();
+  #endif
   //rev::CANEncoder m_turnEncoder = m_turningMotor.GetEncoder();
   std::string m_name;
 

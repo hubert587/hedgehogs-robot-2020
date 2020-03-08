@@ -16,11 +16,17 @@
 SwerveModule::SwerveModule(std::string modname,
                           int driveMotorChannel, 
                           int turningMotorChannel,
+                          #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+                            int turningEncoderPort, 
+                          #endif
                           bool driveEncoderReversed,
                           bool turningEncoderReversed)
     : m_name(modname),
       m_driveMotor(driveMotorChannel, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
       m_turningMotor(turningMotorChannel, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
+      #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+        m_turnEncoder(turningEncoderPort), 
+      #endif
       m_reverseDriveEncoder(driveEncoderReversed),
       m_reverseTurningEncoder(turningEncoderReversed) {
 
@@ -50,15 +56,13 @@ SwerveModule::SwerveModule(std::string modname,
       // I have crippled the robot
 
       m_turningMotor.RestoreFactoryDefaults();
+
+#ifndef USE_RIO_ANALOG_FOR_ENCODERS 
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 20);
       m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 10);
-      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 10);
-      
-      //testing init turning motor
-      //m_turningMotor.Set(0);
-      
+      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 10);      
       m_turnEncoder.SetPositionConversionFactor(1.89);
-      
+#endif      
       m_turningPIDController.Reset();
       m_turningPIDController.EnableContinuousInput(-wpi::math::pi, wpi::math::pi);
       m_turningPIDController.SetTolerance(0.1);

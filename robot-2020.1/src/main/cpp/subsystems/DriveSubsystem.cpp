@@ -19,19 +19,31 @@ DriveSubsystem::DriveSubsystem()
     : m_frontLeft{"Fr_left",
                   kFrontLeftDriveMotorPort,
                   kFrontLeftTurningMotorPort,
+                  #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+                    kFrontLeftTurningEncoderPort, 
+                  #endif
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed},
 
       m_frontRight{"Fr_right",
           kFrontRightDriveMotorPort,       kFrontRightTurningMotorPort,
+          #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+            kFrontRightTurningEncoderPort, 
+          #endif
           kFrontRightDriveEncoderReversed, kFrontRightTurningEncoderReversed},
 
       m_rearLeft{"Bk_left",
           kRearLeftDriveMotorPort,       kRearLeftTurningMotorPort,
+          #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+            kRearLeftTurningEncoderPort, 
+          #endif
           kRearLeftDriveEncoderReversed, kRearLeftTurningEncoderReversed},
 
       m_rearRight{"Bk_right",
           kRearRightDriveMotorPort,       kRearRightTurningMotorPort,
+          #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
+            kRearRightTurningEncoderPort, 
+          #endif
           kRearRightDriveEncoderReversed, kRearRightTurningEncoderReversed},
 
       m_odometry{kDriveKinematics,

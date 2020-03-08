@@ -15,6 +15,8 @@
 
 #pragma once
 
+//#define USE_RIO_ANALOG_FOR_ENCODERS
+
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or bool constants.  This should not be used for any other purpose.
@@ -64,10 +66,10 @@ constexpr int kRearLeftTurningMotorPort = kRearLeftTurnCanID;
 constexpr int kFrontRightTurningMotorPort = kFrontRightTurnCanID;
 constexpr int kRearRightTurningMotorPort = kRearRightTurnCanID;
 
-constexpr int kFrontLeftTurningEncoderPorts[2]{0, 1};
-constexpr int kRearLeftTurningEncoderPorts[2]{2, 3};
-constexpr int kFrontRightTurningEncoderPorts[2]{4, 5};
-constexpr int kRearRightTurningEncoderPorts[2]{5, 6};
+constexpr int kFrontLeftTurningEncoderPort{0};
+constexpr int kRearLeftTurningEncoderPort{1};
+constexpr int kFrontRightTurningEncoderPort{2};
+constexpr int kRearRightTurningEncoderPort{3};
 
 constexpr bool kFrontLeftTurningEncoderReversed = false;
 constexpr bool kRearLeftTurningEncoderReversed = true;
