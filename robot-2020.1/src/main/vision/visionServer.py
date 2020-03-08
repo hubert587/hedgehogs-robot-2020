@@ -146,7 +146,7 @@ def extra_processing(pipeline, img):
             # if rotate switch the width and height
             if (abs(angle) > 80) and (abs(angle) < 100):
                 ratio = h/w
-            else
+            else:
                 continue
 
         # make sure width is a bit wider than height, if not probably not a target

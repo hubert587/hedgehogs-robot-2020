@@ -187,7 +187,121 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
       //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
       // Pass through these two interior waypoints, making an 's' curve path
-      {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, -1_m)},
+      {frc::Translation2d(-1_m, 1_m), frc::Translation2d(-2_m, 2_m)},
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(-3_m, 3_m, frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand(
+      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  // no auto
+  return new frc2::SequentialCommandGroup(
+    frc2::SequentialCommandGroup{
+      m_PositionIntakeHalf,
+      m_RaiseAngle,
+      m_PowerUpBlaster,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStart,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStop,
+      m_PowerDown,
+      //m_Drive180
+    },
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
+}
+
+frc2::Command* RobotContainer::GetAutonomousCommandLeft() {
+  // Set up config for trajectory
+  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                               AutoConstants::kMaxAcceleration);
+  // Add kinematics to ensure max speed is actually obeyed
+  config.SetKinematics(m_drive.kDriveKinematics);
+
+  // An example trajectory to follow.  All units in meters.
+  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {frc::Translation2d(1_m, -1_m), frc::Translation2d(2_m, -3_m)},
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(3_m, -4_m, frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand(
+      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  // no auto
+  return new frc2::SequentialCommandGroup(
+    frc2::SequentialCommandGroup{
+      m_PositionIntakeHalf,
+      m_RaiseAngle,
+      m_PowerUpBlaster,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStart,
+      frc2::WaitCommand{units::second_t(3)},
+      m_HopperStop,
+      m_PowerDown,
+      //m_Drive180
+    },
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
+}
+
+frc2::Command* RobotContainer::GetAutonomousCommandRight() {
+  // Set up config for trajectory
+  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                               AutoConstants::kMaxAcceleration);
+  // Add kinematics to ensure max speed is actually obeyed
+  config.SetKinematics(m_drive.kDriveKinematics);
+
+  // An example trajectory to follow.  All units in meters.
+  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {frc::Translation2d(1_m, 0_m), frc::Translation2d(2_m, 0_m)},
       // End 3 meters straight ahead of where we started, facing forward
       frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)),
       // Pass the config
@@ -219,121 +333,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       frc2::WaitCommand{units::second_t(3)},
       m_HopperStop,
       m_PowerDown,
-      m_Drive180
-    },
-    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
-    frc2::InstantCommand(
-      [this]() {
-        m_drive.Drive(units::meters_per_second_t(0),
-        units::meters_per_second_t(0),
-        units::radians_per_second_t(0), false);
-      },
-  {}));
-}
-
-frc2::Command* RobotContainer::GetAutonomousCommandLeft() {
-  // Set up config for trajectory
-  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
-                               AutoConstants::kMaxAcceleration);
-  // Add kinematics to ensure max speed is actually obeyed
-  config.SetKinematics(m_drive.kDriveKinematics);
-
-  // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-      // Start at the origin facing the +X direction
-      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      {frc::Translation2d(-1_m, 0_m), frc::Translation2d(-2_m, 1_m)},
-      // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(-3_m, 0_m, frc::Rotation2d(0_deg)),
-      // Pass the config
-      config);
-
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
-
-      m_drive.kDriveKinematics,
-
-      frc2::PIDController(AutoConstants::kPXController, 0, 0),
-      frc2::PIDController(AutoConstants::kPYController, 0, 0),
-      frc::ProfiledPIDController<units::radians>(
-          AutoConstants::kPThetaController, 0, 0,
-          AutoConstants::kThetaControllerConstraints),
-
-      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
-
-      {&m_drive});
-
-  // no auto
-  return new frc2::SequentialCommandGroup(
-    frc2::SequentialCommandGroup{
-      m_PositionIntakeHalf,
-      m_RaiseAngle,
-      m_PowerUpBlaster,
-      frc2::WaitCommand{units::second_t(3)},
-      m_HopperStart,
-      frc2::WaitCommand{units::second_t(3)},
-      m_HopperStop,
-      m_PowerDown,
-      m_Drive180
-    },
-    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
-    frc2::InstantCommand(
-      [this]() {
-        m_drive.Drive(units::meters_per_second_t(0),
-        units::meters_per_second_t(0),
-        units::radians_per_second_t(0), false);
-      },
-  {}));
-}
-
-frc2::Command* RobotContainer::GetAutonomousCommandRight() {
-  // Set up config for trajectory
-  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
-                               AutoConstants::kMaxAcceleration);
-  // Add kinematics to ensure max speed is actually obeyed
-  config.SetKinematics(m_drive.kDriveKinematics);
-
-  // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-      // Start at the origin facing the +X direction
-      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      {frc::Translation2d(1_m, 1_m), frc::Translation2d(2_m, 2_m)},
-      // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(3_m, 3_m, frc::Rotation2d(0_deg)),
-      // Pass the config
-      config);
-
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
-
-      m_drive.kDriveKinematics,
-
-      frc2::PIDController(AutoConstants::kPXController, 0, 0),
-      frc2::PIDController(AutoConstants::kPYController, 0, 0),
-      frc::ProfiledPIDController<units::radians>(
-          AutoConstants::kPThetaController, 0, 0,
-          AutoConstants::kThetaControllerConstraints),
-
-      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
-
-      {&m_drive});
-
-  // no auto
-  return new frc2::SequentialCommandGroup(
-    frc2::SequentialCommandGroup{
-      m_PositionIntakeHalf,
-      m_RaiseAngle,
-      m_PowerUpBlaster,
-      frc2::WaitCommand{units::second_t(3)},
-      m_HopperStart,
-      frc2::WaitCommand{units::second_t(3)},
-      m_HopperStop,
-      m_PowerDown,
-      m_Drive180
+      //m_Drive180
     },
     std::move(swerveControllerCommand), std::move(swerveControllerCommand),
     frc2::InstantCommand(

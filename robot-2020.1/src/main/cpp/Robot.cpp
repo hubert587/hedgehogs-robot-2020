@@ -28,7 +28,10 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); 
+void Robot::RobotPeriodic() { 
+  
+  m_container.TestVision();
+  frc2::CommandScheduler::GetInstance().Run(); 
 
   if (Vision /*&& Vision->IsConnected()*/){
 

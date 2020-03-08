@@ -15,7 +15,7 @@
 
 #pragma once
 
-//#define USE_RIO_ANALOG_FOR_ENCODERS
+#define USE_RIO_ANALOG_FOR_ENCODERS
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide

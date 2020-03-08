@@ -31,7 +31,7 @@ void GrapplingHook::Execute(){
 if (EndGameStarted == true){
 
   double speed = m_codriverController.GetRawAxis(1);
-  speed = speed * 0.6;
+  speed = speed * 0.7;
   if (fabs(speed) < 0.1) m_ClimbSolenoid.Set(false);
   else if (speed < 0) {
     m_ClimbSolenoid.Set(true);
