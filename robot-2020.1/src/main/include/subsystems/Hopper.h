@@ -34,4 +34,5 @@ class Hopper : public frc2::SubsystemBase {
   frc::DigitalInput IntakeBallDetector2{9};
   frc::DigitalInput ShooterBallDetector{2};
   frc::Joystick m_codriverController{OIConstants::CoDriver};
+  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
 };

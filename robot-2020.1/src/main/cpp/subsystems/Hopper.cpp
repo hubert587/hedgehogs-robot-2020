@@ -45,8 +45,12 @@ void Hopper::AutoHopper(){
     }*/
    if (intake1 || intake2) {//&& !ShooterBallDetector.Get()){
       HopperSpeed(speed);
+      m_codriverController.SetRumble(m_codriverController.kLeftRumble,1);
+      m_driverController.SetRumble(m_driverController.kLeftRumble,1);
     } else {
       HopperSpeed(0);
+      m_codriverController.SetRumble(m_codriverController.kLeftRumble,0);
+      m_driverController.SetRumble(m_driverController.kLeftRumble,0);
     }
   }
 }
