@@ -14,6 +14,7 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
     : m_driveSubsystem{driveSubsystem} {
 
         m_turnRate = 0.5;
+        frc::SmartDashboard::PutString("Trace - Aim", "construct");
         
     }
 
@@ -21,26 +22,16 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
     
     void AutoAimCommand::Initialize() {
       
+        frc::SmartDashboard::PutString("Trace - Aim", "init");
         m_startAngle = m_driveSubsystem->GetHeading();  // Set the value
-
         m_turnAngle = VisionGlobals::g_Angle;
-
-        /*for (int i = 0; i < kLength; i++) {
-
-            // Set the value
-            m_ledBuffer[i].SetRGB(0,255,0);
-        }
-        m_led.SetLength(kLength);
-
-        m_led.SetData(m_ledBuffer);
-        m_led.Start();
-*/
-
+        frc::SmartDashboard::PutNumber("AutoAimInitStart", m_startAngle);
+        frc::SmartDashboard::PutNumber("AutoAimInitTurn", m_turnAngle);
 
     }
     
     void AutoAimCommand::Execute() {  
-        
+        frc::SmartDashboard::PutString("Trace - Aim", "exe");        
         m_driveSubsystem->Drive(units::meters_per_second_t(0),
                       units::meters_per_second_t(0),
                       units::radians_per_second_t(m_turnRate),
@@ -51,7 +42,7 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
     void AutoAimCommand::End(bool interrupted) {}
 
     bool AutoAimCommand::IsFinished() {
-
-        return (m_driveSubsystem->GetHeading() > m_startAngle + m_turnAngle);
+        frc::SmartDashboard::PutNumber("AutoAimInitFinish", abs(m_driveSubsystem->GetHeading() - (m_startAngle + m_turnAngle)));
+        return (abs(m_driveSubsystem->GetHeading() - (m_startAngle + m_turnAngle)) < .01);
                 
     }
