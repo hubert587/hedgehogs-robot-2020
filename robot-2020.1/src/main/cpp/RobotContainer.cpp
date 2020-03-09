@@ -157,9 +157,7 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 
-void RobotContainer::TestVision ()
-
-{
+void RobotContainer::TestVision () {
 
   m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
   if(m_vision) {
