@@ -124,7 +124,8 @@ def extra_processing(pipeline, img):
     # Tartget coordinate should be ((x + w/2), h)
 
     print('Number of Contours : ', pipeline.filter_contours_output.__len__())
-
+    table.putNumber('numContours', pipeline.filter_contours_output.__len__())
+    
     targetFound = False
     distance = 0
     targetAngle = 0
@@ -179,7 +180,7 @@ def extra_processing(pipeline, img):
 
     table.putNumber('distance', distance)
     table.putNumber('targetAngle', targetAngle)
-    table.putNumber('numContours', pipeline.filter_contours_output.__len__())
+    
     table.putBoolean('targetFound', targetFound)
 
     #table.putNumberArray('x', center_x_positions)
