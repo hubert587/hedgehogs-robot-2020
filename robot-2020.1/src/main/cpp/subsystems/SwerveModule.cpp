@@ -96,7 +96,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
   }*/
 
   //reverse everything
-  /*double dist = fabs(newPos - encread);
+  double dist = fabs(newPos - encread);
   if (dist > wpi::math::pi / 2.0 && dist < 3.0 * wpi::math::pi / 2.0) {
     m_reverseDriveEncoder = !m_reverseDriveEncoder;
     m_reverseTurningEncoder = !m_reverseTurningEncoder;
@@ -106,7 +106,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
     if(newPos > 0) newPos -= wpi::math::pi;
     else if(newPos <= 0) newPos += wpi::math::pi;
   }
-*/
+
 
   double output = m_turningPIDController.Calculate(encread, newPos);
   if (output > 1.0) output = 1.0;
