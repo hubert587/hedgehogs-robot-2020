@@ -27,6 +27,7 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
         m_turnAngle = VisionGlobals::g_Angle;
         frc::SmartDashboard::PutNumber("AutoAimInitStart", m_startAngle);
         frc::SmartDashboard::PutNumber("AutoAimInitTurn", m_turnAngle);
+        frc::SmartDashboard::PutNumber("AutoAimInitAngle", VisionGlobals::g_Angle);
 
     }
     
@@ -37,6 +38,9 @@ AutoAimCommand::AutoAimCommand(DriveSubsystem* driveSubsystem)
                       units::radians_per_second_t(m_turnRate),
                       false);
    
+        frc::SmartDashboard::PutNumber("AutoAimInitStart", m_startAngle);
+        frc::SmartDashboard::PutNumber("AutoAimInitTurn", m_turnAngle);
+        frc::SmartDashboard::PutNumber("AutoAimInitAngle", VisionGlobals::g_Angle);
     }
 
     void AutoAimCommand::End(bool interrupted) {}
