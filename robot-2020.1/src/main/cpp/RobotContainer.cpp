@@ -48,7 +48,7 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
 
   //NetworkTableInstance inst = NetworkTableInstance::GetDefault();
   //NetworkTable table = inst.getTable("datatable");
-  m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
+  
   //auto table = inst.GetTable("datatable");
   //xEntry = table->GetEntry("X");
 
@@ -161,17 +161,19 @@ void RobotContainer::TestVision ()
 
 {
 
-  VisionGlobals::g_Distance = m_vision->GetNumber("distance", 0);
-  VisionGlobals::g_Angle = m_vision->GetNumber("targetAngle", 0);
-  VisionGlobals::g_Contours = m_vision->GetNumber("numContours", -1);
-  VisionGlobals::g_TargetDetected = m_vision->GetBoolean("targetFound", false);
-  frc::SmartDashboard::PutNumber("distance", VisionGlobals::g_Distance);
-  frc::SmartDashboard::PutNumber("targetAngle", VisionGlobals::g_Angle);
-  frc::SmartDashboard::PutNumber("numContours", VisionGlobals::g_Contours);
-  frc::SmartDashboard::PutBoolean("targetFound", VisionGlobals::g_TargetDetected);
-
-
-
+  m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
+  if(m_vision) {
+    VisionGlobals::g_Distance = m_vision->GetNumber("distance", 0);
+    VisionGlobals::g_Angle = m_vision->GetNumber("targetAngle", 0);
+    VisionGlobals::g_Contours = m_vision->GetNumber("numContours", -1);
+    VisionGlobals::g_TargetDetected = m_vision->GetBoolean("targetFound", false);
+    frc::SmartDashboard::PutNumber("distance", VisionGlobals::g_Distance);
+    frc::SmartDashboard::PutNumber("targetAngle", VisionGlobals::g_Angle);
+    frc::SmartDashboard::PutNumber("numContours", VisionGlobals::g_Contours);
+    frc::SmartDashboard::PutBoolean("targetFound", VisionGlobals::g_TargetDetected);
+  } else {
+    frc::SmartDashboard::PutNumber("distance", -1);
+  }
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
