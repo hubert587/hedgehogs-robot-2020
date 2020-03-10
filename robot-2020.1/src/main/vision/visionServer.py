@@ -122,13 +122,14 @@ def extra_processing(pipeline, img):
     heights = []
 
     # Tartget coordinate should be ((x + w/2), h)
-
+    table = NetworkTables.getTable('VisionTarget')
     print('Number of Contours : ', pipeline.filter_contours_output.__len__())
     table.putNumber('numContours', pipeline.filter_contours_output.__len__())
     
     targetFound = False
     distance = 0
     targetAngle = 0
+    largestArea = 0
     for contour in pipeline.filter_contours_output:
         #returns a Box2D structure which contains following detals
         #( top-left corner(x,y), (width, height), angle of rotation )
@@ -141,6 +142,7 @@ def extra_processing(pipeline, img):
         widths.append(w)
         heights.append(h)
 
+        area = w*h
         ratio = w/h
         flip = 0
         # make sure contour is fairly level either close to 0 degrees or 90 if rotated
@@ -154,29 +156,32 @@ def extra_processing(pipeline, img):
 
         # make sure width is a bit wider than height, if not probably not a target
         if (ratio < 1.3) or (ratio > 2.7):
+            print('w ', w, ' h ', h, ' angle: ', angle, ', ratio: ', ratio)
             continue
 
         cv2.circle(img, (int(x),int(y)), int((w+h)/2), (255,0,0), 1)
         peri = cv2.arcLength(contour, True)
         approx = cv2.approxPolyDP(contour, 0.1 * peri, True)
 
-        #distance is in inches
-        distance = (17 * 240) / (2 * h * math.tan(10.27*math.pi/180))
-        # check to see if the bounding box is 90 degrees off, if so use width, since that is really the height
-        if flip == 1:
-            distance = (17 * 240) / (2 * w * math.tan(10.27*math.pi/180))
+        if area > largestArea:
+            largestArea = area
+            #distance is in inches
+            distance = (17 * 240) / (2 * h * math.tan(10.27*math.pi/180))
+            # check to see if the bounding box is 90 degrees off, if so use width, since that is really the height
+            if flip == 1:
+                distance = (17 * 240) / (2 * w * math.tan(10.27*math.pi/180))
 
-        targetAngle = math.atan((x - 160)/640)
-        #targetAngle = 14 * ((x - 160) / 160)
-        targetFound = True
-        # Elias (distance to target = target length in pixels/1.7333,  degrees to turn inverse tan(Pxoff/640px))
-        #target_x
-        #target_y
-        print('(', x,',', y, '), ', w, ' X ', h, ' angle: ', angle, ', vertex: ', len(approx), ', distance: ', distance, 'angle: ', targetAngle*180/3.141592)
+            targetAngle = math.atan((x - 160)/640)
+            #targetAngle = 14 * ((x - 160) / 160)
+            targetFound = True
+            # Elias (distance to target = target length in pixels/1.7333,  degrees to turn inverse tan(Pxoff/640px))
+            #target_x
+            #target_y
+            print('(', x,',', y, '), ', w, ' X ', h, ' angle: ', angle, ', vertex: ', len(approx), ', distance: ', distance, 'angle: ', targetAngle*180/3.141592)
 
     # Publish to the '/vision/red_areas' network table
 
-    table = NetworkTables.getTable('VisionTarget')
+
 
     table.putNumber('distance', distance)
     table.putNumber('targetAngle', targetAngle)
