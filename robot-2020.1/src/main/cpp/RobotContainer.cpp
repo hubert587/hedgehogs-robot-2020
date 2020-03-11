@@ -73,9 +73,31 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
         double x = m_driverController.GetRawAxis(0);
         double y = -m_driverController.GetRawAxis(1);
         double r = -m_driverController.GetRawAxis(2); //4 for new logitech
+        bool pressed = false;
+        double speed = 0.2;
+        m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
+        if(m_vision) {
+          pressed = m_driverController.GetRawButton(7);
+          VisionGlobals::g_Distance = m_vision->GetNumber("distance", 0);
+          VisionGlobals::g_Angle = m_vision->GetNumber("targetAngle", 0);
+          VisionGlobals::g_Contours = m_vision->GetNumber("numContours", -1);
+          VisionGlobals::g_TargetDetected = m_vision->GetBoolean("targetFound", false);
+          if (VisionGlobals::g_Angle > 0) {
+            speed = -0.2;
+          }
+          frc::SmartDashboard::PutNumber("distance", VisionGlobals::g_Distance);
+          frc::SmartDashboard::PutNumber("targetAngle", VisionGlobals::g_Angle);
+          frc::SmartDashboard::PutNumber("numContours", VisionGlobals::g_Contours);
+          frc::SmartDashboard::PutBoolean("targetFound", VisionGlobals::g_TargetDetected);
+          frc::SmartDashboard::PutBoolean("THE AIM BUTTON", pressed);
+          frc::SmartDashboard::PutNumber("Aim Speed", speed);
+        } else {
+
+        }
         m_drive.Drive(units::meters_per_second_t(x),
                       units::meters_per_second_t(y),
-                      units::radians_per_second_t(r),
+                      units::radians_per_second_t((pressed && fabs(VisionGlobals::g_Angle) > .04) ? speed : r),
+                      
                       true);
                       //false);
         //frc::SmartDashboard::PutNumber("x_axis", x);
@@ -125,7 +147,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_driverController.GetRawButton(1);}}.WhenPressed(&m_RaiseAngle);
     frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_LowerAngle);
     frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_DriveSlow).WhenReleased(&m_DriveSlow);
-    frc2::Button{[&] {return m_driverController.GetRawButton(7);}}.WhenPressed(&m_AutoAim);
+    //frc2::Button{[&] {return m_driverController.GetRawButton(7);}}.WhenPressed(&m_AutoAim);
     frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_fireAll);
     frc2::Button{[&] {return m_driverController.GetRawButton(9);}}.WhenPressed(&m_stopAll);
     frc2::Button{[&] {return m_driverController.GetRawButton(10);}}.WhenPressed(&m_ZeroHeading);
