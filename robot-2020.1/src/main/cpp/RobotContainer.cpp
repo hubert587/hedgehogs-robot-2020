@@ -26,7 +26,7 @@
 #include <networktables/NetworkTableEntry.h>
 #include <networktables/NetworkTableInstance.h>
 #include <commands/DriveCommand.h>
-#include <Globals.h>
+
 
 using namespace DriveConstants;
 
@@ -75,20 +75,16 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
         double r = -m_driverController.GetRawAxis(2); //4 for new logitech
         bool pressed = false;
         double speed = 0.2;
-        m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
         if(m_vision) {
           pressed = m_driverController.GetRawButton(7);
-          VisionGlobals::g_Distance = m_vision->GetNumber("distance", 0);
-          VisionGlobals::g_Angle = m_vision->GetNumber("targetAngle", 0);
-          VisionGlobals::g_Contours = m_vision->GetNumber("numContours", -1);
-          VisionGlobals::g_TargetDetected = m_vision->GetBoolean("targetFound", false);
-          if (VisionGlobals::g_Angle > 0) {
+          
+          if (m_Angle > 0) {
             speed = -0.2;
           }
-          frc::SmartDashboard::PutNumber("distance", VisionGlobals::g_Distance);
-          frc::SmartDashboard::PutNumber("targetAngle", VisionGlobals::g_Angle);
-          frc::SmartDashboard::PutNumber("numContours", VisionGlobals::g_Contours);
-          frc::SmartDashboard::PutBoolean("targetFound", VisionGlobals::g_TargetDetected);
+          frc::SmartDashboard::PutNumber("distance", m_Distance);
+          frc::SmartDashboard::PutNumber("targetAngle", m_Angle);
+          frc::SmartDashboard::PutNumber("numContours", m_Contours);
+          frc::SmartDashboard::PutBoolean("targetFound", m_TargetDetected);
           frc::SmartDashboard::PutBoolean("THE AIM BUTTON", pressed);
           frc::SmartDashboard::PutNumber("Aim Speed", speed);
         } else {
@@ -96,7 +92,7 @@ RobotContainer::RobotContainer():m_DriveCommand{&m_drive, &m_driverController} {
         }
         m_drive.Drive(units::meters_per_second_t(x),
                       units::meters_per_second_t(y),
-                      units::radians_per_second_t((pressed && fabs(VisionGlobals::g_Angle) > .04) ? speed : r),
+                      units::radians_per_second_t((pressed && fabs(m_Angle) > .03) ? speed : r),
                       
                       true);
                       //false);
@@ -183,14 +179,14 @@ void RobotContainer::TestVision () {
 
   m_vision = nt::NetworkTableInstance::GetDefault().GetTable("VisionTarget");
   if(m_vision) {
-    VisionGlobals::g_Distance = m_vision->GetNumber("distance", 0);
-    VisionGlobals::g_Angle = m_vision->GetNumber("targetAngle", 0);
-    VisionGlobals::g_Contours = m_vision->GetNumber("numContours", -1);
-    VisionGlobals::g_TargetDetected = m_vision->GetBoolean("targetFound", false);
-    frc::SmartDashboard::PutNumber("distance", VisionGlobals::g_Distance);
-    frc::SmartDashboard::PutNumber("targetAngle", VisionGlobals::g_Angle);
-    frc::SmartDashboard::PutNumber("numContours", VisionGlobals::g_Contours);
-    frc::SmartDashboard::PutBoolean("targetFound", VisionGlobals::g_TargetDetected);
+    m_Distance = m_vision->GetNumber("distance", 0);
+    m_Angle = m_vision->GetNumber("targetAngle", 0);
+    m_Contours = m_vision->GetNumber("numContours", -1);
+    m_TargetDetected = m_vision->GetBoolean("targetFound", false);
+    frc::SmartDashboard::PutNumber("distance", m_Distance);
+    frc::SmartDashboard::PutNumber("targetAngle", m_Angle);
+    frc::SmartDashboard::PutNumber("numContours", m_Contours);
+    frc::SmartDashboard::PutBoolean("targetFound", m_TargetDetected);
   } else {
     frc::SmartDashboard::PutNumber("distance", -1);
   }

@@ -82,7 +82,10 @@ class RobotContainer {
   frc::AddressableLED m_led{0};
   // Create JD
   shared_ptr<NetworkTable> m_vision;
-  
+  double m_Distance;
+  double m_Angle;
+  double m_Contours;
+  bool m_TargetDetected;
 
   // The robot's subsystems
   DriveSubsystem m_drive;
