@@ -87,7 +87,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   // full speed
   xSpeed = xSpeed * AutoConstants::kMaxSpeed.to<double>();
   ySpeed = ySpeed * AutoConstants::kMaxSpeed.to<double>();
-  rot = rot * 8;
+  rot = rot * 8.0;
 
   if (slow == true){
     frc::SmartDashboard::PutString("Drive.Gear", "Slow");
@@ -156,14 +156,14 @@ void DriveSubsystem::ResetEncoders() {
 }
 
 double DriveSubsystem::GetHeading() {
-  double degrees = std::remainder(m_NavX.GetAngle(), 360) * (kGyroReversed ? -1. : 1.);
+  double degrees = std::remainder(m_NavX.GetAngle(), 360.0) * (kGyroReversed ? -1.0 : 1.0);
   return (degrees * wpi::math::pi) / 180.0;
 }
 
 void DriveSubsystem::ZeroHeading() { m_NavX.ZeroYaw(); }
 
 double DriveSubsystem::GetTurnRate() {
-  return m_NavX.GetRate() * (kGyroReversed ? -1. : 1.);
+  return m_NavX.GetRate() * (kGyroReversed ? -1.0 : 1.0);
 }
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }

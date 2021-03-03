@@ -101,10 +101,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
 
   frc::SwerveDriveKinematics<4> kDriveKinematics{
-      frc::Translation2d(-kTrackWidth / 2, kWheelBase / 2),
-      frc::Translation2d(-kTrackWidth / 2, -kWheelBase / 2),
-      frc::Translation2d(kTrackWidth / 2, kWheelBase / 2),      
-      frc::Translation2d(kTrackWidth / 2, -kWheelBase / 2)};
+      frc::Translation2d(-kTrackWidth / 2.0, kWheelBase / 2.0),
+      frc::Translation2d(-kTrackWidth / 2.0, -kWheelBase / 2.0),
+      frc::Translation2d(kTrackWidth / 2.0, kWheelBase / 2.0),      
+      frc::Translation2d(kTrackWidth / 2.0, -kWheelBase / 2.0)};
       /*
       frc::Translation2d(-kTrackWidth / 2, kWheelBase / 2),
       frc::Translation2d(kTrackWidth / 2, kWheelBase / 2),
