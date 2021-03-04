@@ -58,12 +58,18 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  int ver = frc::SmartDashboard::GetNumber("Auto,0M,1L,2R", 0);
+  int ver = frc::SmartDashboard::GetNumber("Auto,0M,1L,2R,3Barrel,4Slalom,5Bounce", 0);
   
   if (ver == 1)
     m_autonomousCommand = m_container.GetAutonomousCommandLeft();
   else if (ver == 2)
     m_autonomousCommand = m_container.GetAutonomousCommandRight();
+  else if (ver == 3)
+    m_autonomousCommand = m_container.GetAutonomousCommandBarrel();
+  else if (ver == 4)
+    m_autonomousCommand = m_container.GetAutonomousCommandSlalom();
+  else if (ver == 5)
+    m_autonomousCommand = m_container.GetAutonomousCommandBounce();
   else
     m_autonomousCommand = m_container.GetAutonomousCommand();
 

@@ -362,3 +362,178 @@ frc2::Command* RobotContainer::GetAutonomousCommandRight() {
       },
   {}));
 }
+
+
+frc2::Command* RobotContainer::GetAutonomousCommandBarrel() {
+  // Set up config for trajectory
+  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                               AutoConstants::kMaxAcceleration);
+  // Add kinematics to ensure max speed is actually obeyed
+  config.SetKinematics(m_drive.kDriveKinematics);
+
+  // An example trajectory to follow.  All units in meters.
+  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {frc::Translation2d(0_m, 3.96_m), 
+      frc::Translation2d(-0.762_m, 3.96_m),
+      frc::Translation2d(-1.651_m, 3.96_m), 
+      frc::Translation2d(-1.651_m, 2.74_m),
+      frc::Translation2d(-0.762_m, 2.111_m), 
+      frc::Translation2d(0_m, 2.111_m),
+      frc::Translation2d(0_m, 6.223_m), 
+      frc::Translation2d(0.762_m, 6.223_m),
+      frc::Translation2d(1.676_m, 5.64_m), 
+      frc::Translation2d(1.676_m, 5_m),
+      frc::Translation2d(0.762_m, 4.37_m), 
+      frc::Translation2d(-1.8_m, 6.731_m),
+      frc::Translation2d(-1.8_m, 7.239_m), 
+      frc::Translation2d(-1.143_m, 7.77_m),
+      frc::Translation2d(-0.635_m, 7.77_m), 
+      frc::Translation2d(0_m, 7.087_m)
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand(
+      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  // no auto
+  return new frc2::SequentialCommandGroup(
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
+}
+
+frc2::Command* RobotContainer::GetAutonomousCommandSlalom() {
+  // Set up config for trajectory
+  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                               AutoConstants::kMaxAcceleration);
+  // Add kinematics to ensure max speed is actually obeyed
+  config.SetKinematics(m_drive.kDriveKinematics);
+
+  // An example trajectory to follow.  All units in meters.
+  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {frc::Translation2d(0_m, 1.524_m), //rotate 90
+      frc::Translation2d(1.524_m, 1.524_m),
+      frc::Translation2d(1.524_m, 6.096_m), 
+      frc::Translation2d(0_m, 6.096_m),
+      frc::Translation2d(0_m, 7.62_m), 
+      frc::Translation2d(1.524_m, 7.62_m),
+      frc::Translation2d(1.524_m, 6.096_m), 
+      frc::Translation2d(0_m, 6.096_m),
+      frc::Translation2d(0_m, 1.524_m), 
+      frc::Translation2d(1.524_m, 1.524_m),//rotate 0
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(1.524_m, 0_m, frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand(
+      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  // no auto
+  return new frc2::SequentialCommandGroup(
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
+}
+
+frc2::Command* RobotContainer::GetAutonomousCommandBounce() {
+  // Set up config for trajectory
+  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                               AutoConstants::kMaxAcceleration);
+  // Add kinematics to ensure max speed is actually obeyed
+  config.SetKinematics(m_drive.kDriveKinematics);
+
+  // An example trajectory to follow.  All units in meters.
+  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {frc::Translation2d(0.41_m, 1.524_m), //rotate 90
+      frc::Translation2d(1.524_m, 1.524_m),
+      frc::Translation2d(0.5842_m, 1.524_m), //rotate 28
+      frc::Translation2d(-1.524_m, 2.64_m), //rotate 90
+      frc::Translation2d(-1.524_m, 3.81_m), 
+      frc::Translation2d(1.524_m, 3.81_m),
+      frc::Translation2d(-1.524_m, 3.81_m), 
+      frc::Translation2d(-1.524_m, 6.096_m),
+      frc::Translation2d(1.524_m, 6.096_m), //rotate 13
+      frc::Translation2d(0_m, 6.43_m) //rotate 0
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(0_m, 7.62_m, frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand(
+      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  // no auto
+  return new frc2::SequentialCommandGroup(
+    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
+}
