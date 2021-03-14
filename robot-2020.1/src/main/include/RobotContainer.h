@@ -173,4 +173,10 @@ class RobotContainer {
   frc::SendableChooser<frc2::Command*> m_chooser;
 
   void ConfigureButtonBindings();
+
+  units::length::meter_t InchesToMeters(double inch){
+    double multiplier=1.0;
+    multiplier=frc::SmartDashboard::GetNumber("distmulti", multiplier);
+    return ((units::length::meter_t)inch*multiplier) / 39.37;
+  }
 };
