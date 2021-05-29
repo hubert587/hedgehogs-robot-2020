@@ -31,7 +31,7 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() { 
-  
+  //frc::SmartDashboard::PutNumber("SearchRed", m_container.Ultrasonic.Get());
   m_container.TestVision();
   frc2::CommandScheduler::GetInstance().Run(); 
 
@@ -72,6 +72,8 @@ void Robot::AutonomousInit() {
     m_autonomousCommand = m_container.GetAutonomousCommandSlalom();
   else if (ver == 5)
     m_autonomousCommand = m_container.GetAutonomousCommandBounce();
+  else if (ver == 6)
+    m_autonomousCommand = m_container.GetAutonomousCommandSearch();
   else
     m_autonomousCommand = m_container.GetAutonomousCommand();
 

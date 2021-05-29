@@ -26,8 +26,8 @@
 #include <networktables/NetworkTableEntry.h>
 #include <networktables/NetworkTableInstance.h>
 #include <commands/DriveCommand.h>
-
-
+#include <frc/DigitalInput.h>
+#include <commands/SearchControllerCommand.h>
 using namespace DriveConstants;
 
 //extern double g_Distance;
@@ -169,7 +169,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_codriverController.GetRawButton(8);}}.WhenPressed(&m_InitiationLineSpeed);
     frc2::Button{[&] {return m_codriverController.GetRawButton(9);}}.WhenPressed(&m_stopAll);
     frc2::Button{[&] {return m_codriverController.GetRawButton(10);}}.WhenHeld(&m_DeployClimb);
-
+    frc2::Button{[&] {return m_codriverController.GetRawButton(4);}}.WhenPressed(&m_BlueSpeed);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(11);}}.WhenPressed(&m_DeployClimber);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(12);}}.WhenPressed(&m_UndeployClimber);
 }
@@ -364,6 +364,7 @@ frc2::Command* RobotContainer::GetAutonomousCommandRight() {
 }
 
 
+
 frc2::Command* RobotContainer::GetAutonomousCommandBarrel() {
   m_drive.ResetEncoders();
 
@@ -374,54 +375,130 @@ frc2::Command* RobotContainer::GetAutonomousCommandBarrel() {
   config.SetKinematics(m_drive.kDriveKinematics);
 
   // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+  auto exampleTrajectory0 = frc::TrajectoryGenerator::GenerateTrajectory(
       // Start at the origin facing the +X direction
       frc::Pose2d(InchesToMeters(0), InchesToMeters(0), frc::Rotation2d(0_deg)),
       //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
       // Pass through these two interior waypoints, making an 's' curve path
       { 
-      frc::Translation2d(InchesToMeters(42), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(83), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(119), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(156), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(156), InchesToMeters(-30)), 
-      frc::Translation2d(InchesToMeters(132), InchesToMeters(-65)), 
-      frc::Translation2d(InchesToMeters(108), InchesToMeters(-65)), 
-      frc::Translation2d(InchesToMeters(83), InchesToMeters(-30)), 
-      frc::Translation2d(InchesToMeters(83), InchesToMeters(0)),
-      frc::Translation2d(InchesToMeters(119), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(156), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(186), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(216), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(245), InchesToMeters(30)), 
-      frc::Translation2d(InchesToMeters(222), InchesToMeters(66)), 
-      frc::Translation2d(InchesToMeters(197), InchesToMeters(66)), 
-      frc::Translation2d(InchesToMeters(172), InchesToMeters(30)), 
-      frc::Translation2d(InchesToMeters(200), InchesToMeters(0)),
-      frc::Translation2d(InchesToMeters(218.5), InchesToMeters(-20.5)), 
-      frc::Translation2d(InchesToMeters(227), InchesToMeters(-30)), 
-      frc::Translation2d(InchesToMeters(253), InchesToMeters(-52)), 
-      frc::Translation2d(InchesToMeters(265), InchesToMeters(-71)), 
-      frc::Translation2d(InchesToMeters(285), InchesToMeters(-71)), 
-      frc::Translation2d(InchesToMeters(306), InchesToMeters(-45)), 
-      frc::Translation2d(InchesToMeters(306), InchesToMeters(-25)), 
-      frc::Translation2d(InchesToMeters(279), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(245), InchesToMeters(0)),
-      frc::Translation2d(InchesToMeters(216), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(186), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(156), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(119), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(83), InchesToMeters(0)), 
-      frc::Translation2d(InchesToMeters(42), InchesToMeters(0))
-      
+      frc::Translation2d(InchesToMeters(45), InchesToMeters(0)),
+      frc::Translation2d(InchesToMeters(90), InchesToMeters(-10)),
+      frc::Translation2d(InchesToMeters(135), InchesToMeters(-20)),
+      frc::Translation2d(InchesToMeters(170), InchesToMeters(-20)), //corner
+      frc::Translation2d(InchesToMeters(160), InchesToMeters(30)),
+     
       },
       // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(InchesToMeters(0), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      frc::Pose2d(InchesToMeters(140), InchesToMeters(80), frc::Rotation2d(0_deg)),
       // Pass the config
       config);
 
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+  auto exampleTrajectory1 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(140), InchesToMeters(80), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      { 
+      //frc::Translation2d(InchesToMeters(140), InchesToMeters(80)),
+      frc::Translation2d(InchesToMeters(55), InchesToMeters(80)), //corner
+      frc::Translation2d(InchesToMeters(55), InchesToMeters(30)),
+     
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(55), InchesToMeters(-50), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  auto exampleTrajectory2 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(55), InchesToMeters(-50), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      { 
+      frc::Translation2d(InchesToMeters(160), InchesToMeters(-30)),
+      frc::Translation2d(InchesToMeters(240), InchesToMeters(-20)), //corner
+      frc::Translation2d(InchesToMeters(240), InchesToMeters(-70)),
+
+     
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(240), InchesToMeters(-110), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  auto exampleTrajectory3 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(240), InchesToMeters(-110), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      { 
+      frc::Translation2d(InchesToMeters(210), InchesToMeters(-110)),
+      frc::Translation2d(InchesToMeters(135), InchesToMeters(-110)), //corner
+      frc::Translation2d(InchesToMeters(135), InchesToMeters(-60)),
+     
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(135), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  auto exampleTrajectory4 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(135), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      { 
+      frc::Translation2d(InchesToMeters(165), InchesToMeters(40)),
+      frc::Translation2d(InchesToMeters(200), InchesToMeters(80)), //corner
+      frc::Translation2d(InchesToMeters(240), InchesToMeters(80)),
+     
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(300), InchesToMeters(80), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  auto exampleTrajectory5 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(300), InchesToMeters(80), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      { 
+      frc::Translation2d(InchesToMeters(300), InchesToMeters(30)),
+      frc::Translation2d(InchesToMeters(300), InchesToMeters(-30)), //corner
+      frc::Translation2d(InchesToMeters(150), InchesToMeters(-10)),
+      frc::Translation2d(InchesToMeters(0), InchesToMeters(-80)),
+      
+     
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(-110), InchesToMeters(-190), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  auto exampleTrajectory6 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(-110), InchesToMeters(-110), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      { 
+      frc::Translation2d(InchesToMeters(300), InchesToMeters(-30)),
+      frc::Translation2d(InchesToMeters(300), InchesToMeters(-30)), //corner
+      frc::Translation2d(InchesToMeters(150), InchesToMeters(-10)),
+      frc::Translation2d(InchesToMeters(0), InchesToMeters(-50)),
+      
+     
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(-130), InchesToMeters(-30), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+
+m_drive.ResetOdometry(exampleTrajectory0.InitialPose());
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand0(
+      exampleTrajectory0, [this]() { return m_drive.GetPose(); },
 
       m_drive.kDriveKinematics,
 
@@ -435,10 +512,113 @@ frc2::Command* RobotContainer::GetAutonomousCommandBarrel() {
 
       {&m_drive});
 
-  m_drive.ResetOdometry(exampleTrajectory.InitialPose());
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand1(
+      exampleTrajectory1, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+
+      
+  frc2::SwerveControllerCommand<4> swerveControllerCommand2(
+      exampleTrajectory2, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+
+      
+  frc2::SwerveControllerCommand<4> swerveControllerCommand3(
+      exampleTrajectory3, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+
+      
+  frc2::SwerveControllerCommand<4> swerveControllerCommand4(
+      exampleTrajectory4, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  
+  frc2::SwerveControllerCommand<4> swerveControllerCommand5(
+      exampleTrajectory5, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand6(
+      exampleTrajectory6, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+  
   // no auto
   return new frc2::SequentialCommandGroup(
-    std::move(swerveControllerCommand),
+    std::move(swerveControllerCommand0),
+    std::move(swerveControllerCommand1),
+    std::move(swerveControllerCommand2),
+    std::move(swerveControllerCommand3),
+    std::move(swerveControllerCommand4),
+    std::move(swerveControllerCommand5),
+    //std::move(swerveControllerCommand6),
     frc2::InstantCommand(
       [this]() {
         m_drive.Drive(units::meters_per_second_t(0),
@@ -457,50 +637,100 @@ frc2::Command* RobotContainer::GetAutonomousCommandSlalom() {
   config.SetKinematics(m_drive.kDriveKinematics);
 
   // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+  auto exampleTrajectory0 = frc::TrajectoryGenerator::GenerateTrajectory(
       // Start at the origin facing the +X direction
       frc::Pose2d(InchesToMeters(0), InchesToMeters(0), frc::Rotation2d(0_deg)),
       //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
       // Pass through these two interior waypoints, making an 's' curve path
       {
         frc::Translation2d(InchesToMeters(30), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(90), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(120), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(180), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(210), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(270), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(300), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(300), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(300), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(270), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(210), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(180), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(120), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(90), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(30), InchesToMeters(60))
+        frc::Translation2d(InchesToMeters(50), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(50), InchesToMeters(-30*1.4))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(50), InchesToMeters(-60*1.4), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+  std::cout << "traj0\n";
+  auto exampleTrajectory1 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(50), InchesToMeters(-60*1.4), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(90), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(120), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(150), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(180), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(210), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(247), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(247), InchesToMeters(-30*1.4))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(247), InchesToMeters(30), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+std::cout << "traj1\n";
+auto exampleTrajectory2 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(247), InchesToMeters(30), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(282), InchesToMeters(30)),
+        frc::Translation2d(InchesToMeters(267), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(252), InchesToMeters(-30*1.4)),
+        //frc::Translation2d(InchesToMeters(270), InchesToMeters(-45*1.4))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(240), InchesToMeters(-40*1.4), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+std::cout << "traj2\n";
+auto exampleTrajectory3 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(240), InchesToMeters(-40*1.4), frc::Rotation2d(0_deg)),
+      {
+        //frc::Translation2d(InchesToMeters(240), InchesToMeters(-60*1.4)),
+        frc::Translation2d(InchesToMeters(210), InchesToMeters(-40*1.4)),
+        frc::Translation2d(InchesToMeters(175), InchesToMeters(-40*1.4)),
+        //frc::Translation2d(InchesToMeters(180), InchesToMeters(-30*1.4)),
+        //frc::Translation2d(InchesToMeters(180), InchesToMeters(-10*1.4))
         
       },
       // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(InchesToMeters(0), InchesToMeters(60), frc::Rotation2d(0_deg)),
+      frc::Pose2d(InchesToMeters(175), InchesToMeters(20*1.4), frc::Rotation2d(0_deg)),
       // Pass the config
       config);
+std::cout << "traj3\n";
+auto exampleTrajectory4 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(175), InchesToMeters(20*1.4), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(175), InchesToMeters(60)),
+        //frc::Translation2d(InchesToMeters(180), InchesToMeters(20)),
+        //frc::Translation2d(InchesToMeters(150), InchesToMeters(20)),
+        //frc::Translation2d(InchesToMeters(120), InchesToMeters(20)),
+        frc::Translation2d(InchesToMeters(90), InchesToMeters(60))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(-14), InchesToMeters(65), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+std::cout << "traj4\n";
 
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+auto exampleTrajectory5 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(-14), InchesToMeters(65), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(-14), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(-14), InchesToMeters(-30)),
+        frc::Translation2d(InchesToMeters(-35), InchesToMeters(-30))
+        
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(-75), InchesToMeters(-30), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+  std::cout << "traj5\n";
+  frc2::SwerveControllerCommand<4> swerveControllerCommand0(
+      exampleTrajectory0, [this]() { return m_drive.GetPose(); },
 
       m_drive.kDriveKinematics,
 
@@ -513,10 +743,90 @@ frc2::Command* RobotContainer::GetAutonomousCommandSlalom() {
       [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
 
       {&m_drive});
-  m_drive.ResetOdometry(exampleTrajectory.InitialPose());
+  frc2::SwerveControllerCommand<4> swerveControllerCommand1(
+      exampleTrajectory1, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand2(
+      exampleTrajectory2, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand3(
+      exampleTrajectory3, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand4(
+      exampleTrajectory4, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand5(
+      exampleTrajectory5, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  m_drive.ResetOdometry(exampleTrajectory0.InitialPose());
   // no auto
   return new frc2::SequentialCommandGroup(
-    std::move(swerveControllerCommand),
+    std::move(swerveControllerCommand0),
+    std::move(swerveControllerCommand1),
+    std::move(swerveControllerCommand2),
+    std::move(swerveControllerCommand3),
+    std::move(swerveControllerCommand4),
+    std::move(swerveControllerCommand5),
     frc2::InstantCommand(
       [this]() {
         m_drive.Drive(units::meters_per_second_t(0),
@@ -535,51 +845,98 @@ frc2::Command* RobotContainer::GetAutonomousCommandBounce() {
   config.SetKinematics(m_drive.kDriveKinematics);
 
   // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+  auto exampleTrajectory0 = frc::TrajectoryGenerator::GenerateTrajectory(
       // Start at the origin facing the +X direction
       frc::Pose2d(InchesToMeters(0), InchesToMeters(0), frc::Rotation2d(0_deg)),
       //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
       // Pass through these two interior waypoints, making an 's' curve path
       {
-        frc::Translation2d(InchesToMeters(30), InchesToMeters(8)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(16)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(38)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(41.5)),
-        frc::Translation2d(InchesToMeters(60), InchesToMeters(23)),
-        frc::Translation2d(InchesToMeters(74), InchesToMeters(-3)),
-        frc::Translation2d(InchesToMeters(88.5), InchesToMeters(-29.5)),
-        frc::Translation2d(InchesToMeters(104), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(127), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(-30)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(-30)),
-        frc::Translation2d(InchesToMeters(150), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(172.5), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(195), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(217.5), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(-60)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(-30)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(240), InchesToMeters(60)),
-        frc::Translation2d(InchesToMeters(247), InchesToMeters(30)),
-        frc::Translation2d(InchesToMeters(253), InchesToMeters(0)),
-        frc::Translation2d(InchesToMeters(276.5), InchesToMeters(0))
-        
+        frc::Translation2d(InchesToMeters(30), InchesToMeters(-8)),
+        frc::Translation2d(InchesToMeters(55), InchesToMeters(-16)),
+        frc::Translation2d(InchesToMeters(55), InchesToMeters(-45))
       },
       // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(InchesToMeters(300), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      frc::Pose2d(InchesToMeters(55), InchesToMeters(-75), frc::Rotation2d(0_deg)),
       // Pass the config
       config);
 
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
+
+  auto exampleTrajectory1 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(55), InchesToMeters(-75), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {
+        frc::Translation2d(InchesToMeters(55), InchesToMeters(-41.5)),
+        frc::Translation2d(InchesToMeters(55), InchesToMeters(-23)),
+        frc::Translation2d(InchesToMeters(74), InchesToMeters(3)),
+        frc::Translation2d(InchesToMeters(82), InchesToMeters(29.5)),
+        frc::Translation2d(InchesToMeters(90), InchesToMeters(70)),
+        frc::Translation2d(InchesToMeters(127), InchesToMeters(70))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(140), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+
+  auto exampleTrajectory2 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(137), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {      
+        frc::Translation2d(InchesToMeters(137), InchesToMeters(30)),
+        frc::Translation2d(InchesToMeters(137), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(137), InchesToMeters(-30)),
+        frc::Translation2d(InchesToMeters(137), InchesToMeters(-85)),
+        frc::Translation2d(InchesToMeters(137), InchesToMeters(-30)),
+        frc::Translation2d(InchesToMeters(132), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(132), InchesToMeters(30))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(132), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+
+  auto exampleTrajectory3 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(132), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {
+        frc::Translation2d(InchesToMeters(172.5), InchesToMeters(70)),
+        frc::Translation2d(InchesToMeters(195), InchesToMeters(70)),
+        frc::Translation2d(InchesToMeters(210), InchesToMeters(70))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(215), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+
+  auto exampleTrajectory4 = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(215), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      //frc::Pose2d(0_m, 0_m, frc::Rotation2d(180_deg)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      {
+        frc::Translation2d(InchesToMeters(215), InchesToMeters(30)),
+        frc::Translation2d(InchesToMeters(215), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(215), InchesToMeters(-30)),
+        frc::Translation2d(InchesToMeters(205), InchesToMeters(-90)),
+        frc::Translation2d(InchesToMeters(200), InchesToMeters(-30)),
+        frc::Translation2d(InchesToMeters(200), InchesToMeters(0)),
+        frc::Translation2d(InchesToMeters(240), InchesToMeters(0))
+      },
+      // End 3 meters straight ahead of where we started, facing forward
+      frc::Pose2d(InchesToMeters(265), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand0(
+      exampleTrajectory0, [this]() { return m_drive.GetPose(); },
 
       m_drive.kDriveKinematics,
 
@@ -592,10 +949,284 @@ frc2::Command* RobotContainer::GetAutonomousCommandBounce() {
       [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
 
       {&m_drive});
-  m_drive.ResetOdometry(exampleTrajectory.InitialPose());
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand1(
+      exampleTrajectory1, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand2(
+      exampleTrajectory2, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand3(
+      exampleTrajectory3, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand4(
+      exampleTrajectory4, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+
+  m_drive.ResetOdometry(exampleTrajectory0.InitialPose());
   // no auto
   return new frc2::SequentialCommandGroup(
+    std::move(swerveControllerCommand0),
+    std::move(swerveControllerCommand1),
+    std::move(swerveControllerCommand2),
+    std::move(swerveControllerCommand3),
+    std::move(swerveControllerCommand4),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+  {}));
+}
+
+
+
+//*************SEARCH*************
+
+frc2::Command* RobotContainer::GetAutonomousCommandSearch() {
+ frc::DigitalInput Ultrasonic{3}; 
+  bool Red = Ultrasonic.Get();
+  std::cout<<"Is red?"<<Red<<"\n";
+  
+  // Set up config for trajectory
+  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
+                               AutoConstants::kMaxAcceleration);
+  // Add kinematics to ensure max speed is actually obeyed
+  config.SetKinematics(m_drive.kDriveKinematics);
+
+
+  //*****RED STARTING******
+  auto RedStartingTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(0), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(30), InchesToMeters(0))//First Ball
+      },
+      frc::Pose2d(InchesToMeters(80), InchesToMeters(30), frc::Rotation2d(0_deg)),//Check for second ball
+      // Pass the config
+      config);
+      std::cout<<"RedStarting\n";
+//*****RED PATH A pt1******
+  auto RedAOneTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(80), InchesToMeters(30), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(120), InchesToMeters(30))//Get 2nd Ball
+      },
+      frc::Pose2d(InchesToMeters(110), InchesToMeters(-30), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);  
+      std::cout<<"RedAOne\n";
+//*****RED PATH A pt2******
+  auto RedATwoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(110), InchesToMeters(-30), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(110), InchesToMeters(-85))//Get 3rd Ball
+      },
+      frc::Pose2d(InchesToMeters(330), InchesToMeters(-80), frc::Rotation2d(0_deg)),//Go to End
+      // Pass the config
+      config);  
+      std::cout<<"RedATwo\n";
+//*****RED PATH B pt1******
+  auto RedBOneTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(80), InchesToMeters(30), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(80), InchesToMeters(70))
+      },
+      frc::Pose2d(InchesToMeters(120), InchesToMeters(70), frc::Rotation2d(0_deg)),//Get 2nd ball
+      // Pass the config
+      config);  
+      std::cout<<"RedBOne\n";
+//*****RED PATH B pt2******
+  auto RedBTwoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(120), InchesToMeters(70), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(130), InchesToMeters(-15))
+      },
+      frc::Pose2d(InchesToMeters(330), InchesToMeters(-15), frc::Rotation2d(0_deg)),//Get 3rd ball and go to end
+      // Pass the config
+      config);  
+      std::cout<<"RedBTwo\n";
+
+//*****BLUE STARTING******
+  auto BlueStartingTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(0), InchesToMeters(0), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(70), InchesToMeters(-10)),
+        frc::Translation2d(InchesToMeters(155), InchesToMeters(-35)),//First Ball
+        frc::Translation2d(InchesToMeters(150), InchesToMeters(-35))//First Ball
+        
+      },
+      frc::Pose2d(InchesToMeters(150), InchesToMeters(-130), frc::Rotation2d(0_deg)),//Check for second ball
+      // Pass the config
+      config);
+      std::cout<<"BlueStarting\n";
+//*****BLUE PATH A pt1******
+  auto BlueAOneTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(120), InchesToMeters(-60), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(120), InchesToMeters(-90))
+      },
+      frc::Pose2d(InchesToMeters(120), InchesToMeters(-90), frc::Rotation2d(0_deg)),//Get second ball
+      // Pass the config
+      config);  
+      std::cout<<"BlueAOne\n";
+//*****BLUE PATH A pt2******
+  auto BlueATwoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(120), InchesToMeters(-90), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(120), InchesToMeters(-60))
+      },
+      frc::Pose2d(InchesToMeters(300), InchesToMeters(-60), frc::Rotation2d(0_deg)),//Get third ball and go to End
+      // Pass the config
+      config); 
+      std::cout<<"BlueATwo\n";
+//*****BLUE PATH B pt1******
+  auto BlueBOneTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(150), InchesToMeters(-125), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(180), InchesToMeters(-125)),//Get second ball
+      },
+      frc::Pose2d(InchesToMeters(180), InchesToMeters(-60), frc::Rotation2d(0_deg)),
+      // Pass the config
+      config);  
+      std::cout<<"BlueBOne\n";
+//*****BLUE PATH B pt2******
+  auto BlueBTwoTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
+      // Start at the origin facing the +X direction
+      frc::Pose2d(InchesToMeters(180), InchesToMeters(-60), frc::Rotation2d(0_deg)),
+      {
+        frc::Translation2d(InchesToMeters(180), InchesToMeters(-28))
+      },
+      frc::Pose2d(InchesToMeters(300), InchesToMeters(-28), frc::Rotation2d(0_deg)),//Get 3rd ball and go to end
+      // Pass the config
+      config); 
+      std::cout<<"BlueBTwo\n";
+
+  frc2::SwerveControllerCommand<4> swerveControllerCommand(
+      Red? RedStartingTrajectory:BlueStartingTrajectory, [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SearchControllerCommand<4> SearchControllerCommand0(
+      Red? RedAOneTrajectory:BlueBOneTrajectory, 
+      Red? RedBOneTrajectory:BlueAOneTrajectory, 
+      [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  frc2::SearchControllerCommand<4> SearchControllerCommand1(
+      Red? RedATwoTrajectory:BlueBTwoTrajectory, 
+      Red? RedBTwoTrajectory:BlueATwoTrajectory, 
+      [this]() { return m_drive.GetPose(); },
+
+      m_drive.kDriveKinematics,
+
+      frc2::PIDController(AutoConstants::kPXController, 0, 0),
+      frc2::PIDController(AutoConstants::kPYController, 0, 0),
+      frc::ProfiledPIDController<units::radians>(
+          AutoConstants::kPThetaController, 0, 0,
+          AutoConstants::kThetaControllerConstraints),
+
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+
+      {&m_drive});
+
+  m_drive.ResetOdometry(Red? RedStartingTrajectory.InitialPose():BlueStartingTrajectory.InitialPose());
+  // no auto
+  return new frc2::SequentialCommandGroup(
+    frc2::SequentialCommandGroup{
+      m_ExtendIntake,
+      m_StartIntake,
+      frc2::WaitCommand{units::second_t(0.5)}
+    },
     std::move(swerveControllerCommand),
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      },
+    {}),
+    frc2::WaitCommand{units::second_t(0.5)},
+    std::move(SearchControllerCommand0),
+    std::move(SearchControllerCommand1),
     frc2::InstantCommand(
       [this]() {
         m_drive.Drive(units::meters_per_second_t(0),

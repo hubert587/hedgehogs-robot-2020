@@ -50,7 +50,7 @@ void Intake::ShootingIntakePositioning() {
 
 void Intake::StartIntake() {
   AdjustIntake(2);
-  IntakeSpeed(0.5);
+  IntakeSpeed(0.9);
 }
 
 void Intake::StopIntake() {

@@ -44,6 +44,7 @@
 #include <ntcore.h>
 #include <networktables/NetworkTable.h>
 #include <frc/Joystick.h>
+#include <frc/DigitalInput.h>
 
 using std::shared_ptr;
 
@@ -68,6 +69,9 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommandBarrel();
   frc2::Command* GetAutonomousCommandSlalom();
   frc2::Command* GetAutonomousCommandBounce();
+  frc2::Command* GetAutonomousCommandSearch();
+
+  //frc::DigitalInput Ultrasonic{3};
   
   
   // The driver's controller
@@ -140,9 +144,10 @@ class RobotContainer {
   //blaster
 
   frc2::InstantCommand m_InitiationLineSpeed{[this] {m_blaster.BlasterSpeed(0.68, 0.70); }, {&m_blaster}};
-  frc2::InstantCommand m_TrenchSpeed{[this] {m_blaster.BlasterSpeed(0.82, 0.85); }, {&m_blaster}};
+  frc2::InstantCommand m_TrenchSpeed{[this] {m_blaster.BlasterSpeed(0.92, 0.95); }, {&m_blaster}};
   frc2::InstantCommand m_LowGoalSpeed{[this] {m_blaster.BlasterSpeed(0.32, 0.30); }, {&m_blaster}};
   frc2::InstantCommand m_StopBlaster{[this] {m_blaster.BlasterSpeed(0, 0); }, {&m_blaster}};
+  frc2::InstantCommand m_BlueSpeed{[this] {m_blaster.BlasterSpeed(0.50, 0.52); }, {&m_blaster}};
   frc2::SequentialCommandGroup Start {
     m_TrenchSpeed,
     frc2::WaitCommand{units::second_t(3)}

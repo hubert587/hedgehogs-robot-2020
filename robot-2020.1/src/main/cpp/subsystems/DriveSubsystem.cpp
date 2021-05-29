@@ -67,7 +67,8 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
-
+//rot = 0.0;
+//fieldRelative = false;
   //round inputs
 /*  double round = 100;
   xSpeed = units::meters_per_second_t{floor(xSpeed.to<double>() * round) / round};
