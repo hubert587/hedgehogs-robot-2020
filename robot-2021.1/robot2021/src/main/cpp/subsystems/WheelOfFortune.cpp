@@ -73,3 +73,8 @@ void WheelOfFortune::DeployWheel() {
 void WheelOfFortune::RetractWheel() {
   m_colorSolenoid.Set(false);
 }
+
+void WheelOfFortune::CancelWheel() {
+  StopWheel();
+  RetractWheel();
+}

@@ -142,11 +142,14 @@ void RobotContainer::ConfigureButtonBindings() {
     //Drive Controller Button Mapping
     frc2::Button{[&] {return m_driverController.GetRawButton(1);}}.WhenPressed(&m_RaiseAngle);
     frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_LowerAngle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(4);}}.WhenPressed(&m_CancelWheel);
     frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_DriveSlow).WhenReleased(&m_DriveSlow);
     //frc2::Button{[&] {return m_driverController.GetRawButton(7);}}.WhenPressed(&m_AutoAim);
     frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_fireAll);
     frc2::Button{[&] {return m_driverController.GetRawButton(9);}}.WhenPressed(&m_stopAll);
     frc2::Button{[&] {return m_driverController.GetRawButton(10);}}.WhenPressed(&m_ZeroHeading);
+    frc2::Button{[&] {return m_driverController.GetRawButton(11);}}.WhenPressed(&m_Spin3times);
+    frc2::Button{[&] {return m_driverController.GetRawButton(12);}}.WhenPressed(&m_GoToColor);
     //frc2::Button{[&] {return m_codriverController.GetRawButton(1);}}.WhenPressed(&m_PowerUpBlaster); 
     //frc2::Button{[&] {return m_driverController.GetRawButton(5);}}.WhenPressed(&m_PowerDown); 
     //frc2::Button{[&] {return m_driverController.GetRawButton(2);}}.WhenPressed(&m_Drive180);
@@ -239,7 +242,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       m_PowerDown,
       //m_Drive180
     },
-    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    std::move(swerveControllerCommand),
     frc2::InstantCommand(
       [this]() {
         m_drive.Drive(units::meters_per_second_t(0),
@@ -296,7 +299,7 @@ frc2::Command* RobotContainer::GetAutonomousCommandLeft() {
       m_PowerDown,
       //m_Drive180
     },
-    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    std::move(swerveControllerCommand),
     frc2::InstantCommand(
       [this]() {
         m_drive.Drive(units::meters_per_second_t(0),
@@ -353,7 +356,22 @@ frc2::Command* RobotContainer::GetAutonomousCommandRight() {
       m_PowerDown,
       //m_Drive180
     },
-    std::move(swerveControllerCommand), std::move(swerveControllerCommand),
+    frc2::SequentialCommandGroup{
+    frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(2),
+        units::meters_per_second_t(1),
+        units::radians_per_second_t(0), true);
+      }, {}),
+      frc2::WaitCommand{units::second_t(3)},
+        frc2::InstantCommand(
+      [this]() {
+        m_drive.Drive(units::meters_per_second_t(0),
+        units::meters_per_second_t(0),
+        units::radians_per_second_t(0), false);
+      }, {}),
+    },
+    std::move(swerveControllerCommand),
     frc2::InstantCommand(
       [this]() {
         m_drive.Drive(units::meters_per_second_t(0),

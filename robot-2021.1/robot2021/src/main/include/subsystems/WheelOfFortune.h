@@ -15,6 +15,7 @@
 #include <frc/Solenoid.h> 
 #include <iostream>
 #include <string>
+#include <rev/CANSparkMax.h>
 
 class WheelOfFortune : public frc2::SubsystemBase {
 
@@ -38,6 +39,7 @@ class WheelOfFortune : public frc2::SubsystemBase {
   void StopWheel();
   void DeployWheel();
   void RetractWheel();
+  void CancelWheel();
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -45,7 +47,7 @@ class WheelOfFortune : public frc2::SubsystemBase {
   //spinner
 
   //color detector
-  WPI_TalonSRX m_motor { kColorWheelCanID };
+  rev::CANSparkMax m_motor { kColorWheelCanID , rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   rev::ColorSensorV3 m_colorSensor { frc::I2C::Port::kOnboard };
   frc::Solenoid m_colorSolenoid { solenoidIDs::kColorSolenoid };
 };
