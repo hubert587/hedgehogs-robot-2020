@@ -15,7 +15,7 @@ void Robot::RobotInit() {
 
   TargetDetected = false;
   frc::SmartDashboard::PutNumber("Auto,0M,1L,2R", 0);
-  frc::SmartDashboard::PutNumber("distmulti", 1.0);
+  //frc::SmartDashboard::PutNumber("distmulti", 1.0);
   
   //Vision->GetTable("VisionTarget");//should create table if does not exist
 //control loop (where it crashes)
@@ -32,9 +32,9 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() { 
   //frc::SmartDashboard::PutNumber("SearchRed", m_container.Ultrasonic.Get());
-  m_container.TestVision();
+  
   frc2::CommandScheduler::GetInstance().Run(); 
-
+  m_container.TestVision();
   if (Vision /*&& Vision->IsConnected()*/){
 
     //Distance = Vision->GetNumber("distance", 0);
@@ -100,7 +100,7 @@ void Robot::TeleopInit() {
  */
 void Robot::TeleopPeriodic() {
 
-  m_container.TestVision();
+  //m_container.TestVision();
 
 }
 

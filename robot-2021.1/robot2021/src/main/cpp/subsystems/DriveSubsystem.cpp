@@ -56,6 +56,7 @@ DriveSubsystem::DriveSubsystem()
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  //std::cout << "Drivesubsystem periodic\n";
   m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())),
                     m_frontLeft.GetState(), m_rearLeft.GetState(),
                     m_frontRight.GetState(), m_rearRight.GetState());
@@ -124,6 +125,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   bl.angle = (bl.angle - halfpi) * -1.0;
   br.angle = (br.angle - halfpi) * -1.0;
   
+  /*
   frc::SmartDashboard::PutNumber("FL speed", fl.speed.to<double>());
   frc::SmartDashboard::PutNumber("FL angle", fl.angle.Degrees().to<double>());
   frc::SmartDashboard::PutNumber("FR speed", fr.speed.to<double>());
@@ -132,6 +134,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   frc::SmartDashboard::PutNumber("BL angle", bl.angle.Degrees().to<double>());
   frc::SmartDashboard::PutNumber("BR speed", br.speed.to<double>());
   frc::SmartDashboard::PutNumber("BR angle", br.angle.Degrees().to<double>());
+ */
+  std::cout << "Drive fl s:" << fl.speed.to<double>() << " a:" << fl.angle.Degrees().to<double>(); 
+  std::cout << " rl s:" << bl.speed.to<double>() << " a:" << bl.angle.Degrees().to<double>();
+  std::cout << " fr s:" << fr.speed.to<double>() << " a:" << fr.angle.Degrees().to<double>(); 
+  std::cout << " rr s:" << br.speed.to<double>() << " a:" << br.angle.Degrees().to<double>() << "\n"; 
 
   m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);
@@ -143,6 +150,11 @@ void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {
   kDriveKinematics.NormalizeWheelSpeeds(&desiredStates,
                                         AutoConstants::kMaxSpeed);
+
+  std::cout << "SetModState fl s:" << desiredStates[0].speed.to<double>() << " a:" << desiredStates[0].angle.Degrees().to<double>(); 
+  std::cout << " rl s:" << desiredStates[1].speed.to<double>() << " a:" << desiredStates[1].angle.Degrees().to<double>();
+  std::cout << " fr s:" << desiredStates[2].speed.to<double>() << " a:" << desiredStates[2].angle.Degrees().to<double>(); 
+  std::cout << " rr s:" << desiredStates[3].speed.to<double>() << " a:" << desiredStates[3].angle.Degrees().to<double>() << "\n";                                        
   m_frontLeft.SetDesiredState(desiredStates[0]);
   m_rearLeft.SetDesiredState(desiredStates[1]);
   m_frontRight.SetDesiredState(desiredStates[2]);

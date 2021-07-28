@@ -27,21 +27,34 @@ void GrapplingHook::GrapplingHookAdjustmentSpeed(double speed) {
 }
 
 void GrapplingHook::Execute(){
+  static int count = 0;
+  if (EndGameStarted == true){
 
-if (EndGameStarted == true){
-
-  double speed = m_codriverController.GetRawAxis(1);
-  speed = speed * 0.7;
-  if (fabs(speed) < 0.1) m_ClimbSolenoid.Set(false);
-  else if (speed < 0) {
-    m_ClimbSolenoid.Set(true);
-    speed = speed * 1.1;
-  }
-  else m_ClimbSolenoid.Set(false);
-  GrapplingHookSpeed(speed);
+    double speed = m_codriverController.GetRawAxis(1);
   
-}
+    if (fabs(speed) < 0.1) {
+      speed = 0;
+      m_ClimbSolenoid.Set(false);
+      count = 0;
+      GrapplingHookSpeed(speed); 
+    }
+    else if (speed < 0) {
+      m_ClimbSolenoid.Set(true);
+      count++;
+      if(count>3){
+         GrapplingHookSpeed(speed); 
+      }else{
+        GrapplingHookSpeed(0); 
+      }
+    }
+    else {
+      speed = speed * 0.7;
+      m_ClimbSolenoid.Set(false);
+      count = 0;
+      GrapplingHookSpeed(speed); 
+    }
 
+  }
 }
 
 void GrapplingHook::Deploy(bool deploy) {

@@ -144,8 +144,8 @@ class RobotContainer {
 
   //blaster
 
-  frc2::InstantCommand m_InitiationLineSpeed{[this] {m_blaster.BlasterSpeed(0.68, 0.70); }, {&m_blaster}};
-  frc2::InstantCommand m_TrenchSpeed{[this] {m_blaster.BlasterSpeed(0.92, 0.95); }, {&m_blaster}};
+  frc2::InstantCommand m_InitiationLineSpeed{[this] {m_blaster.BlasterSpeed(0.63, 0.65); }, {&m_blaster}};
+  frc2::InstantCommand m_TrenchSpeed{[this] {m_blaster.BlasterSpeed(0.97, 1.0); }, {&m_blaster}};
   frc2::InstantCommand m_LowGoalSpeed{[this] {m_blaster.BlasterSpeed(0.32, 0.30); }, {&m_blaster}};
   frc2::InstantCommand m_StopBlaster{[this] {m_blaster.BlasterSpeed(0, 0); }, {&m_blaster}};
   frc2::InstantCommand m_BlueSpeed{[this] {m_blaster.BlasterSpeed(0.50, 0.52); }, {&m_blaster}};

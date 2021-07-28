@@ -84,7 +84,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
   //newPos = frc::SmartDashboard::GetNumber("TestSwerveAngle", 0);
 
-  frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
+  //frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
   //frc::SmartDashboard::PutNumber(m_name + " Angle", newPos);
   //frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
   //should stop wheel from turnforward to back

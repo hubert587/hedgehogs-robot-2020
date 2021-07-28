@@ -33,8 +33,8 @@ void Hopper::AutoHopper(){
     bool intake1 = IntakeBallDetector1.Get() == false;
     bool intake2 = IntakeBallDetector2.Get() == false;
 
-    frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
-    frc::SmartDashboard::PutNumber("Hopper intake2", intake2);
+    //frc::SmartDashboard::PutNumber("Hopper intake1", intake1);
+    //frc::SmartDashboard::PutNumber("Hopper intake2", intake2);
     double speed = frc::SmartDashboard::GetNumber("Hopper Speed", 0.95);
     /*if (!intake1) {//&& !ShooterBallDetector.Get()){
       HopperSpeed(0);
