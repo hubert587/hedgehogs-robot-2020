@@ -100,7 +100,9 @@ class RobotContainer {
   Blaster m_blaster;
   WheelOfFortune m_colorWheel;
   Hopper m_hopper;
+  public:
   GrapplingHook m_grapplingHook;
+  private:
   Intake m_collect;
 
 

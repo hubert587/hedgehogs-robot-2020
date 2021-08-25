@@ -31,12 +31,14 @@ class GrapplingHook : public frc2::SubsystemBase {
    */
   void Periodic() override;
   void Deploy(bool deploy);
+   void Solenoid(bool deploy);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
   bool EndGameStarted;
+  bool toggle;
 
   WPI_TalonSRX m_ClimberLeftMotor{ canIDs::kClimberLeftMptorCanID };
   WPI_TalonSRX m_ClimberRightMotor{ canIDs::kClimberRightMotorCanID };

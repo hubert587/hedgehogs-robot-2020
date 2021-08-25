@@ -8,6 +8,7 @@
 #include "commands/SpinToColor.h"
 #include "Robot.h"
 #include "Constants.h"
+#include <frc/Driverstation.h>
 
 SpinToColor::SpinToColor(WheelOfFortune* SpinWheel): m_colorWheel{SpinWheel} {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -32,9 +33,11 @@ void SpinToColor::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool SpinToColor::IsFinished() { 
-  std::string Goal = frc::SmartDashboard::GetString("Color Defined", "R");
+  //std::string Goal = frc::SmartDashboard::GetString("Color Defined", "R");
+  std::string Goal = frc::DriverStation::GetInstance().GetGameSpecificMessage();
   int CurrentColorValue = m_colorWheel->GetColor();
   std::string CurrentColor = m_colorWheel->ConvertColor(CurrentColorValue);
+  if(Goal.length() > 0){
     if (Goal == "Y" && CurrentColor == "G") {
       return true;
     }
@@ -47,5 +50,6 @@ bool SpinToColor::IsFinished() {
     if (Goal == "R" && CurrentColor == "B") {
       return true;
     } 
+  }
     return false;
 }

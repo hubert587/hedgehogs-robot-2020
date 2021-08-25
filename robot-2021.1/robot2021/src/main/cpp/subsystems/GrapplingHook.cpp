@@ -10,6 +10,7 @@
 GrapplingHook::GrapplingHook() {
 
   EndGameStarted = false;
+  toggle = true;
   m_ClimbSolenoid.Set(false);
 }
 
@@ -34,12 +35,12 @@ void GrapplingHook::Execute(){
   
     if (fabs(speed) < 0.1) {
       speed = 0;
-      m_ClimbSolenoid.Set(false);
+      //m_ClimbSolenoid.Set(false);
       count = 0;
       GrapplingHookSpeed(speed); 
     }
     else if (speed < 0) {
-      m_ClimbSolenoid.Set(true);
+      //m_ClimbSolenoid.Set(true);
       count++;
       if(count>3){
          GrapplingHookSpeed(speed); 
@@ -49,7 +50,7 @@ void GrapplingHook::Execute(){
     }
     else {
       speed = speed * 0.7;
-      m_ClimbSolenoid.Set(false);
+      //m_ClimbSolenoid.Set(false);
       count = 0;
       GrapplingHookSpeed(speed); 
     }
@@ -58,11 +59,21 @@ void GrapplingHook::Execute(){
 }
 
 void GrapplingHook::Deploy(bool deploy) {
-  m_ClimbSolenoid.Set(deploy);
+
+  m_ClimbSolenoid.Set(toggle);
+
+  if (deploy)
+     toggle = ! toggle;
+
   if (EndGameStarted) { // skip this for the first loop to let the soleniod engage
-      GrapplingHookSpeed(-1.0);
+     // GrapplingHookSpeed(-1.0);
   }
   
   EndGameStarted = true;
+
+}
+
+void GrapplingHook::Solenoid(bool deploy) {
+  m_ClimbSolenoid.Set(deploy);
 
 }
