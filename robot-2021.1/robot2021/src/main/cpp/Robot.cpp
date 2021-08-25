@@ -9,7 +9,7 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
-
+#include <cameraserver/CameraServer.h>
 
 void Robot::RobotInit() {
 
@@ -19,7 +19,8 @@ void Robot::RobotInit() {
   
   //Vision->GetTable("VisionTarget");//should create table if does not exist
 //control loop (where it crashes)
-
+  frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+  frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
 }
 
 /**
