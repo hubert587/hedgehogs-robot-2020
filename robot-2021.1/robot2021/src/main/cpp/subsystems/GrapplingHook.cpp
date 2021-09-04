@@ -12,11 +12,12 @@ GrapplingHook::GrapplingHook() {
   EndGameStarted = false;
   toggle = true;
   m_ClimbSolenoid.Set(false);
+  frc::SmartDashboard::PutBoolean("Rachet", m_ClimbSolenoid.Get());
 }
 
 void GrapplingHook::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  frc::SmartDashboard::PutBoolean("Rachet", m_ClimbSolenoid.Get());
+  
 }
 
 void GrapplingHook::GrapplingHookSpeed(double speed) {
@@ -57,6 +58,7 @@ void GrapplingHook::Execute(){
     }
 
   }
+  
 }
 
 void GrapplingHook::Deploy(bool deploy) {
@@ -71,10 +73,10 @@ void GrapplingHook::Deploy(bool deploy) {
   }
   
   EndGameStarted = true;
-
+  frc::SmartDashboard::PutBoolean("Rachet", m_ClimbSolenoid.Get());
 }
 
 void GrapplingHook::Solenoid(bool deploy) {
   m_ClimbSolenoid.Set(deploy);
-
+  frc::SmartDashboard::PutBoolean("Rachet", m_ClimbSolenoid.Get());
 }
