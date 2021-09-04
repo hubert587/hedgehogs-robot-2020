@@ -16,6 +16,7 @@ GrapplingHook::GrapplingHook() {
 
 void GrapplingHook::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  frc::SmartDashboard::PutBoolean("Rachet", m_ClimbSolenoid.Get());
 }
 
 void GrapplingHook::GrapplingHookSpeed(double speed) {
