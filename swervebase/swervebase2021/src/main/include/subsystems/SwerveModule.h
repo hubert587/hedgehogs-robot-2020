@@ -18,6 +18,7 @@
 #include <rev/CANSparkMax.h>
 #include "Constants.h"
 #include "AbsoluteEncoder.h"
+#include <ctre/Phoenix.h>
 
 class SwerveModule {
   using radians_per_second_squared_t =
@@ -60,7 +61,8 @@ class SwerveModule {
 
 
   #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
-    AbsoluteEncoder m_turnEncoder; 
+    //AbsoluteEncoder m_turnEncoder; 
+     CANCoder m_turnEncoder;
   #else
     rev::CANAnalog m_turnEncoder = m_turningMotor.GetAnalog();
   #endif

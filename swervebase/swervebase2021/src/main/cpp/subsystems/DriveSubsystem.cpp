@@ -20,7 +20,7 @@ DriveSubsystem::DriveSubsystem()
                   kFrontLeftDriveMotorPort,
                   kFrontLeftTurningMotorPort,
                   #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
-                    kFrontLeftTurningEncoderPort, 
+                    kEncoderFrontLeft, 
                   #endif
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed},
@@ -28,21 +28,21 @@ DriveSubsystem::DriveSubsystem()
       m_frontRight{"Fr_right",
           kFrontRightDriveMotorPort,       kFrontRightTurningMotorPort,
           #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
-            kFrontRightTurningEncoderPort, 
+            kEncoderFrontRight, 
           #endif
           kFrontRightDriveEncoderReversed, kFrontRightTurningEncoderReversed},
 
       m_rearLeft{"Bk_left",
           kRearLeftDriveMotorPort,       kRearLeftTurningMotorPort,
           #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
-            kRearLeftTurningEncoderPort, 
+            kEncoderBackLeft, 
           #endif
           kRearLeftDriveEncoderReversed, kRearLeftTurningEncoderReversed},
 
       m_rearRight{"Bk_right",
           kRearRightDriveMotorPort,       kRearRightTurningMotorPort,
           #ifdef USE_RIO_ANALOG_FOR_ENCODERS 
-            kRearRightTurningEncoderPort, 
+            kEncoderBackRight, 
           #endif
           kRearRightDriveEncoderReversed, kRearRightTurningEncoderReversed},
 

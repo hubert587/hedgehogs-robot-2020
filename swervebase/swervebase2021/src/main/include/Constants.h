@@ -28,12 +28,12 @@
 enum canIDs {
     kFrontLeftDriveCanID = 1,
     kFrontLeftTurnCanID = 2,
-    kRearLeftDriveCanID = 3,
-    kRearLeftTurnCanID = 4,
-    kFrontRightDriveCanID = 5,
-    kFrontRightTurnCanID = 6,
-    kRearRightDriveCanID = 7,
-    kRearRightTurnCanID = 8,
+    kRearLeftDriveCanID = 6,
+    kRearLeftTurnCanID = 5,
+    kFrontRightDriveCanID = 3,
+    kFrontRightTurnCanID = 4,
+    kRearRightDriveCanID = 8,
+    kRearRightTurnCanID = 7,
     kOuterIntakeMotorCanID = 9,
     kInnerIntakeMotorCanID = 10,
     kHopperMotorCanID = 11,
@@ -42,8 +42,12 @@ enum canIDs {
     kClimberLeftMptorCanID = 15,
     kClimberRightMotorCanID = 16,
     kClimberAdjustmentMotorCanID = 17,
-    kColorWheelCanID = 18
+    kColorWheelCanID = 18,
 
+    kEncoderFrontLeft = 21,
+    kEncoderFrontRight = 22,
+    kEncoderBackLeft = 23,
+    kEncoderBackRight = 24
 };
 
 enum solenoidIDs {
@@ -66,10 +70,10 @@ constexpr int kRearLeftTurningMotorPort = kRearLeftTurnCanID;
 constexpr int kFrontRightTurningMotorPort = kFrontRightTurnCanID;
 constexpr int kRearRightTurningMotorPort = kRearRightTurnCanID;
 
-constexpr int kFrontLeftTurningEncoderPort{0};
-constexpr int kRearLeftTurningEncoderPort{1};
-constexpr int kFrontRightTurningEncoderPort{2};
-constexpr int kRearRightTurningEncoderPort{3};
+//constexpr int kFrontLeftTurningEncoderPort{0};
+//constexpr int kRearLeftTurningEncoderPort{1};
+//constexpr int kFrontRightTurningEncoderPort{2};
+//constexpr int kRearRightTurningEncoderPort{3};
 
 constexpr bool kFrontLeftTurningEncoderReversed = false;
 constexpr bool kRearLeftTurningEncoderReversed = true;

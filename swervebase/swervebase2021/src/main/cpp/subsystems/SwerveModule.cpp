@@ -56,13 +56,19 @@ SwerveModule::SwerveModule(std::string modname,
       // I have crippled the robot
 
       m_turningMotor.RestoreFactoryDefaults();
-
-#ifndef USE_RIO_ANALOG_FOR_ENCODERS 
-      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 20);
-      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 10);
-      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 10);      
-      m_turnEncoder.SetPositionConversionFactor(1.89);
-#endif      
+ 
+      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 100);
+      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
+      m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   
+      m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 100);
+      m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
+      m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   
+      m_turnEncoder.SetStatusFramePeriod(ctre::phoenix::sensors::CANCoderStatusFrame::CANCoderStatusFrame_SensorData, 20);
+      frc::SmartDashboard::PutNumber("PValue", 0.0);
+      frc::SmartDashboard::PutNumber("IValue", 0.0);
+      frc::SmartDashboard::PutNumber("DValue", 0.0);
+     // m_turnEncoder.SetPositionConversionFactor(1.89);
+      
       m_turningPIDController.Reset();
       m_turningPIDController.EnableContinuousInput(-wpi::math::pi, wpi::math::pi);
       m_turningPIDController.SetTolerance(0.1);
@@ -79,14 +85,24 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
 
   //if (fabs(state.speed.to<double>()) < 0.05){ return; }
   //double encread = ((m_turnEncoder.GetPosition() - floor(m_turnEncoder.GetPosition())) * 2 * wpi::math::pi) - wpi::math::pi;
-  double encread = m_turnEncoder.GetPosition() - wpi::math::pi;
+  double encread = m_turnEncoder.GetPosition();
+  encread = encread * (wpi::math::pi / 180.0);
+  encread = fmod(encread, 2*wpi::math::pi);
+  if(encread < 0) {
+    encread = encread + 2 * wpi::math::pi;
+  }
+  encread = encread - wpi::math::pi;
   double newPos = (double)state.angle.Radians();
 
   //newPos = frc::SmartDashboard::GetNumber("TestSwerveAngle", 0);
 
   frc::SmartDashboard::PutNumber(m_name + " Enc", encread);
-  //frc::SmartDashboard::PutNumber(m_name + " Angle", newPos);
-  //frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
+  frc::SmartDashboard::PutNumber(m_name + " Angle", newPos);
+  frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
+  double temp_p = frc::SmartDashboard::GetNumber("PValue", 0.0);
+  frc::SmartDashboard::PutNumber("PV", temp_p);
+  double temp_i = frc::SmartDashboard::GetNumber("IValue", 0.0);
+  double temp_d = frc::SmartDashboard::GetNumber("DValue", 0.0);
   //should stop wheel from turnforward to back
   /*newPos = WrapAngle(newPos);
   double dist = fabs(newPos - encread);
@@ -108,15 +124,15 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state) {
     else if(newPos <= 0) newPos += wpi::math::pi;
   }
   */
-
+  m_turningPIDController.SetPID(temp_p, temp_i, temp_d);
   double output = m_turningPIDController.Calculate(encread, newPos);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
 
   m_turningMotor.Set(output);
-  //m_turningMotor.Set(.1);
+  m_turningMotor.Set(0);
 
-  m_drivePIDController.SetReference(state.speed.to<double>(), rev::ControlType::kVelocity);
+  //m_drivePIDController.SetReference(state.speed.to<double>(), rev::ControlType::kVelocity);
 
 }
 
